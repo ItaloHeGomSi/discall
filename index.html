@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sala de voz</title>
+<script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
+<style>
+  :root {
+    --ink:   #12100E;
+    --panel: #1C1917;
+    --line:  #34302B;
+    --cream: #EDE6DA;
+    --muted: #8C8378;
+    --amber: #E8A33D;
+    --red:   #C4553D;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; min-height: 100vh; padding: 24px;
+    background: var(--ink);
+    background-image: radial-gradient(circle at 50% 0%, #221E1A 0%, var(--ink) 60%);
+    color: var(--cream); font-family: var(--sans);
+    display: flex; align-items: center; justify-content: center;
+  }
+  .console {
+    width: 100%; max-width: 420px;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
+  }
+  header { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
+  .eyebrow {
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--amber); margin: 0 0 6px;
+  }
+  h1 { font-family: var(--mono); font-size: 19px; font-weight: 500; letter-spacing: 0.04em; margin: 0; }
+  header p { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
+  .body { padding: 20px; }
+  label {
+    display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
+  }
+  input {
+    width: 100%; background: var(--ink); border: 1px solid var(--line); border-radius: 3px;
+    color: var(--cream); font-family: var(--mono); font-size: 15px; padding: 11px 12px;
+  }
+  input:focus-visible, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
+  .field { margin-bottom: 16px; }
+  .row { display: flex; gap: 8px; }
+  .row input { flex: 1; text-transform: uppercase; letter-spacing: 0.2em; }
+  button {
+    font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
+    border-radius: 3px; border: 1px solid var(--line); background: transparent;
+    color: var(--cream); padding: 11px 14px; cursor: pointer;
+  }
+  button:hover:not(:disabled) { border-color: var(--amber); color: var(--amber); }
+  button:disabled { opacity: 0.45; cursor: not-allowed; }
+  .primary {
+    width: 100%; background: var(--amber); border-color: var(--amber);
+    color: var(--ink); font-weight: 600; padding: 13px;
+  }
+  .primary:hover:not(:disabled) { background: #F2B457; border-color: #F2B457; color: var(--ink); }
+  .danger { border-color: var(--red); color: var(--red); }
+  .danger:hover:not(:disabled) { background: var(--red); border-color: var(--red); color: var(--ink); }
+
+  ul.gente { list-style: none; margin: 0 0 18px; padding: 0; }
+  ul.gente li {
+    display: flex; align-items: center; gap: 11px;
+    padding: 10px 0; border-bottom: 1px solid var(--line);
+    font-family: var(--mono); font-size: 14px;
+  }
+  ul.gente li:last-child { border-bottom: none; }
+  .luz {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: #3A3532; transition: background 90ms linear, box-shadow 90ms linear;
+  }
+  li.falando .luz { background: var(--amber); box-shadow: 0 0 0 4px rgba(232,163,61,0.16); }
+  .tag { margin-left: auto; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
+  li.mudo .tag { color: var(--red); }
+
+  .status {
+    font-family: var(--mono); font-size: 12px; color: var(--muted);
+    margin: 0 0 16px; line-height: 1.5;
+  }
+  .status.erro { color: var(--red); }
+  .hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; line-height: 1.5; }
+  .actions { display: flex; gap: 8px; }
+  .actions button { flex: 1; }
+  .hidden { display: none; }
+  @media (prefers-reduced-motion: reduce) { .luz { transition: none; } }
+</style>
+</head>
+<body>
+
+<main class="console">
+  <header>
+    <p class="eyebrow" id="eyebrow">Sala de voz</p>
+    <h1 id="titulo">Entrar</h1>
+    <p id="subtitulo">Áudio em grupo pelo navegador. Nada é instalado.</p>
+  </header>
+
+  <section class="body" id="telaEntrada">
+    <div class="field">
+      <label for="nome">Seu nome</label>
+      <input id="nome" maxlength="18" placeholder="Itin" autocomplete="off">
+    </div>
+    <div class="field">
+      <label for="sala">Código da sala</label>
+      <div class="row">
+        <input id="sala" maxlength="4" placeholder="XKPT" autocomplete="off">
+        <button type="button" id="btnSortear">Sortear</button>
+      </div>
+    </div>
+    <button class="primary" id="btnEntrar">Entrar na call</button>
+    <p class="hint" id="dicaEntrada">Quem digitar o mesmo código cai na mesma conversa.</p>
+  </section>
+
+  <section class="body hidden" id="telaSala">
+    <p class="status" id="status">Conectando…</p>
+    <button class="primary hidden" id="btnLiberarAudio">Tocar o áudio</button>
+    <ul class="gente" id="gente"></ul>
+    <div class="actions">
+      <button id="btnMudo">Silenciar</button>
+      <button class="danger" id="btnSair">Sair</button>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  'use strict';
+
+  // ————— configuração —————
+  // Endereço do seu gerador de token (o Worker do outro arquivo).
+  const TOKEN_ENDPOINT = 'http://127.0.0.1:8787';
+
+  const LK = window.LivekitClient;
+  const $ = id => document.getElementById(id);
+
+  let room = null;
+  let mudo = false;
+
+  function status(texto, erro) {
+    $('status').textContent = texto;
+    $('status').className = 'status' + (erro ? ' erro' : '');
+  }
+
+  function sortear() {
+    const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+    let c = '';
+    for (let i = 0; i < 4; i++) c += letras[Math.floor(Math.random() * letras.length)];
+    return c;
+  }
+
+  // ————— lista de participantes —————
+  function pintarLista() {
+    const ul = $('gente');
+    ul.innerHTML = '';
+    const todos = [room.localParticipant, ...room.remoteParticipants.values()];
+
+    todos.forEach(p => {
+      const eu = p === room.localParticipant;
+      const li = document.createElement('li');
+      const silenciado = eu ? mudo : !p.isMicrophoneEnabled;
+
+      li.className = (p.isSpeaking && !silenciado ? 'falando ' : '') + (silenciado ? 'mudo' : '');
+      li.innerHTML =
+        '<span class="luz"></span>' +
+        '<span class="nome"></span>' +
+        '<span class="tag"></span>';
+      li.querySelector('.nome').textContent = p.name || p.identity;
+      li.querySelector('.tag').textContent = silenciado ? 'mudo' : (eu ? 'você' : '');
+      ul.appendChild(li);
+    });
+
+    status(todos.length === 1
+      ? 'Só você na sala ' + room.name + '. Abra o mesmo código em outra aba para testar.'
+      : todos.length + ' pessoas na sala ' + room.name + '.');
+  }
+
+  // ————— entrar —————
+  async function entrar() {
+    const nome = $('nome').value.trim() || 'Convidado';
+    const sala = ($('sala').value.trim() || sortear()).toUpperCase();
+
+    $('btnEntrar').disabled = true;
+    $('telaEntrada').classList.add('hidden');
+    $('telaSala').classList.remove('hidden');
+    $('titulo').textContent = 'Sala ' + sala;
+    $('subtitulo').textContent = 'Fale à vontade. A luz acende em quem está falando.';
+    status('Pedindo autorização…');
+
+    let dados;
+    try {
+      const resp = await fetch(
+        TOKEN_ENDPOINT + '?sala=' + encodeURIComponent(sala) + '&nome=' + encodeURIComponent(nome)
+      );
+      if (!resp.ok) throw new Error('token ' + resp.status);
+      dados = await resp.json();
+    } catch (e) {
+      return status('Não consegui um token (' + e.message + '). O Worker está no ar e o endereço está certo aqui no arquivo?', true);
+    }
+
+    room = new LK.Room({
+      adaptiveStream: true,
+      dynacast: true,
+      // Perfil de voz: mono, com eco e ruído tratados pelo navegador.
+      audioCaptureDefaults: {
+        echoCancellation: true,
+        noiseSuppression: true,
+        autoGainControl: true
+      }
+    });
+
+    room
+      .on(LK.RoomEvent.ParticipantConnected, pintarLista)
+      .on(LK.RoomEvent.ParticipantDisconnected, pintarLista)
+      .on(LK.RoomEvent.TrackMuted, pintarLista)
+      .on(LK.RoomEvent.TrackUnmuted, pintarLista)
+      .on(LK.RoomEvent.ActiveSpeakersChanged, pintarLista)
+      .on(LK.RoomEvent.TrackSubscribed, (track) => {
+        // O áudio de cada pessoa vira um <audio> escondido na página.
+        if (track.kind === LK.Track.Kind.Audio) {
+          const el = track.attach();
+          el.dataset.lk = '1';
+          document.body.appendChild(el);
+        }
+      })
+      .on(LK.RoomEvent.TrackUnsubscribed, (track) => track.detach().forEach(el => el.remove()))
+      .on(LK.RoomEvent.AudioPlaybackStatusChanged, () => {
+        // Safari/iOS bloqueiam áudio sem gesto do usuário: mostramos o botão.
+        $('btnLiberarAudio').classList.toggle('hidden', room.canPlaybackAudio);
+      })
+      .on(LK.RoomEvent.Disconnected, () => status('Desconectado.', true));
+
+    try {
+      status('Conectando ao servidor…');
+      await room.connect(dados.url, dados.token);
+      await room.localParticipant.setMicrophoneEnabled(true);
+      pintarLista();
+    } catch (e) {
+      status('Falha ao conectar: ' + e.message, true);
+    }
+  }
+
+  function sair() {
+    if (room) room.disconnect();
+    document.querySelectorAll('audio[data-lk]').forEach(el => el.remove());
+    room = null;
+    mudo = false;
+    $('btnMudo').textContent = 'Silenciar';
+    $('btnEntrar').disabled = false;
+    $('gente').innerHTML = '';
+    $('telaSala').classList.add('hidden');
+    $('telaEntrada').classList.remove('hidden');
+    $('titulo').textContent = 'Entrar';
+  }
+
+  // ————— eventos —————
+  $('btnSortear').addEventListener('click', () => { $('sala').value = sortear(); });
+  $('btnEntrar').addEventListener('click', entrar);
+  $('btnSair').addEventListener('click', sair);
+
+  $('btnMudo').addEventListener('click', async () => {
+    mudo = !mudo;
+    await room.localParticipant.setMicrophoneEnabled(!mudo);
+    $('btnMudo').textContent = mudo ? 'Reativar' : 'Silenciar';
+    pintarLista();
+  });
+
+  $('btnLiberarAudio').addEventListener('click', async () => {
+    await room.startAudio();
+    $('btnLiberarAudio').classList.add('hidden');
+  });
+
+  $('sala').value = sortear();
+})();
+</script>
+</body>
+</html>
