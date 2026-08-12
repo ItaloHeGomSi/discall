@@ -7,166 +7,258 @@
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
 <style>
   :root {
-    --ink:   #12100E;
-    --panel: #1C1917;
-    --line:  #34302B;
-    --cream: #EDE6DA;
-    --muted: #8C8378;
-    --amber: #E8A33D;
-    --red:   #C4553D;
-    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Menlo, Consolas, monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    --azul:      #00AFF0;
+    --azul-esc:  #0078D4;
+    --fundo:     #1B1B1F;
+    --sup:       #2A2A2E;
+    --sup-2:     #37373C;
+    --sup-3:     #45454B;
+    --texto:     #FFFFFF;
+    --texto-dim: #ADADB2;
+    --linha:     #3A3A40;
+    --perigo:    #C4314B;
+    --perigo-fc: #D94A61;
+    --fonte: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
   }
   * { box-sizing: border-box; }
   body {
-    margin: 0; min-height: 100vh; padding: 24px;
-    background: var(--ink);
-    background-image: radial-gradient(circle at 50% 0%, #221E1A 0%, var(--ink) 60%);
-    color: var(--cream); font-family: var(--sans);
+    margin: 0; min-height: 100vh; padding: 20px;
+    background: var(--fundo);
+    color: var(--texto); font-family: var(--fonte);
     display: flex; align-items: center; justify-content: center;
   }
-  .console { width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
-  header { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
-  .eyebrow {
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
-    text-transform: uppercase; color: var(--amber); margin: 0 0 6px;
+  .app {
+    width: 100%; max-width: 400px;
+    background: var(--sup); border-radius: 12px; overflow: hidden;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.45);
+    transition: max-width 220ms ease;
   }
-  h1 { font-family: var(--mono); font-size: 19px; font-weight: 500; letter-spacing: 0.04em; margin: 0; }
-  header p { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
-  .body { padding: 20px; }
+  .app.emCall { max-width: 680px; }
 
-  label {
-    display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
-    text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
-  }
+  /* ——— cabeçalho ——— */
+  .topo { padding: 20px 24px 16px; }
+  .topo h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
+  .topo p { margin: 6px 0 0; font-size: 14px; color: var(--texto-dim); line-height: 1.5; }
+
+  .corpo { padding: 4px 24px 24px; }
+
+  /* ——— formulários ——— */
+  label { display: block; font-size: 13px; font-weight: 600; color: var(--texto-dim); margin-bottom: 6px; }
   input {
-    width: 100%; background: var(--ink); border: 1px solid var(--line); border-radius: 3px;
-    color: var(--cream); font-family: var(--mono); font-size: 15px; padding: 11px 12px;
+    width: 100%; background: var(--sup-2); border: 1px solid transparent; border-radius: 6px;
+    color: var(--texto); font-family: inherit; font-size: 15px; padding: 11px 12px;
   }
-  input:focus-visible, button:focus-visible { outline: 2px solid var(--amber); outline-offset: 2px; }
-  .field { margin-bottom: 16px; }
-  .row { display: flex; gap: 8px; }
-  .row input { flex: 1; text-transform: uppercase; letter-spacing: 0.2em; }
+  input::placeholder { color: #74747A; }
+  input:focus { border-color: var(--azul); outline: none; }
+  input:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+  .campo { margin-bottom: 14px; }
+  .linha-dupla { display: flex; gap: 8px; }
+  .linha-dupla input { flex: 1; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; }
 
-  button {
-    font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
-    border-radius: 3px; border: 1px solid var(--line); background: transparent;
-    color: var(--cream); padding: 11px 14px; cursor: pointer;
+  button { font-family: inherit; cursor: pointer; border: none; }
+  .btn {
+    background: var(--sup-2); color: var(--texto); border-radius: 6px;
+    font-size: 14px; font-weight: 600; padding: 11px 16px;
   }
-  button:hover:not(:disabled) { border-color: var(--amber); color: var(--amber); }
-  button:disabled { opacity: 0.45; cursor: not-allowed; }
-  .primary {
-    width: 100%; background: var(--amber); border-color: var(--amber);
-    color: var(--ink); font-weight: 600; padding: 13px;
+  .btn:hover:not(:disabled) { background: var(--sup-3); }
+  .btn-azul { width: 100%; background: var(--azul); color: #06232E; padding: 12px; }
+  .btn-azul:hover:not(:disabled) { background: #2CC0F5; }
+  button:disabled { opacity: 0.5; cursor: not-allowed; }
+  .btn-texto {
+    background: none; color: var(--azul); font-size: 13px; font-weight: 600; padding: 0;
   }
-  .primary:hover:not(:disabled) { background: #F2B457; border-color: #F2B457; color: var(--ink); }
-  .danger { border-color: var(--red); color: var(--red); }
-  .danger:hover:not(:disabled) { background: var(--red); border-color: var(--red); color: var(--ink); }
-  .link {
-    border: none; padding: 0; background: none; color: var(--muted);
-    text-transform: none; letter-spacing: 0; font-size: 13px; font-family: var(--sans);
-    text-decoration: underline; text-underline-offset: 3px;
-  }
-  .link:hover:not(:disabled) { color: var(--amber); }
+  .btn-texto:hover:not(:disabled) { text-decoration: underline; }
 
-  .abas { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .abas { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--linha); }
   .abas button {
-    flex: 1; border: none; border-bottom: 2px solid transparent;
-    border-radius: 0; padding: 10px 0; color: var(--muted);
+    flex: 1; background: none; color: var(--texto-dim); font-size: 14px; font-weight: 600;
+    padding: 10px 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
   }
-  .abas button[aria-selected="true"] { color: var(--cream); border-bottom-color: var(--amber); }
-  .abas button:hover:not(:disabled) { color: var(--cream); }
+  .abas button[aria-selected="true"] { color: var(--azul); border-bottom-color: var(--azul); }
+  .abas button:hover:not(:disabled) { color: var(--texto); }
 
-  ul.gente { list-style: none; margin: 0 0 18px; padding: 0; }
-  ul.gente li {
-    display: flex; align-items: center; gap: 11px; padding: 10px 0;
-    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 14px;
+  .aviso { font-size: 13px; color: var(--texto-dim); margin: 0 0 14px; line-height: 1.5; }
+  .aviso.erro { color: var(--perigo-fc); }
+  .aviso:empty { display: none; }
+  .dica { font-size: 13px; color: var(--texto-dim); margin: 14px 0 0; line-height: 1.5; }
+  .rodape {
+    display: flex; justify-content: space-between; align-items: center;
+    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--linha);
+    font-size: 13px; color: var(--texto-dim);
   }
-  ul.gente li:last-child { border-bottom: none; }
-  .luz {
-    width: 8px; height: 8px; border-radius: 50%; flex: none;
-    background: #3A3532; transition: background 90ms linear, box-shadow 90ms linear;
-  }
-  li.falando .luz { background: var(--amber); box-shadow: 0 0 0 4px rgba(232,163,61,0.16); }
-  .tag { margin-left: auto; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
-  li.mudo .tag { color: var(--red); }
 
-  .status { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
-  .status.erro { color: var(--red); }
-  .status:empty { display: none; }
-  .hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; line-height: 1.5; }
-  .actions { display: flex; gap: 8px; }
-  .actions button { flex: 1; }
-  .rodape { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
-  .rodape .quem { font-family: var(--mono); font-size: 12px; color: var(--muted); }
-  .hidden { display: none; }
-  @media (prefers-reduced-motion: reduce) { .luz { transition: none; } }
+  /* ——— tela da call ——— */
+  .call-topo {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 24px; border-bottom: 1px solid var(--linha);
+  }
+  .call-titulo { font-size: 17px; font-weight: 600; margin: 0; }
+  .call-sub { font-size: 13px; color: var(--texto-dim); margin: 3px 0 0; }
+  .cronometro {
+    font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto-dim);
+    background: var(--sup-2); padding: 5px 12px; border-radius: 999px;
+  }
+
+  .palco {
+    padding: 24px; min-height: 240px;
+    display: grid; gap: 14px;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    align-content: center;
+  }
+
+  .pessoa {
+    background: var(--sup-2); border-radius: 10px; padding: 20px 12px 16px;
+    display: flex; flex-direction: column; align-items: center; gap: 10px;
+    border: 1px solid transparent;
+  }
+  .pessoa.falando { border-color: var(--azul); }
+
+  .avatar-wrap { position: relative; }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; font-weight: 600; color: #fff; letter-spacing: 0.02em;
+    box-shadow: 0 0 0 0 rgba(0,175,240,0);
+    transition: box-shadow 140ms ease;
+  }
+  .pessoa.falando .avatar { box-shadow: 0 0 0 4px rgba(0,175,240,0.55); }
+
+  .selo {
+    position: absolute; right: -2px; bottom: -2px;
+    width: 24px; height: 24px; border-radius: 50%;
+    background: var(--perigo); border: 2.5px solid var(--sup-2);
+    display: none; align-items: center; justify-content: center;
+  }
+  .pessoa.mudo .selo { display: flex; }
+  .selo svg { width: 12px; height: 12px; }
+
+  .pessoa .nome {
+    font-size: 14px; font-weight: 600; max-width: 100%;
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .pessoa .papel { font-size: 12px; color: var(--texto-dim); margin-top: -6px; }
+
+  .barra {
+    display: flex; align-items: center; justify-content: center; gap: 14px;
+    padding: 18px 24px 24px; border-top: 1px solid var(--linha);
+  }
+  .ctrl {
+    width: 52px; height: 52px; border-radius: 50%;
+    background: var(--sup-2); color: var(--texto);
+    display: flex; align-items: center; justify-content: center;
+    transition: background 120ms ease;
+  }
+  .ctrl:hover:not(:disabled) { background: var(--sup-3); }
+  .ctrl.ativo { background: var(--texto); color: var(--fundo); }
+  .ctrl svg { width: 22px; height: 22px; }
+  .desligar {
+    width: 68px; background: var(--perigo); color: #fff; border-radius: 26px; margin-left: 10px;
+  }
+  .desligar:hover { background: var(--perigo-fc); }
+
+  .banner {
+    margin: 0 24px 4px; padding: 12px 16px; border-radius: 8px;
+    background: var(--azul-esc); color: #fff; font-size: 14px; font-weight: 600;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  }
+  .banner button { background: #fff; color: var(--azul-esc); border-radius: 6px; padding: 7px 14px; font-size: 13px; font-weight: 600; }
+
+  .oculto { display: none !important; }
+  @media (prefers-reduced-motion: reduce) { .avatar, .app, .ctrl { transition: none; } }
+  @media (max-width: 520px) {
+    .palco { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); padding: 18px; }
+    .desligar { width: 60px; }
+  }
 </style>
 </head>
 <body>
 
-<main class="console">
-  <header>
-    <p class="eyebrow" id="eyebrow">discall</p>
-    <h1 id="titulo">Sua conta</h1>
-    <p id="subtitulo">Entre para conversar por voz com outras pessoas.</p>
-  </header>
+<main class="app" id="app">
 
   <!-- ——— tela 1: conta ——— -->
-  <section class="body" id="telaConta">
-    <div class="abas" role="tablist">
-      <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
-      <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
+  <div id="telaConta">
+    <div class="topo">
+      <h1>discall</h1>
+      <p>Entre para conversar por voz com outras pessoas.</p>
     </div>
-
-    <div class="field hidden" id="campoNome">
-      <label for="nome">Nome de exibição</label>
-      <input id="nome" maxlength="18" placeholder="Itin" autocomplete="nickname">
+    <div class="corpo">
+      <div class="abas" role="tablist">
+        <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
+        <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
+      </div>
+      <div class="campo oculto" id="campoNome">
+        <label for="nome">Nome de exibição</label>
+        <input id="nome" maxlength="18" placeholder="Como quer aparecer na call" autocomplete="nickname">
+      </div>
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+      </div>
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+      </div>
+      <p class="aviso" id="statusConta"></p>
+      <button class="btn btn-azul" id="btnConta">Entrar</button>
+      <p class="dica"><button class="btn-texto" id="btnEsqueci">Esqueci minha senha</button></p>
     </div>
-    <div class="field">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
-    </div>
-    <div class="field">
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" placeholder="mínimo 6 caracteres" autocomplete="current-password">
-    </div>
-
-    <p class="status" id="statusConta"></p>
-    <button class="primary" id="btnConta">Entrar</button>
-    <p class="hint" id="dicaConta">
-      <button class="link" id="btnEsqueci">Esqueci minha senha</button>
-    </p>
-  </section>
+  </div>
 
   <!-- ——— tela 2: escolher sala ——— -->
-  <section class="body hidden" id="telaLobby">
-    <div class="field">
-      <label for="sala">Código da sala</label>
-      <div class="row">
-        <input id="sala" maxlength="4" placeholder="XKPT" autocomplete="off">
-        <button type="button" id="btnSortear">Sortear</button>
+  <div id="telaLobby" class="oculto">
+    <div class="topo">
+      <h1>Entrar numa call</h1>
+      <p>Digite um código para criar ou entrar numa conversa.</p>
+    </div>
+    <div class="corpo">
+      <div class="campo">
+        <label for="sala">Código da sala</label>
+        <div class="linha-dupla">
+          <input id="sala" maxlength="4" placeholder="XKPT" autocomplete="off">
+          <button class="btn" id="btnSortear">Sortear</button>
+        </div>
+      </div>
+      <p class="aviso" id="statusLobby"></p>
+      <button class="btn btn-azul" id="btnEntrarSala">Entrar na call</button>
+      <p class="dica">Quem digitar o mesmo código cai na mesma conversa.</p>
+      <div class="rodape">
+        <span id="quemLogado">—</span>
+        <button class="btn-texto" id="btnSairConta">Sair da conta</button>
       </div>
     </div>
-    <p class="status" id="statusLobby"></p>
-    <button class="primary" id="btnEntrarSala">Entrar na call</button>
-    <p class="hint">Quem digitar o mesmo código cai na mesma conversa.</p>
-    <div class="rodape">
-      <span class="quem" id="quemLogado">—</span>
-      <button class="link" id="btnSairConta">Sair da conta</button>
-    </div>
-  </section>
+  </div>
 
-  <!-- ——— tela 3: sala ——— -->
-  <section class="body hidden" id="telaSala">
-    <p class="status" id="statusSala">Conectando…</p>
-    <button class="primary hidden" id="btnLiberarAudio">Tocar o áudio</button>
-    <ul class="gente" id="gente"></ul>
-    <div class="actions">
-      <button id="btnMudo">Silenciar</button>
-      <button class="danger" id="btnSair">Sair da call</button>
+  <!-- ——— tela 3: em call ——— -->
+  <div id="telaSala" class="oculto">
+    <div class="call-topo">
+      <div>
+        <p class="call-titulo" id="callTitulo">Sala</p>
+        <p class="call-sub" id="callSub">Conectando…</p>
+      </div>
+      <span class="cronometro" id="cronometro">00:00</span>
     </div>
-  </section>
+
+    <div class="banner oculto" id="bannerAudio">
+      <span>O navegador bloqueou o som.</span>
+      <button id="btnLiberarAudio">Tocar áudio</button>
+    </div>
+
+    <div class="palco" id="palco"></div>
+
+    <div class="barra">
+      <button class="ctrl" id="btnMudo" aria-label="Silenciar microfone" title="Silenciar">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+        </svg>
+      </button>
+      <button class="ctrl desligar" id="btnSair" aria-label="Sair da call" title="Sair da call">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 9c-1.6 0-3.15.25-4.6.7v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.98.98 0 0 1-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .27-.11.52-.29.7l-2.48 2.46c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28a11.27 11.27 0 0 0-2.67-1.85.996.996 0 0 1-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+        </svg>
+      </button>
+    </div>
+  </div>
 </main>
 
 <script type="module">
@@ -177,8 +269,6 @@ import {
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 
 // ————— configuração —————
-// Estes valores são públicos por natureza: identificam o projeto, não autorizam nada.
-// Quem protege as contas são as regras do Firebase e a verificação no Worker.
 const firebaseConfig = {
   apiKey: "AIzaSyCoQ15L0qhRsYFJeXeJuNxIrqCuTATuTzQ",
   authDomain: "discall-4897e.firebaseapp.com",
@@ -195,15 +285,18 @@ const $ = id => document.getElementById(id);
 let room = null;
 let mudo = false;
 let modo = 'entrar';
+let inicioCall = 0;
+let relogio = null;
 
 // ————— utilidades —————
-function status(el, texto, erro) {
+function aviso(el, texto, erro) {
   $(el).textContent = texto || '';
-  $(el).className = 'status' + (erro ? ' erro' : '');
+  $(el).className = 'aviso' + (erro ? ' erro' : '');
 }
 
 function tela(qual) {
-  ['telaConta', 'telaLobby', 'telaSala'].forEach(t => $(t).classList.toggle('hidden', t !== qual));
+  ['telaConta', 'telaLobby', 'telaSala'].forEach(t => $(t).classList.toggle('oculto', t !== qual));
+  $('app').classList.toggle('emCall', qual === 'telaSala');
 }
 
 function sortear() {
@@ -213,7 +306,6 @@ function sortear() {
   return c;
 }
 
-// O Firebase devolve códigos técnicos; o usuário precisa saber o que fazer.
 function traduzir(codigo) {
   const mapa = {
     'auth/invalid-email': 'Esse e-mail não parece válido.',
@@ -229,39 +321,49 @@ function traduzir(codigo) {
   return mapa[codigo] || 'Não foi possível concluir. Tente de novo.';
 }
 
+// Iniciais e cor fixa por pessoa: o mesmo usuário sempre tem o mesmo avatar.
+function iniciais(nome) {
+  const partes = nome.trim().split(/\s+/).slice(0, 2);
+  return partes.map(p => p[0]).join('').toUpperCase() || '?';
+}
+
+const CORES = ['#0078D4', '#8764B8', '#C239B3', '#CA5010', '#0B6A0B', '#00838F'];
+function corDe(chave) {
+  let soma = 0;
+  for (let i = 0; i < chave.length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
+  return CORES[soma % CORES.length];
+}
+
 // ————— conta —————
 function trocarModo(novo) {
   modo = novo;
   $('abaEntrar').setAttribute('aria-selected', novo === 'entrar');
   $('abaCriar').setAttribute('aria-selected', novo === 'criar');
-  $('campoNome').classList.toggle('hidden', novo === 'entrar');
+  $('campoNome').classList.toggle('oculto', novo === 'entrar');
   $('btnConta').textContent = novo === 'entrar' ? 'Entrar' : 'Criar conta';
-  $('btnEsqueci').classList.toggle('hidden', novo === 'criar');
+  $('btnEsqueci').classList.toggle('oculto', novo === 'criar');
   $('senha').setAttribute('autocomplete', novo === 'entrar' ? 'current-password' : 'new-password');
-  status('statusConta', '');
+  aviso('statusConta', '');
 }
 
 async function enviarConta() {
   const email = $('email').value.trim();
   const senha = $('senha').value;
   const nome = $('nome').value.trim();
-
-  if (modo === 'criar' && !nome) return status('statusConta', 'Escolha um nome de exibição.', true);
+  if (modo === 'criar' && !nome) return aviso('statusConta', 'Escolha um nome de exibição.', true);
 
   $('btnConta').disabled = true;
-  status('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
-
+  aviso('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
   try {
     if (modo === 'entrar') {
       await signInWithEmailAndPassword(auth, email, senha);
     } else {
       const cred = await createUserWithEmailAndPassword(auth, email, senha);
-      // O nome vai dentro do token de identidade, e é ele que aparece na call.
       await updateProfile(cred.user, { displayName: nome });
       await cred.user.getIdToken(true);
     }
   } catch (e) {
-    status('statusConta', traduzir(e.code), true);
+    aviso('statusConta', traduzir(e.code), true);
   } finally {
     $('btnConta').disabled = false;
   }
@@ -269,62 +371,84 @@ async function enviarConta() {
 
 async function recuperarSenha() {
   const email = $('email').value.trim();
-  if (!email) return status('statusConta', 'Digite seu e-mail primeiro.', true);
+  if (!email) return aviso('statusConta', 'Digite seu e-mail primeiro.', true);
   try {
     await sendPasswordResetEmail(auth, email);
-    status('statusConta', 'Link de recuperação enviado. Confira seu e-mail.');
+    aviso('statusConta', 'Link de recuperação enviado. Confira seu e-mail.');
   } catch (e) {
-    status('statusConta', traduzir(e.code), true);
+    aviso('statusConta', traduzir(e.code), true);
   }
 }
 
-// Roda no carregamento e sempre que o login muda: é o que mantém a sessão após F5.
 onAuthStateChanged(auth, user => {
   if (user) {
     $('quemLogado').textContent = user.displayName || user.email;
-    $('titulo').textContent = 'Escolher sala';
-    $('subtitulo').textContent = 'Digite um código para criar ou entrar numa conversa.';
     $('senha').value = '';
     if (!room) tela('telaLobby');
   } else {
-    $('titulo').textContent = 'Sua conta';
-    $('subtitulo').textContent = 'Entre para conversar por voz com outras pessoas.';
     tela('telaConta');
   }
 });
 
 // ————— sala —————
-function pintarLista() {
-  const ul = $('gente');
-  ul.innerHTML = '';
+function pintarPalco() {
+  const palco = $('palco');
+  palco.innerHTML = '';
   const todos = [room.localParticipant, ...room.remoteParticipants.values()];
 
   todos.forEach(p => {
     const eu = p === room.localParticipant;
     const silenciado = eu ? mudo : !p.isMicrophoneEnabled;
-    const li = document.createElement('li');
-    li.className = (p.isSpeaking && !silenciado ? 'falando ' : '') + (silenciado ? 'mudo' : '');
-    li.innerHTML = '<span class="luz"></span><span class="nome"></span><span class="tag"></span>';
-    li.querySelector('.nome').textContent = p.name || p.identity;
-    li.querySelector('.tag').textContent = silenciado ? 'mudo' : (eu ? 'você' : '');
-    ul.appendChild(li);
+    const nome = p.name || p.identity;
+
+    const card = document.createElement('div');
+    card.className = 'pessoa' + (p.isSpeaking && !silenciado ? ' falando' : '') + (silenciado ? ' mudo' : '');
+    card.innerHTML =
+      '<div class="avatar-wrap">' +
+        '<div class="avatar"></div>' +
+        '<span class="selo">' +
+          '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">' +
+            '<path d="M4 4l16 16"/><path d="M12 3a3 3 0 0 1 3 3v4"/><path d="M9 9v3a3 3 0 0 0 4.5 2.6"/>' +
+            '<path d="M18 11a6 6 0 0 1-8.7 5.4M6 11a6 6 0 0 0 6 6v4"/>' +
+          '</svg>' +
+        '</span>' +
+      '</div>' +
+      '<span class="nome"></span>' +
+      '<span class="papel"></span>';
+
+    const av = card.querySelector('.avatar');
+    av.textContent = iniciais(nome);
+    av.style.background = corDe(p.identity);
+    card.querySelector('.nome').textContent = nome;
+    card.querySelector('.papel').textContent = eu ? 'Você' : (silenciado ? 'Sem som' : '');
+    palco.appendChild(card);
   });
 
-  status('statusSala', todos.length === 1
-    ? 'Só você na sala ' + room.name + '.'
-    : todos.length + ' pessoas na sala ' + room.name + '.');
+  $('callSub').textContent = todos.length === 1
+    ? 'Aguardando outras pessoas'
+    : todos.length + ' pessoas na chamada';
+}
+
+function iniciarRelogio() {
+  inicioCall = Date.now();
+  clearInterval(relogio);
+  relogio = setInterval(() => {
+    const s = Math.floor((Date.now() - inicioCall) / 1000);
+    const mm = String(Math.floor(s / 60)).padStart(2, '0');
+    const ss = String(s % 60).padStart(2, '0');
+    $('cronometro').textContent = mm + ':' + ss;
+  }, 1000);
 }
 
 async function entrarSala() {
   const sala = ($('sala').value.trim() || sortear()).toUpperCase();
-  if (!/^[A-Z]{4}$/.test(sala)) return status('statusLobby', 'O código tem 4 letras.', true);
+  if (!/^[A-Z]{4}$/.test(sala)) return aviso('statusLobby', 'O código tem 4 letras.', true);
 
   $('btnEntrarSala').disabled = true;
-  status('statusLobby', 'Pedindo autorização…');
+  aviso('statusLobby', 'Pedindo autorização…');
 
   let dados;
   try {
-    // O token de identidade prova quem você é. O Worker não aceita pedido sem ele.
     const idToken = await auth.currentUser.getIdToken();
     const resp = await fetch(TOKEN_ENDPOINT + '?sala=' + encodeURIComponent(sala), {
       headers: { Authorization: 'Bearer ' + idToken }
@@ -336,13 +460,13 @@ async function entrarSala() {
     dados = await resp.json();
   } catch (e) {
     $('btnEntrarSala').disabled = false;
-    return status('statusLobby', 'Não consegui autorização: ' + e.message, true);
+    return aviso('statusLobby', 'Não consegui autorização: ' + e.message, true);
   }
 
   tela('telaSala');
-  $('titulo').textContent = 'Sala ' + sala;
-  $('subtitulo').textContent = 'Fale à vontade. A luz acende em quem está falando.';
-  status('statusSala', 'Conectando ao servidor…');
+  $('callTitulo').textContent = 'Sala ' + sala;
+  $('callSub').textContent = 'Conectando…';
+  $('cronometro').textContent = '00:00';
 
   room = new LK.Room({
     adaptiveStream: true,
@@ -351,11 +475,11 @@ async function entrarSala() {
   });
 
   room
-    .on(LK.RoomEvent.ParticipantConnected, pintarLista)
-    .on(LK.RoomEvent.ParticipantDisconnected, pintarLista)
-    .on(LK.RoomEvent.TrackMuted, pintarLista)
-    .on(LK.RoomEvent.TrackUnmuted, pintarLista)
-    .on(LK.RoomEvent.ActiveSpeakersChanged, pintarLista)
+    .on(LK.RoomEvent.ParticipantConnected, pintarPalco)
+    .on(LK.RoomEvent.ParticipantDisconnected, pintarPalco)
+    .on(LK.RoomEvent.TrackMuted, pintarPalco)
+    .on(LK.RoomEvent.TrackUnmuted, pintarPalco)
+    .on(LK.RoomEvent.ActiveSpeakersChanged, pintarPalco)
     .on(LK.RoomEvent.TrackSubscribed, track => {
       if (track.kind === LK.Track.Kind.Audio) {
         const el = track.attach();
@@ -365,16 +489,17 @@ async function entrarSala() {
     })
     .on(LK.RoomEvent.TrackUnsubscribed, track => track.detach().forEach(el => el.remove()))
     .on(LK.RoomEvent.AudioPlaybackStatusChanged, () => {
-      $('btnLiberarAudio').classList.toggle('hidden', room.canPlaybackAudio);
+      $('bannerAudio').classList.toggle('oculto', room.canPlaybackAudio);
     })
-    .on(LK.RoomEvent.Disconnected, () => status('statusSala', 'Desconectado.', true));
+    .on(LK.RoomEvent.Disconnected, () => { $('callSub').textContent = 'Chamada encerrada'; clearInterval(relogio); });
 
   try {
     await room.connect(dados.url, dados.token);
     await room.localParticipant.setMicrophoneEnabled(true);
-    pintarLista();
+    iniciarRelogio();
+    pintarPalco();
   } catch (e) {
-    status('statusSala', 'Falha ao conectar: ' + e.message, true);
+    $('callSub').textContent = 'Falha ao conectar: ' + e.message;
   }
   $('btnEntrarSala').disabled = false;
 }
@@ -382,13 +507,13 @@ async function entrarSala() {
 function sairSala() {
   if (room) room.disconnect();
   document.querySelectorAll('audio[data-lk]').forEach(el => el.remove());
+  clearInterval(relogio);
   room = null;
   mudo = false;
-  $('btnMudo').textContent = 'Silenciar';
-  $('gente').innerHTML = '';
-  status('statusLobby', '');
-  $('titulo').textContent = 'Escolher sala';
-  $('subtitulo').textContent = 'Digite um código para criar ou entrar numa conversa.';
+  $('btnMudo').classList.remove('ativo');
+  $('palco').innerHTML = '';
+  $('bannerAudio').classList.add('oculto');
+  aviso('statusLobby', '');
   tela('telaLobby');
 }
 
@@ -405,15 +530,17 @@ $('sala').addEventListener('keydown', e => { if (e.key === 'Enter') entrarSala()
 $('btnSairConta').addEventListener('click', () => signOut(auth));
 
 $('btnSair').addEventListener('click', sairSala);
+$('btnLiberarAudio').addEventListener('click', async () => {
+  await room.startAudio();
+  $('bannerAudio').classList.add('oculto');
+});
 $('btnMudo').addEventListener('click', async () => {
   mudo = !mudo;
   await room.localParticipant.setMicrophoneEnabled(!mudo);
-  $('btnMudo').textContent = mudo ? 'Reativar' : 'Silenciar';
-  pintarLista();
-});
-$('btnLiberarAudio').addEventListener('click', async () => {
-  await room.startAudio();
-  $('btnLiberarAudio').classList.add('hidden');
+  $('btnMudo').classList.toggle('ativo', mudo);
+  $('btnMudo').setAttribute('aria-label', mudo ? 'Reativar microfone' : 'Silenciar microfone');
+  $('btnMudo').title = mudo ? 'Reativar' : 'Silenciar';
+  pintarPalco();
 });
 
 $('sala').value = sortear();
