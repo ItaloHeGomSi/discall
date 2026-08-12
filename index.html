@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Sala de voz</title>
+<title>discall</title>
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
 <style>
   :root {
@@ -25,10 +25,7 @@
     color: var(--cream); font-family: var(--sans);
     display: flex; align-items: center; justify-content: center;
   }
-  .console {
-    width: 100%; max-width: 420px;
-    background: var(--panel); border: 1px solid var(--line); border-radius: 4px;
-  }
+  .console { width: 100%; max-width: 420px; background: var(--panel); border: 1px solid var(--line); border-radius: 4px; }
   header { padding: 18px 20px 14px; border-bottom: 1px solid var(--line); }
   .eyebrow {
     font-family: var(--mono); font-size: 11px; letter-spacing: 0.22em;
@@ -37,6 +34,7 @@
   h1 { font-family: var(--mono); font-size: 19px; font-weight: 500; letter-spacing: 0.04em; margin: 0; }
   header p { margin: 8px 0 0; font-size: 13px; line-height: 1.5; color: var(--muted); }
   .body { padding: 20px; }
+
   label {
     display: block; font-family: var(--mono); font-size: 11px; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--muted); margin-bottom: 7px;
@@ -49,6 +47,7 @@
   .field { margin-bottom: 16px; }
   .row { display: flex; gap: 8px; }
   .row input { flex: 1; text-transform: uppercase; letter-spacing: 0.2em; }
+
   button {
     font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase;
     border-radius: 3px; border: 1px solid var(--line); background: transparent;
@@ -63,12 +62,25 @@
   .primary:hover:not(:disabled) { background: #F2B457; border-color: #F2B457; color: var(--ink); }
   .danger { border-color: var(--red); color: var(--red); }
   .danger:hover:not(:disabled) { background: var(--red); border-color: var(--red); color: var(--ink); }
+  .link {
+    border: none; padding: 0; background: none; color: var(--muted);
+    text-transform: none; letter-spacing: 0; font-size: 13px; font-family: var(--sans);
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .link:hover:not(:disabled) { color: var(--amber); }
+
+  .abas { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 1px solid var(--line); }
+  .abas button {
+    flex: 1; border: none; border-bottom: 2px solid transparent;
+    border-radius: 0; padding: 10px 0; color: var(--muted);
+  }
+  .abas button[aria-selected="true"] { color: var(--cream); border-bottom-color: var(--amber); }
+  .abas button:hover:not(:disabled) { color: var(--cream); }
 
   ul.gente { list-style: none; margin: 0 0 18px; padding: 0; }
   ul.gente li {
-    display: flex; align-items: center; gap: 11px;
-    padding: 10px 0; border-bottom: 1px solid var(--line);
-    font-family: var(--mono); font-size: 14px;
+    display: flex; align-items: center; gap: 11px; padding: 10px 0;
+    border-bottom: 1px solid var(--line); font-family: var(--mono); font-size: 14px;
   }
   ul.gente li:last-child { border-bottom: none; }
   .luz {
@@ -79,14 +91,14 @@
   .tag { margin-left: auto; font-size: 11px; letter-spacing: 0.12em; color: var(--muted); text-transform: uppercase; }
   li.mudo .tag { color: var(--red); }
 
-  .status {
-    font-family: var(--mono); font-size: 12px; color: var(--muted);
-    margin: 0 0 16px; line-height: 1.5;
-  }
+  .status { font-family: var(--mono); font-size: 12px; color: var(--muted); margin: 0 0 16px; line-height: 1.5; }
   .status.erro { color: var(--red); }
+  .status:empty { display: none; }
   .hint { font-size: 12px; color: var(--muted); margin: 12px 0 0; line-height: 1.5; }
   .actions { display: flex; gap: 8px; }
   .actions button { flex: 1; }
+  .rodape { display: flex; justify-content: space-between; align-items: center; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); }
+  .rodape .quem { font-family: var(--mono); font-size: 12px; color: var(--muted); }
   .hidden { display: none; }
   @media (prefers-reduced-motion: reduce) { .luz { transition: none; } }
 </style>
@@ -95,16 +107,40 @@
 
 <main class="console">
   <header>
-    <p class="eyebrow" id="eyebrow">Sala de voz</p>
-    <h1 id="titulo">Entrar</h1>
-    <p id="subtitulo">Áudio em grupo pelo navegador. Nada é instalado.</p>
+    <p class="eyebrow" id="eyebrow">discall</p>
+    <h1 id="titulo">Sua conta</h1>
+    <p id="subtitulo">Entre para conversar por voz com outras pessoas.</p>
   </header>
 
-  <section class="body" id="telaEntrada">
-    <div class="field">
-      <label for="nome">Seu nome</label>
-      <input id="nome" maxlength="18" placeholder="Itin" autocomplete="off">
+  <!-- ——— tela 1: conta ——— -->
+  <section class="body" id="telaConta">
+    <div class="abas" role="tablist">
+      <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
+      <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
     </div>
+
+    <div class="field hidden" id="campoNome">
+      <label for="nome">Nome de exibição</label>
+      <input id="nome" maxlength="18" placeholder="Itin" autocomplete="nickname">
+    </div>
+    <div class="field">
+      <label for="email">E-mail</label>
+      <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+    </div>
+    <div class="field">
+      <label for="senha">Senha</label>
+      <input id="senha" type="password" placeholder="mínimo 6 caracteres" autocomplete="current-password">
+    </div>
+
+    <p class="status" id="statusConta"></p>
+    <button class="primary" id="btnConta">Entrar</button>
+    <p class="hint" id="dicaConta">
+      <button class="link" id="btnEsqueci">Esqueci minha senha</button>
+    </p>
+  </section>
+
+  <!-- ——— tela 2: escolher sala ——— -->
+  <section class="body hidden" id="telaLobby">
     <div class="field">
       <label for="sala">Código da sala</label>
       <div class="row">
@@ -112,170 +148,275 @@
         <button type="button" id="btnSortear">Sortear</button>
       </div>
     </div>
-    <button class="primary" id="btnEntrar">Entrar na call</button>
-    <p class="hint" id="dicaEntrada">Quem digitar o mesmo código cai na mesma conversa.</p>
+    <p class="status" id="statusLobby"></p>
+    <button class="primary" id="btnEntrarSala">Entrar na call</button>
+    <p class="hint">Quem digitar o mesmo código cai na mesma conversa.</p>
+    <div class="rodape">
+      <span class="quem" id="quemLogado">—</span>
+      <button class="link" id="btnSairConta">Sair da conta</button>
+    </div>
   </section>
 
+  <!-- ——— tela 3: sala ——— -->
   <section class="body hidden" id="telaSala">
-    <p class="status" id="status">Conectando…</p>
+    <p class="status" id="statusSala">Conectando…</p>
     <button class="primary hidden" id="btnLiberarAudio">Tocar o áudio</button>
     <ul class="gente" id="gente"></ul>
     <div class="actions">
       <button id="btnMudo">Silenciar</button>
-      <button class="danger" id="btnSair">Sair</button>
+      <button class="danger" id="btnSair">Sair da call</button>
     </div>
   </section>
 </main>
 
-<script>
-(() => {
-  'use strict';
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
+import {
+  getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
+  signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 
-  // ————— configuração —————
-  // Endereço do seu gerador de token (o Worker do outro arquivo).
-  const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
+// ————— configuração —————
+// Estes valores são públicos por natureza: identificam o projeto, não autorizam nada.
+// Quem protege as contas são as regras do Firebase e a verificação no Worker.
+const firebaseConfig = {
+  apiKey: "AIzaSyCoQ15L0qhRsYFJeXeJuNxIrqCuTATuTzQ",
+  authDomain: "discall-4897e.firebaseapp.com",
+  projectId: "discall-4897e",
+  appId: "1:71573939539:web:9ad6686a4ee67d2d12eda6"
+};
 
-  const LK = window.LivekitClient;
-  const $ = id => document.getElementById(id);
+const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
 
-  let room = null;
-  let mudo = false;
+const auth = getAuth(initializeApp(firebaseConfig));
+const LK = window.LivekitClient;
+const $ = id => document.getElementById(id);
 
-  function status(texto, erro) {
-    $('status').textContent = texto;
-    $('status').className = 'status' + (erro ? ' erro' : '');
-  }
+let room = null;
+let mudo = false;
+let modo = 'entrar';
 
-  function sortear() {
-    const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-    let c = '';
-    for (let i = 0; i < 4; i++) c += letras[Math.floor(Math.random() * letras.length)];
-    return c;
-  }
+// ————— utilidades —————
+function status(el, texto, erro) {
+  $(el).textContent = texto || '';
+  $(el).className = 'status' + (erro ? ' erro' : '');
+}
 
-  // ————— lista de participantes —————
-  function pintarLista() {
-    const ul = $('gente');
-    ul.innerHTML = '';
-    const todos = [room.localParticipant, ...room.remoteParticipants.values()];
+function tela(qual) {
+  ['telaConta', 'telaLobby', 'telaSala'].forEach(t => $(t).classList.toggle('hidden', t !== qual));
+}
 
-    todos.forEach(p => {
-      const eu = p === room.localParticipant;
-      const li = document.createElement('li');
-      const silenciado = eu ? mudo : !p.isMicrophoneEnabled;
+function sortear() {
+  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let c = '';
+  for (let i = 0; i < 4; i++) c += letras[Math.floor(Math.random() * letras.length)];
+  return c;
+}
 
-      li.className = (p.isSpeaking && !silenciado ? 'falando ' : '') + (silenciado ? 'mudo' : '');
-      li.innerHTML =
-        '<span class="luz"></span>' +
-        '<span class="nome"></span>' +
-        '<span class="tag"></span>';
-      li.querySelector('.nome').textContent = p.name || p.identity;
-      li.querySelector('.tag').textContent = silenciado ? 'mudo' : (eu ? 'você' : '');
-      ul.appendChild(li);
-    });
+// O Firebase devolve códigos técnicos; o usuário precisa saber o que fazer.
+function traduzir(codigo) {
+  const mapa = {
+    'auth/invalid-email': 'Esse e-mail não parece válido.',
+    'auth/missing-password': 'Digite sua senha.',
+    'auth/weak-password': 'A senha precisa de pelo menos 6 caracteres.',
+    'auth/email-already-in-use': 'Já existe uma conta com esse e-mail. Use a aba Entrar.',
+    'auth/invalid-credential': 'E-mail ou senha incorretos.',
+    'auth/user-not-found': 'Não encontramos uma conta com esse e-mail.',
+    'auth/wrong-password': 'Senha incorreta.',
+    'auth/too-many-requests': 'Muitas tentativas. Espere alguns minutos.',
+    'auth/network-request-failed': 'Sem conexão com o servidor.'
+  };
+  return mapa[codigo] || 'Não foi possível concluir. Tente de novo.';
+}
 
-    status(todos.length === 1
-      ? 'Só você na sala ' + room.name + '. Abra o mesmo código em outra aba para testar.'
-      : todos.length + ' pessoas na sala ' + room.name + '.');
-  }
+// ————— conta —————
+function trocarModo(novo) {
+  modo = novo;
+  $('abaEntrar').setAttribute('aria-selected', novo === 'entrar');
+  $('abaCriar').setAttribute('aria-selected', novo === 'criar');
+  $('campoNome').classList.toggle('hidden', novo === 'entrar');
+  $('btnConta').textContent = novo === 'entrar' ? 'Entrar' : 'Criar conta';
+  $('btnEsqueci').classList.toggle('hidden', novo === 'criar');
+  $('senha').setAttribute('autocomplete', novo === 'entrar' ? 'current-password' : 'new-password');
+  status('statusConta', '');
+}
 
-  // ————— entrar —————
-  async function entrar() {
-    const nome = $('nome').value.trim() || 'Convidado';
-    const sala = ($('sala').value.trim() || sortear()).toUpperCase();
+async function enviarConta() {
+  const email = $('email').value.trim();
+  const senha = $('senha').value;
+  const nome = $('nome').value.trim();
 
-    $('btnEntrar').disabled = true;
-    $('telaEntrada').classList.add('hidden');
-    $('telaSala').classList.remove('hidden');
-    $('titulo').textContent = 'Sala ' + sala;
-    $('subtitulo').textContent = 'Fale à vontade. A luz acende em quem está falando.';
-    status('Pedindo autorização…');
+  if (modo === 'criar' && !nome) return status('statusConta', 'Escolha um nome de exibição.', true);
 
-    let dados;
-    try {
-      const resp = await fetch(
-        TOKEN_ENDPOINT + '?sala=' + encodeURIComponent(sala) + '&nome=' + encodeURIComponent(nome)
-      );
-      if (!resp.ok) throw new Error('token ' + resp.status);
-      dados = await resp.json();
-    } catch (e) {
-      return status('Não consegui um token (' + e.message + '). O Worker está no ar e o endereço está certo aqui no arquivo?', true);
+  $('btnConta').disabled = true;
+  status('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
+
+  try {
+    if (modo === 'entrar') {
+      await signInWithEmailAndPassword(auth, email, senha);
+    } else {
+      const cred = await createUserWithEmailAndPassword(auth, email, senha);
+      // O nome vai dentro do token de identidade, e é ele que aparece na call.
+      await updateProfile(cred.user, { displayName: nome });
+      await cred.user.getIdToken(true);
     }
+  } catch (e) {
+    status('statusConta', traduzir(e.code), true);
+  } finally {
+    $('btnConta').disabled = false;
+  }
+}
 
-    room = new LK.Room({
-      adaptiveStream: true,
-      dynacast: true,
-      // Perfil de voz: mono, com eco e ruído tratados pelo navegador.
-      audioCaptureDefaults: {
-        echoCancellation: true,
-        noiseSuppression: true,
-        autoGainControl: true
+async function recuperarSenha() {
+  const email = $('email').value.trim();
+  if (!email) return status('statusConta', 'Digite seu e-mail primeiro.', true);
+  try {
+    await sendPasswordResetEmail(auth, email);
+    status('statusConta', 'Link de recuperação enviado. Confira seu e-mail.');
+  } catch (e) {
+    status('statusConta', traduzir(e.code), true);
+  }
+}
+
+// Roda no carregamento e sempre que o login muda: é o que mantém a sessão após F5.
+onAuthStateChanged(auth, user => {
+  if (user) {
+    $('quemLogado').textContent = user.displayName || user.email;
+    $('titulo').textContent = 'Escolher sala';
+    $('subtitulo').textContent = 'Digite um código para criar ou entrar numa conversa.';
+    $('senha').value = '';
+    if (!room) tela('telaLobby');
+  } else {
+    $('titulo').textContent = 'Sua conta';
+    $('subtitulo').textContent = 'Entre para conversar por voz com outras pessoas.';
+    tela('telaConta');
+  }
+});
+
+// ————— sala —————
+function pintarLista() {
+  const ul = $('gente');
+  ul.innerHTML = '';
+  const todos = [room.localParticipant, ...room.remoteParticipants.values()];
+
+  todos.forEach(p => {
+    const eu = p === room.localParticipant;
+    const silenciado = eu ? mudo : !p.isMicrophoneEnabled;
+    const li = document.createElement('li');
+    li.className = (p.isSpeaking && !silenciado ? 'falando ' : '') + (silenciado ? 'mudo' : '');
+    li.innerHTML = '<span class="luz"></span><span class="nome"></span><span class="tag"></span>';
+    li.querySelector('.nome').textContent = p.name || p.identity;
+    li.querySelector('.tag').textContent = silenciado ? 'mudo' : (eu ? 'você' : '');
+    ul.appendChild(li);
+  });
+
+  status('statusSala', todos.length === 1
+    ? 'Só você na sala ' + room.name + '.'
+    : todos.length + ' pessoas na sala ' + room.name + '.');
+}
+
+async function entrarSala() {
+  const sala = ($('sala').value.trim() || sortear()).toUpperCase();
+  if (!/^[A-Z]{4}$/.test(sala)) return status('statusLobby', 'O código tem 4 letras.', true);
+
+  $('btnEntrarSala').disabled = true;
+  status('statusLobby', 'Pedindo autorização…');
+
+  let dados;
+  try {
+    // O token de identidade prova quem você é. O Worker não aceita pedido sem ele.
+    const idToken = await auth.currentUser.getIdToken();
+    const resp = await fetch(TOKEN_ENDPOINT + '?sala=' + encodeURIComponent(sala), {
+      headers: { Authorization: 'Bearer ' + idToken }
+    });
+    if (!resp.ok) {
+      const corpo = await resp.json().catch(() => ({}));
+      throw new Error(corpo.erro || ('erro ' + resp.status));
+    }
+    dados = await resp.json();
+  } catch (e) {
+    $('btnEntrarSala').disabled = false;
+    return status('statusLobby', 'Não consegui autorização: ' + e.message, true);
+  }
+
+  tela('telaSala');
+  $('titulo').textContent = 'Sala ' + sala;
+  $('subtitulo').textContent = 'Fale à vontade. A luz acende em quem está falando.';
+  status('statusSala', 'Conectando ao servidor…');
+
+  room = new LK.Room({
+    adaptiveStream: true,
+    dynacast: true,
+    audioCaptureDefaults: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+  });
+
+  room
+    .on(LK.RoomEvent.ParticipantConnected, pintarLista)
+    .on(LK.RoomEvent.ParticipantDisconnected, pintarLista)
+    .on(LK.RoomEvent.TrackMuted, pintarLista)
+    .on(LK.RoomEvent.TrackUnmuted, pintarLista)
+    .on(LK.RoomEvent.ActiveSpeakersChanged, pintarLista)
+    .on(LK.RoomEvent.TrackSubscribed, track => {
+      if (track.kind === LK.Track.Kind.Audio) {
+        const el = track.attach();
+        el.dataset.lk = '1';
+        document.body.appendChild(el);
       }
-    });
+    })
+    .on(LK.RoomEvent.TrackUnsubscribed, track => track.detach().forEach(el => el.remove()))
+    .on(LK.RoomEvent.AudioPlaybackStatusChanged, () => {
+      $('btnLiberarAudio').classList.toggle('hidden', room.canPlaybackAudio);
+    })
+    .on(LK.RoomEvent.Disconnected, () => status('statusSala', 'Desconectado.', true));
 
-    room
-      .on(LK.RoomEvent.ParticipantConnected, pintarLista)
-      .on(LK.RoomEvent.ParticipantDisconnected, pintarLista)
-      .on(LK.RoomEvent.TrackMuted, pintarLista)
-      .on(LK.RoomEvent.TrackUnmuted, pintarLista)
-      .on(LK.RoomEvent.ActiveSpeakersChanged, pintarLista)
-      .on(LK.RoomEvent.TrackSubscribed, (track) => {
-        // O áudio de cada pessoa vira um <audio> escondido na página.
-        if (track.kind === LK.Track.Kind.Audio) {
-          const el = track.attach();
-          el.dataset.lk = '1';
-          document.body.appendChild(el);
-        }
-      })
-      .on(LK.RoomEvent.TrackUnsubscribed, (track) => track.detach().forEach(el => el.remove()))
-      .on(LK.RoomEvent.AudioPlaybackStatusChanged, () => {
-        // Safari/iOS bloqueiam áudio sem gesto do usuário: mostramos o botão.
-        $('btnLiberarAudio').classList.toggle('hidden', room.canPlaybackAudio);
-      })
-      .on(LK.RoomEvent.Disconnected, () => status('Desconectado.', true));
-
-    try {
-      status('Conectando ao servidor…');
-      await room.connect(dados.url, dados.token);
-      await room.localParticipant.setMicrophoneEnabled(true);
-      pintarLista();
-    } catch (e) {
-      status('Falha ao conectar: ' + e.message, true);
-    }
-  }
-
-  function sair() {
-    if (room) room.disconnect();
-    document.querySelectorAll('audio[data-lk]').forEach(el => el.remove());
-    room = null;
-    mudo = false;
-    $('btnMudo').textContent = 'Silenciar';
-    $('btnEntrar').disabled = false;
-    $('gente').innerHTML = '';
-    $('telaSala').classList.add('hidden');
-    $('telaEntrada').classList.remove('hidden');
-    $('titulo').textContent = 'Entrar';
-  }
-
-  // ————— eventos —————
-  $('btnSortear').addEventListener('click', () => { $('sala').value = sortear(); });
-  $('btnEntrar').addEventListener('click', entrar);
-  $('btnSair').addEventListener('click', sair);
-
-  $('btnMudo').addEventListener('click', async () => {
-    mudo = !mudo;
-    await room.localParticipant.setMicrophoneEnabled(!mudo);
-    $('btnMudo').textContent = mudo ? 'Reativar' : 'Silenciar';
+  try {
+    await room.connect(dados.url, dados.token);
+    await room.localParticipant.setMicrophoneEnabled(true);
     pintarLista();
-  });
+  } catch (e) {
+    status('statusSala', 'Falha ao conectar: ' + e.message, true);
+  }
+  $('btnEntrarSala').disabled = false;
+}
 
-  $('btnLiberarAudio').addEventListener('click', async () => {
-    await room.startAudio();
-    $('btnLiberarAudio').classList.add('hidden');
-  });
+function sairSala() {
+  if (room) room.disconnect();
+  document.querySelectorAll('audio[data-lk]').forEach(el => el.remove());
+  room = null;
+  mudo = false;
+  $('btnMudo').textContent = 'Silenciar';
+  $('gente').innerHTML = '';
+  status('statusLobby', '');
+  $('titulo').textContent = 'Escolher sala';
+  $('subtitulo').textContent = 'Digite um código para criar ou entrar numa conversa.';
+  tela('telaLobby');
+}
 
-  $('sala').value = sortear();
-})();
+// ————— eventos —————
+$('abaEntrar').addEventListener('click', () => trocarModo('entrar'));
+$('abaCriar').addEventListener('click', () => trocarModo('criar'));
+$('btnConta').addEventListener('click', enviarConta);
+$('btnEsqueci').addEventListener('click', recuperarSenha);
+$('senha').addEventListener('keydown', e => { if (e.key === 'Enter') enviarConta(); });
+
+$('btnSortear').addEventListener('click', () => { $('sala').value = sortear(); });
+$('btnEntrarSala').addEventListener('click', entrarSala);
+$('sala').addEventListener('keydown', e => { if (e.key === 'Enter') entrarSala(); });
+$('btnSairConta').addEventListener('click', () => signOut(auth));
+
+$('btnSair').addEventListener('click', sairSala);
+$('btnMudo').addEventListener('click', async () => {
+  mudo = !mudo;
+  await room.localParticipant.setMicrophoneEnabled(!mudo);
+  $('btnMudo').textContent = mudo ? 'Reativar' : 'Silenciar';
+  pintarLista();
+});
+$('btnLiberarAudio').addEventListener('click', async () => {
+  await room.startAudio();
+  $('btnLiberarAudio').classList.add('hidden');
+});
+
+$('sala').value = sortear();
 </script>
 </body>
 </html>
