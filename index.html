@@ -33,7 +33,7 @@
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     transition: max-width 220ms ease;
   }
-  .app.largo { max-width: 780px; }
+  .app.largo { max-width: 720px; }
   .app.emCall { max-width: 680px; }
 
   .topo { padding: 20px 24px 16px; }
@@ -95,10 +95,7 @@
   .ponto.call { background: var(--azul); }
 
   /* ——— convite recebido ——— */
-  .convite {
-    display: flex; align-items: center; gap: 12px;
-    padding: 14px 20px; background: var(--azul-esc);
-  }
+  .convite { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--azul-esc); }
   .convite .txt { flex: 1; min-width: 0; }
   .convite .t1 { font-size: 14px; font-weight: 600; }
   .convite .t2 { font-size: 12px; opacity: 0.85; margin-top: 1px; }
@@ -112,7 +109,7 @@
   .painel-topo .eu-tag { font-size: 12px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
   .painel-topo .fim { margin-left: auto; }
 
-  .colunas { display: grid; grid-template-columns: 1fr 288px; }
+  .colunas { display: grid; grid-template-columns: 1fr 300px; }
   .coluna { padding: 20px; }
   .coluna + .coluna { border-left: 1px solid var(--linha); }
 
@@ -127,12 +124,6 @@
   .lista .t2 { font-size: 12px; color: var(--texto-dim); margin-top: 1px; }
   .lista .acoes { display: flex; gap: 6px; flex: none; }
   .vazio { font-size: 13px; color: var(--texto-dim); line-height: 1.5; margin: 0; }
-
-  .sala-chip {
-    width: 40px; height: 40px; border-radius: 8px; background: var(--sup-3);
-    display: flex; align-items: center; justify-content: center; flex: none;
-    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
-  }
 
   /* ——— call ——— */
   .call-topo { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--linha); }
@@ -247,6 +238,7 @@
             <button class="btn btn-azul" id="btnEntrarSala">Entrar</button>
           </div>
           <p class="aviso" id="statusLobby" style="margin-top:12px"></p>
+          <p class="dica">Quem digitar o mesmo código cai na mesma conversa.</p>
         </div>
       </div>
 
@@ -323,6 +315,10 @@ import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
+  query, where, onSnapshot, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
 import {
   getDatabase, ref, onValue, onDisconnect, set as rtSet, remove as rtRemove
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js';
@@ -429,13 +425,13 @@ async function reservarHandle(uid, nome) {
 }
 
 async function garantirPerfil(user, nomeSugerido) {
-  const ref = doc(db, 'usuarios', user.uid);
-  const snap = await getDoc(ref);
+  const alvo = doc(db, 'usuarios', user.uid);
+  const snap = await getDoc(alvo);
   if (snap.exists()) return { uid: user.uid, ...snap.data() };
   const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0, 18);
   const handle = await reservarHandle(user.uid, nome);
   const perfil = { nome, handle, cor: corDe(user.uid), criadoEm: serverTimestamp() };
-  await setDoc(ref, perfil);
+  await setDoc(alvo, perfil);
   return { uid: user.uid, ...perfil };
 }
 
@@ -475,6 +471,8 @@ async function recuperarSenha() {
 }
 
 // ————— presença —————
+// O Firestore não percebe quando alguém fecha a aba. O Realtime Database percebe:
+// onDisconnect deixa a instrução pronta no servidor antes de a conexão cair.
 function ligarPresenca() {
   const meuRef = ref(rtdb, 'presenca/' + eu.uid);
   onValue(ref(rtdb, '.info/connected'), snap => {
@@ -708,40 +706,13 @@ function pintarConvidar() {
     const naSala = pres && pres.sala === salaAtual;
     const online = pres && pres.online;
     lista.appendChild(itemAmigo(uid, reg, [
-      naSala   ? { rotulo: 'Já está aqui', travado: true, acao: () => {} }
+      naSala    ? { rotulo: 'Já está aqui', travado: true, acao: () => {} }
       : !online ? { rotulo: 'Offline', travado: true, acao: () => {} }
       : jaChamados.has(uid) ? { rotulo: 'Chamado', travado: true, acao: () => {} }
       : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) }
     ]));
   }
   $('vazioConvidar').classList.toggle('oculto', n > 0);
-}
-
-// ————— recentes —————
-function ligarRecentes() {
-  const q = query(collection(db, 'usuarios', eu.uid, 'recentes'), orderBy('ultimaVez', 'desc'), limit(8));
-  inscricoes.push(onSnapshot(q, snap => {
-    const lista = $('listaRecentes');
-    lista.innerHTML = '';
-    snap.forEach(d => {
-      const dados = d.data();
-      const li = document.createElement('li');
-      li.innerHTML =
-        '<div class="sala-chip"></div>' +
-        '<div class="txt"><div class="t1"></div><div class="t2"></div></div>' +
-        '<div class="acoes"></div>';
-      li.querySelector('.sala-chip').textContent = d.id;
-      li.querySelector('.t1').textContent = 'Sala ' + d.id;
-      li.querySelector('.t2').textContent = (dados.vezes || 1) + (dados.vezes === 1 ? ' visita' : ' visitas');
-      const b = document.createElement('button');
-      b.className = 'btn btn-mini btn-azul';
-      b.textContent = 'Entrar';
-      b.addEventListener('click', () => entrarSala(d.id));
-      li.querySelector('.acoes').appendChild(b);
-      lista.appendChild(li);
-    });
-    $('vazioRecentes').classList.toggle('oculto', snap.size > 0);
-  }));
 }
 
 // ————— sessão —————
@@ -771,7 +742,6 @@ onAuthStateChanged(auth, async user => {
 
   ligarPresenca();
   ligarAmizades();
-  ligarRecentes();
   ligarConvites();
   if (!room) tela('telaPainel');
 });
@@ -878,7 +848,6 @@ async function entrarSala(codigo) {
     await room.localParticipant.setMicrophoneEnabled(true);
     salaAtual = sala;
     atualizarPresenca();
-    registrarVisita(sala);
     iniciarRelogio();
     pintarPalco();
   } catch (e) {
