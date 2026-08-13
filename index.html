@@ -16,6 +16,7 @@
     --texto:     #FFFFFF;
     --texto-dim: #ADADB2;
     --linha:     #3A3A40;
+    --verde:     #6BB700;
     --perigo:    #C4314B;
     --perigo-fc: #D94A61;
     --fonte: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
@@ -23,26 +24,23 @@
   * { box-sizing: border-box; }
   body {
     margin: 0; min-height: 100vh; padding: 20px;
-    background: var(--fundo);
-    color: var(--texto); font-family: var(--fonte);
+    background: var(--fundo); color: var(--texto); font-family: var(--fonte);
     display: flex; align-items: center; justify-content: center;
   }
   .app {
-    width: 100%; max-width: 400px;
-    background: var(--sup); border-radius: 12px; overflow: hidden;
+    width: 100%; max-width: 400px; background: var(--sup);
+    border-radius: 12px; overflow: hidden;
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     transition: max-width 220ms ease;
   }
+  .app.largo { max-width: 780px; }
   .app.emCall { max-width: 680px; }
 
-  /* ——— cabeçalho ——— */
   .topo { padding: 20px 24px 16px; }
   .topo h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; }
   .topo p { margin: 6px 0 0; font-size: 14px; color: var(--texto-dim); line-height: 1.5; }
-
   .corpo { padding: 4px 24px 24px; }
 
-  /* ——— formulários ——— */
   label { display: block; font-size: 13px; font-weight: 600; color: var(--texto-dim); margin-bottom: 6px; }
   input {
     width: 100%; background: var(--sup-2); border: 1px solid transparent; border-radius: 6px;
@@ -53,20 +51,18 @@
   input:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
   .campo { margin-bottom: 14px; }
   .linha-dupla { display: flex; gap: 8px; }
-  .linha-dupla input { flex: 1; text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; }
+  .linha-dupla input { flex: 1; }
+  .cod { text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; }
 
   button { font-family: inherit; cursor: pointer; border: none; }
-  .btn {
-    background: var(--sup-2); color: var(--texto); border-radius: 6px;
-    font-size: 14px; font-weight: 600; padding: 11px 16px;
-  }
+  .btn { background: var(--sup-2); color: var(--texto); border-radius: 6px; font-size: 14px; font-weight: 600; padding: 11px 16px; }
   .btn:hover:not(:disabled) { background: var(--sup-3); }
-  .btn-azul { width: 100%; background: var(--azul); color: #06232E; padding: 12px; }
+  .btn-azul { background: var(--azul); color: #06232E; }
   .btn-azul:hover:not(:disabled) { background: #2CC0F5; }
+  .btn-bloco { width: 100%; padding: 12px; }
+  .btn-mini { font-size: 12px; padding: 6px 11px; border-radius: 5px; }
   button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-texto {
-    background: none; color: var(--azul); font-size: 13px; font-weight: 600; padding: 0;
-  }
+  .btn-texto { background: none; color: var(--azul); font-size: 13px; font-weight: 600; padding: 0; }
   .btn-texto:hover:not(:disabled) { text-decoration: underline; }
 
   .abas { display: flex; margin-bottom: 20px; border-bottom: 1px solid var(--linha); }
@@ -79,95 +75,104 @@
 
   .aviso { font-size: 13px; color: var(--texto-dim); margin: 0 0 14px; line-height: 1.5; }
   .aviso.erro { color: var(--perigo-fc); }
+  .aviso.ok { color: var(--verde); }
   .aviso:empty { display: none; }
   .dica { font-size: 13px; color: var(--texto-dim); margin: 14px 0 0; line-height: 1.5; }
-  .rodape {
-    display: flex; justify-content: space-between; align-items: center;
-    margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--linha);
-    font-size: 13px; color: var(--texto-dim);
+
+  /* ——— avatar ——— */
+  .av {
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    font-weight: 600; color: #fff; flex: none;
+  }
+  .av-32 { width: 32px; height: 32px; font-size: 13px; }
+  .av-40 { width: 40px; height: 40px; font-size: 15px; }
+  .av-64 { width: 64px; height: 64px; font-size: 22px; }
+  .av-wrap { position: relative; }
+  .ponto {
+    position: absolute; right: -1px; bottom: -1px; width: 12px; height: 12px;
+    border-radius: 50%; background: #6E6E73; border: 2.5px solid var(--sup);
+  }
+  .ponto.on { background: var(--verde); }
+  .ponto.call { background: var(--azul); }
+
+  /* ——— painel ——— */
+  .painel-topo {
+    display: flex; align-items: center; gap: 12px;
+    padding: 16px 20px; border-bottom: 1px solid var(--linha);
+  }
+  .painel-topo .eu-nome { font-size: 15px; font-weight: 600; }
+  .painel-topo .eu-tag { font-size: 12px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
+  .painel-topo .fim { margin-left: auto; }
+
+  .colunas { display: grid; grid-template-columns: 1fr 288px; }
+  .coluna { padding: 20px; }
+  .coluna + .coluna { border-left: 1px solid var(--linha); }
+
+  h2 {
+    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--texto-dim); margin: 0 0 12px;
+  }
+  .bloco + .bloco { margin-top: 26px; }
+
+  .lista { list-style: none; margin: 0; padding: 0; }
+  .lista li {
+    display: flex; align-items: center; gap: 11px;
+    padding: 9px 10px; border-radius: 8px; margin: 0 -10px;
+  }
+  .lista li:hover { background: var(--sup-2); }
+  .lista .txt { min-width: 0; flex: 1; }
+  .lista .t1 { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lista .t2 { font-size: 12px; color: var(--texto-dim); margin-top: 1px; }
+  .lista .acoes { display: flex; gap: 6px; flex: none; }
+  .vazio { font-size: 13px; color: var(--texto-dim); line-height: 1.5; margin: 0; }
+
+  .sala-chip {
+    width: 40px; height: 40px; border-radius: 8px; background: var(--sup-3);
+    display: flex; align-items: center; justify-content: center; flex: none;
+    font-size: 12px; font-weight: 700; letter-spacing: 0.06em;
   }
 
-  /* ——— tela da call ——— */
-  .call-topo {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 24px; border-bottom: 1px solid var(--linha);
-  }
+  /* ——— call ——— */
+  .call-topo { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--linha); }
   .call-titulo { font-size: 17px; font-weight: 600; margin: 0; }
   .call-sub { font-size: 13px; color: var(--texto-dim); margin: 3px 0 0; }
-  .cronometro {
-    font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto-dim);
-    background: var(--sup-2); padding: 5px 12px; border-radius: 999px;
-  }
+  .cronometro { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto-dim); background: var(--sup-2); padding: 5px 12px; border-radius: 999px; }
 
-  .palco {
-    padding: 24px; min-height: 240px;
-    display: grid; gap: 14px;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    align-content: center;
-  }
-
+  .palco { padding: 24px; min-height: 220px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-content: center; }
   .pessoa {
     background: var(--sup-2); border-radius: 10px; padding: 20px 12px 16px;
-    display: flex; flex-direction: column; align-items: center; gap: 10px;
-    border: 1px solid transparent;
+    display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid transparent;
   }
   .pessoa.falando { border-color: var(--azul); }
-
-  .avatar-wrap { position: relative; }
-  .avatar {
-    width: 64px; height: 64px; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px; font-weight: 600; color: #fff; letter-spacing: 0.02em;
-    box-shadow: 0 0 0 0 rgba(0,175,240,0);
-    transition: box-shadow 140ms ease;
-  }
-  .pessoa.falando .avatar { box-shadow: 0 0 0 4px rgba(0,175,240,0.55); }
-
+  .pessoa .av { box-shadow: 0 0 0 0 rgba(0,175,240,0); transition: box-shadow 140ms ease; }
+  .pessoa.falando .av { box-shadow: 0 0 0 4px rgba(0,175,240,0.55); }
   .selo {
-    position: absolute; right: -2px; bottom: -2px;
-    width: 24px; height: 24px; border-radius: 50%;
+    position: absolute; right: -2px; bottom: -2px; width: 24px; height: 24px; border-radius: 50%;
     background: var(--perigo); border: 2.5px solid var(--sup-2);
     display: none; align-items: center; justify-content: center;
   }
   .pessoa.mudo .selo { display: flex; }
   .selo svg { width: 12px; height: 12px; }
-
-  .pessoa .nome {
-    font-size: 14px; font-weight: 600; max-width: 100%;
-    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
-  }
+  .pessoa .nome { font-size: 14px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pessoa .papel { font-size: 12px; color: var(--texto-dim); margin-top: -6px; }
 
-  .barra {
-    display: flex; align-items: center; justify-content: center; gap: 14px;
-    padding: 18px 24px 24px; border-top: 1px solid var(--linha);
-  }
-  .ctrl {
-    width: 52px; height: 52px; border-radius: 50%;
-    background: var(--sup-2); color: var(--texto);
-    display: flex; align-items: center; justify-content: center;
-    transition: background 120ms ease;
-  }
+  .barra { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 18px 24px 24px; border-top: 1px solid var(--linha); }
+  .ctrl { width: 52px; height: 52px; border-radius: 50%; background: var(--sup-2); color: var(--texto); display: flex; align-items: center; justify-content: center; transition: background 120ms ease; }
   .ctrl:hover:not(:disabled) { background: var(--sup-3); }
   .ctrl.ativo { background: var(--texto); color: var(--fundo); }
   .ctrl svg { width: 22px; height: 22px; }
-  .desligar {
-    width: 68px; background: var(--perigo); color: #fff; border-radius: 26px; margin-left: 10px;
-  }
+  .desligar { width: 68px; background: var(--perigo); color: #fff; border-radius: 26px; margin-left: 10px; }
   .desligar:hover { background: var(--perigo-fc); }
 
-  .banner {
-    margin: 0 24px 4px; padding: 12px 16px; border-radius: 8px;
-    background: var(--azul-esc); color: #fff; font-size: 14px; font-weight: 600;
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-  }
+  .banner { margin: 0 24px 4px; padding: 12px 16px; border-radius: 8px; background: var(--azul-esc); color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
   .banner button { background: #fff; color: var(--azul-esc); border-radius: 6px; padding: 7px 14px; font-size: 13px; font-weight: 600; }
 
   .oculto { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { .avatar, .app, .ctrl { transition: none; } }
-  @media (max-width: 520px) {
+  @media (prefers-reduced-motion: reduce) { .av, .app, .ctrl { transition: none; } }
+  @media (max-width: 700px) {
+    .colunas { grid-template-columns: 1fr; }
+    .coluna + .coluna { border-left: none; border-top: 1px solid var(--linha); }
     .palco { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); padding: 18px; }
-    .desligar { width: 60px; }
   }
 </style>
 </head>
@@ -175,11 +180,11 @@
 
 <main class="app" id="app">
 
-  <!-- ——— tela 1: conta ——— -->
+  <!-- ——— conta ——— -->
   <div id="telaConta">
     <div class="topo">
       <h1>discall</h1>
-      <p>Entre para conversar por voz com outras pessoas.</p>
+      <p>Entre para conversar por voz com seus amigos.</p>
     </div>
     <div class="corpo">
       <div class="abas" role="tablist">
@@ -188,7 +193,7 @@
       </div>
       <div class="campo oculto" id="campoNome">
         <label for="nome">Nome de exibição</label>
-        <input id="nome" maxlength="18" placeholder="Como quer aparecer na call" autocomplete="nickname">
+        <input id="nome" maxlength="18" placeholder="Como quer aparecer" autocomplete="nickname">
       </div>
       <div class="campo">
         <label for="email">E-mail</label>
@@ -199,36 +204,69 @@
         <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
       </div>
       <p class="aviso" id="statusConta"></p>
-      <button class="btn btn-azul" id="btnConta">Entrar</button>
+      <button class="btn btn-azul btn-bloco" id="btnConta">Entrar</button>
       <p class="dica"><button class="btn-texto" id="btnEsqueci">Esqueci minha senha</button></p>
     </div>
   </div>
 
-  <!-- ——— tela 2: escolher sala ——— -->
-  <div id="telaLobby" class="oculto">
-    <div class="topo">
-      <h1>Entrar numa call</h1>
-      <p>Digite um código para criar ou entrar numa conversa.</p>
+  <!-- ——— painel ——— -->
+  <div id="telaPainel" class="oculto">
+    <div class="painel-topo">
+      <div class="av-wrap">
+        <div class="av av-40" id="euAvatar">?</div>
+        <span class="ponto on"></span>
+      </div>
+      <div>
+        <div class="eu-nome" id="euNome">—</div>
+        <div class="eu-tag" id="euTag">—</div>
+      </div>
+      <div class="fim"><button class="btn-texto" id="btnSairConta">Sair</button></div>
     </div>
-    <div class="corpo">
-      <div class="campo">
-        <label for="sala">Código da sala</label>
-        <div class="linha-dupla">
-          <input id="sala" maxlength="4" placeholder="XKPT" autocomplete="off">
-          <button class="btn" id="btnSortear">Sortear</button>
+
+    <div class="colunas">
+      <div class="coluna">
+        <div class="bloco">
+          <h2>Nova call</h2>
+          <div class="linha-dupla">
+            <input id="sala" class="cod" maxlength="4" placeholder="XKPT" autocomplete="off">
+            <button class="btn" id="btnSortear">Sortear</button>
+            <button class="btn btn-azul" id="btnEntrarSala">Entrar</button>
+          </div>
+          <p class="aviso" id="statusLobby" style="margin-top:12px"></p>
+        </div>
+
+        <div class="bloco">
+          <h2>Calls recentes</h2>
+          <ul class="lista" id="listaRecentes"></ul>
+          <p class="vazio oculto" id="vazioRecentes">Suas conversas aparecem aqui depois da primeira call.</p>
         </div>
       </div>
-      <p class="aviso" id="statusLobby"></p>
-      <button class="btn btn-azul" id="btnEntrarSala">Entrar na call</button>
-      <p class="dica">Quem digitar o mesmo código cai na mesma conversa.</p>
-      <div class="rodape">
-        <span id="quemLogado">—</span>
-        <button class="btn-texto" id="btnSairConta">Sair da conta</button>
+
+      <div class="coluna">
+        <div class="bloco">
+          <h2>Adicionar amigo</h2>
+          <div class="linha-dupla">
+            <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
+            <button class="btn btn-azul" id="btnAdicionar">Enviar</button>
+          </div>
+          <p class="aviso" id="statusAmigo" style="margin-top:12px"></p>
+        </div>
+
+        <div class="bloco oculto" id="blocoPedidos">
+          <h2>Pedidos recebidos</h2>
+          <ul class="lista" id="listaPedidos"></ul>
+        </div>
+
+        <div class="bloco">
+          <h2>Amigos</h2>
+          <ul class="lista" id="listaAmigos"></ul>
+          <p class="vazio oculto" id="vazioAmigos">Ninguém ainda. Peça o identificador de alguém e mande um convite.</p>
+        </div>
       </div>
     </div>
   </div>
 
-  <!-- ——— tela 3: em call ——— -->
+  <!-- ——— call ——— -->
   <div id="telaSala" class="oculto">
     <div class="call-topo">
       <div>
@@ -237,14 +275,11 @@
       </div>
       <span class="cronometro" id="cronometro">00:00</span>
     </div>
-
     <div class="banner oculto" id="bannerAudio">
       <span>O navegador bloqueou o som.</span>
       <button id="btnLiberarAudio">Tocar áudio</button>
     </div>
-
     <div class="palco" id="palco"></div>
-
     <div class="barra">
       <button class="ctrl" id="btnMudo" aria-label="Silenciar microfone" title="Silenciar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -267,35 +302,53 @@ import {
   getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword,
   signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
+import {
+  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
+  query, where, orderBy, limit, onSnapshot, serverTimestamp, increment
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
+import {
+  getDatabase, ref, onValue, onDisconnect, set as rtSet, remove as rtRemove
+} from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js';
 
 // ————— configuração —————
 const firebaseConfig = {
   apiKey: "AIzaSyCoQ15L0qhRsYFJeXeJuNxIrqCuTATuTzQ",
   authDomain: "discall-4897e.firebaseapp.com",
+  databaseURL: "https://discall-4897e-default-rtdb.firebaseio.com",
   projectId: "discall-4897e",
   appId: "1:71573939539:web:9ad6686a4ee67d2d12eda6"
 };
 
 const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
 
-const auth = getAuth(initializeApp(firebaseConfig));
-const LK = window.LivekitClient;
+const fb   = initializeApp(firebaseConfig);
+const auth = getAuth(fb);
+const db   = getFirestore(fb);
+const rtdb = getDatabase(fb);
+const LK   = window.LivekitClient;
 const $ = id => document.getElementById(id);
 
+let eu = null;          // { uid, nome, handle, cor }
 let room = null;
 let mudo = false;
 let modo = 'entrar';
-let inicioCall = 0;
+let salaAtual = null;
 let relogio = null;
+let inicioCall = 0;
+
+const amigos = new Map();       // uid -> { perfil, presenca, parId, status, souDono }
+const inscricoes = [];          // funções de cancelamento
+const presencaInscrita = new Map();
 
 // ————— utilidades —————
-function aviso(el, texto, erro) {
+const aviso = (el, texto, tipo) => {
   $(el).textContent = texto || '';
-  $(el).className = 'aviso' + (erro ? ' erro' : '');
-}
+  $(el).className = 'aviso' + (tipo ? ' ' + tipo : '');
+};
 
 function tela(qual) {
-  ['telaConta', 'telaLobby', 'telaSala'].forEach(t => $(t).classList.toggle('oculto', t !== qual));
+  ['telaConta', 'telaPainel', 'telaSala'].forEach(t => $(t).classList.toggle('oculto', t !== qual));
+  $('app').classList.toggle('largo', qual === 'telaPainel');
   $('app').classList.toggle('emCall', qual === 'telaSala');
 }
 
@@ -306,6 +359,19 @@ function sortear() {
   return c;
 }
 
+const iniciais = nome =>
+  nome.trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || '?';
+
+const CORES = ['#0078D4', '#8764B8', '#C239B3', '#CA5010', '#0B6A0B', '#00838F'];
+function corDe(chave) {
+  let soma = 0;
+  for (let i = 0; i < chave.length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
+  return CORES[soma % CORES.length];
+}
+
+// Um documento por relação, com id previsível: evita duas listas dessincronizadas.
+const parDe = (a, b) => [a, b].sort().join('_');
+
 function traduzir(codigo) {
   const mapa = {
     'auth/invalid-email': 'Esse e-mail não parece válido.',
@@ -313,25 +379,10 @@ function traduzir(codigo) {
     'auth/weak-password': 'A senha precisa de pelo menos 6 caracteres.',
     'auth/email-already-in-use': 'Já existe uma conta com esse e-mail. Use a aba Entrar.',
     'auth/invalid-credential': 'E-mail ou senha incorretos.',
-    'auth/user-not-found': 'Não encontramos uma conta com esse e-mail.',
-    'auth/wrong-password': 'Senha incorreta.',
     'auth/too-many-requests': 'Muitas tentativas. Espere alguns minutos.',
     'auth/network-request-failed': 'Sem conexão com o servidor.'
   };
   return mapa[codigo] || 'Não foi possível concluir. Tente de novo.';
-}
-
-// Iniciais e cor fixa por pessoa: o mesmo usuário sempre tem o mesmo avatar.
-function iniciais(nome) {
-  const partes = nome.trim().split(/\s+/).slice(0, 2);
-  return partes.map(p => p[0]).join('').toUpperCase() || '?';
-}
-
-const CORES = ['#0078D4', '#8764B8', '#C239B3', '#CA5010', '#0B6A0B', '#00838F'];
-function corDe(chave) {
-  let soma = 0;
-  for (let i = 0; i < chave.length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
-  return CORES[soma % CORES.length];
 }
 
 // ————— conta —————
@@ -346,11 +397,39 @@ function trocarModo(novo) {
   aviso('statusConta', '');
 }
 
+// O identificador público é o que amigos digitam. O e-mail nunca é pesquisável:
+// se fosse, qualquer um descobriria quais e-mails têm conta aqui.
+async function reservarHandle(uid, nome) {
+  const base = nome.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '') || 'user';
+  for (let tentativa = 0; tentativa < 10; tentativa++) {
+    const tag = String(Math.floor(1000 + Math.random() * 9000));
+    const handle = base + '#' + tag;
+    try {
+      // A regra só permite create — se o documento existir, isto falha e tentamos outro.
+      await setDoc(doc(db, 'handles', handle), { uid });
+      return handle;
+    } catch (e) { /* colidiu, sorteia outra etiqueta */ }
+  }
+  throw new Error('Não consegui reservar um identificador. Tente outro nome.');
+}
+
+async function garantirPerfil(user, nomeSugerido) {
+  const ref = doc(db, 'usuarios', user.uid);
+  const snap = await getDoc(ref);
+  if (snap.exists()) return { uid: user.uid, ...snap.data() };
+
+  const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0, 18);
+  const handle = await reservarHandle(user.uid, nome);
+  const perfil = { nome, handle, cor: corDe(user.uid), criadoEm: serverTimestamp() };
+  await setDoc(ref, perfil);
+  return { uid: user.uid, ...perfil };
+}
+
 async function enviarConta() {
   const email = $('email').value.trim();
   const senha = $('senha').value;
   const nome = $('nome').value.trim();
-  if (modo === 'criar' && !nome) return aviso('statusConta', 'Escolha um nome de exibição.', true);
+  if (modo === 'criar' && !nome) return aviso('statusConta', 'Escolha um nome de exibição.', 'erro');
 
   $('btnConta').disabled = true;
   aviso('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
@@ -361,9 +440,10 @@ async function enviarConta() {
       const cred = await createUserWithEmailAndPassword(auth, email, senha);
       await updateProfile(cred.user, { displayName: nome });
       await cred.user.getIdToken(true);
+      await garantirPerfil(cred.user, nome);
     }
   } catch (e) {
-    aviso('statusConta', traduzir(e.code), true);
+    aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro');
   } finally {
     $('btnConta').disabled = false;
   }
@@ -371,56 +451,256 @@ async function enviarConta() {
 
 async function recuperarSenha() {
   const email = $('email').value.trim();
-  if (!email) return aviso('statusConta', 'Digite seu e-mail primeiro.', true);
+  if (!email) return aviso('statusConta', 'Digite seu e-mail primeiro.', 'erro');
   try {
     await sendPasswordResetEmail(auth, email);
-    aviso('statusConta', 'Link de recuperação enviado. Confira seu e-mail.');
+    aviso('statusConta', 'Link de recuperação enviado. Confira seu e-mail.', 'ok');
   } catch (e) {
-    aviso('statusConta', traduzir(e.code), true);
+    aviso('statusConta', traduzir(e.code), 'erro');
   }
 }
 
-onAuthStateChanged(auth, user => {
-  if (user) {
-    $('quemLogado').textContent = user.displayName || user.email;
-    $('senha').value = '';
-    if (!room) tela('telaLobby');
-  } else {
-    tela('telaConta');
+// ————— presença —————
+// O Firestore não percebe quando alguém fecha a aba. O Realtime Database percebe:
+// onDisconnect deixa a instrução pronta no servidor antes de a conexão cair.
+function ligarPresenca() {
+  const meuRef = ref(rtdb, 'presenca/' + eu.uid);
+  onValue(ref(rtdb, '.info/connected'), snap => {
+    if (!snap.val()) return;
+    onDisconnect(meuRef).remove().then(() =>
+      rtSet(meuRef, { online: true, sala: salaAtual, em: Date.now() })
+    );
+  });
+}
+
+const atualizarPresenca = () => {
+  if (eu) rtSet(ref(rtdb, 'presenca/' + eu.uid), { online: true, sala: salaAtual, em: Date.now() });
+};
+
+function observarPresencaDe(uid) {
+  if (presencaInscrita.has(uid)) return;
+  const parar = onValue(ref(rtdb, 'presenca/' + uid), snap => {
+    const reg = amigos.get(uid);
+    if (reg) { reg.presenca = snap.val(); pintarAmigos(); }
+  });
+  presencaInscrita.set(uid, parar);
+}
+
+// ————— amigos —————
+function ligarAmizades() {
+  const q = query(collection(db, 'amizades'), where('membros', 'array-contains', eu.uid));
+  inscricoes.push(onSnapshot(q, async snap => {
+    const vistos = new Set();
+    for (const d of snap.docs) {
+      const dados = d.data();
+      const outro = dados.membros.find(u => u !== eu.uid);
+      vistos.add(outro);
+      let reg = amigos.get(outro);
+      if (!reg) {
+        const p = await getDoc(doc(db, 'usuarios', outro));
+        reg = { perfil: p.exists() ? p.data() : { nome: 'Usuário', handle: '—' }, presenca: null };
+        amigos.set(outro, reg);
+      }
+      reg.parId = d.id;
+      reg.status = dados.status;
+      reg.euPedi = dados.de === eu.uid;
+      if (dados.status === 'aceita') observarPresencaDe(outro);
+    }
+    for (const uid of [...amigos.keys()]) if (!vistos.has(uid)) amigos.delete(uid);
+    pintarAmigos();
+  }, err => aviso('statusAmigo', 'Não consegui carregar seus amigos.', 'erro')));
+}
+
+async function adicionarAmigo() {
+  const alvo = $('buscaAmigo').value.trim().toLowerCase();
+  if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) {
+    return aviso('statusAmigo', 'Use o formato nome#0000.', 'erro');
   }
+  if (alvo === eu.handle) return aviso('statusAmigo', 'Esse é você.', 'erro');
+
+  $('btnAdicionar').disabled = true;
+  aviso('statusAmigo', 'Procurando…');
+  try {
+    const h = await getDoc(doc(db, 'handles', alvo));
+    if (!h.exists()) throw new Error('Ninguém encontrado com esse identificador.');
+    const outro = h.data().uid;
+    const parId = parDe(eu.uid, outro);
+
+    if ((await getDoc(doc(db, 'amizades', parId))).exists()) {
+      throw new Error('Vocês já têm um convite ou amizade.');
+    }
+    await setDoc(doc(db, 'amizades', parId), {
+      membros: [eu.uid, outro].sort(),
+      de: eu.uid, para: outro,
+      status: 'pendente', criadoEm: serverTimestamp()
+    });
+    $('buscaAmigo').value = '';
+    aviso('statusAmigo', 'Convite enviado.', 'ok');
+  } catch (e) {
+    aviso('statusAmigo', e.message, 'erro');
+  } finally {
+    $('btnAdicionar').disabled = false;
+  }
+}
+
+const aceitar = parId => updateDoc(doc(db, 'amizades', parId), { status: 'aceita' });
+const recusar = parId => deleteDoc(doc(db, 'amizades', parId));
+
+function itemAmigo(uid, reg, acoes) {
+  const p = reg.perfil;
+  const pres = reg.presenca;
+  const li = document.createElement('li');
+  li.innerHTML =
+    '<div class="av-wrap"><div class="av av-32"></div><span class="ponto"></span></div>' +
+    '<div class="txt"><div class="t1"></div><div class="t2"></div></div>' +
+    '<div class="acoes"></div>';
+
+  const av = li.querySelector('.av');
+  av.textContent = iniciais(p.nome);
+  av.style.background = p.cor || corDe(uid);
+  li.querySelector('.t1').textContent = p.nome;
+
+  const ponto = li.querySelector('.ponto');
+  let legenda = p.handle;
+  if (reg.status === 'aceita') {
+    if (pres && pres.sala) { ponto.className = 'ponto call'; legenda = 'Em call · sala ' + pres.sala; }
+    else if (pres && pres.online) { ponto.className = 'ponto on'; legenda = 'Online'; }
+    else legenda = 'Offline';
+  }
+  li.querySelector('.t2').textContent = legenda;
+
+  const caixa = li.querySelector('.acoes');
+  acoes.forEach(a => {
+    const b = document.createElement('button');
+    b.className = 'btn btn-mini' + (a.azul ? ' btn-azul' : '');
+    b.textContent = a.rotulo;
+    b.addEventListener('click', a.acao);
+    caixa.appendChild(b);
+  });
+  return li;
+}
+
+function pintarAmigos() {
+  const listaA = $('listaAmigos');
+  const listaP = $('listaPedidos');
+  listaA.innerHTML = '';
+  listaP.innerHTML = '';
+  let pedidos = 0, aceitos = 0;
+
+  for (const [uid, reg] of amigos) {
+    if (reg.status === 'pendente' && !reg.euPedi) {
+      pedidos++;
+      listaP.appendChild(itemAmigo(uid, reg, [
+        { rotulo: 'Aceitar', azul: true, acao: () => aceitar(reg.parId) },
+        { rotulo: 'Recusar', acao: () => recusar(reg.parId) }
+      ]));
+    } else if (reg.status === 'pendente') {
+      aceitos++;
+      listaA.appendChild(itemAmigo(uid, reg, [
+        { rotulo: 'Cancelar', acao: () => recusar(reg.parId) }
+      ]));
+    } else {
+      aceitos++;
+      const acoes = [];
+      if (reg.presenca && reg.presenca.sala) {
+        acoes.push({ rotulo: 'Entrar', azul: true, acao: () => entrarSala(reg.presenca.sala) });
+      }
+      listaA.appendChild(itemAmigo(uid, reg, acoes));
+    }
+  }
+
+  $('blocoPedidos').classList.toggle('oculto', pedidos === 0);
+  $('vazioAmigos').classList.toggle('oculto', aceitos > 0);
+}
+
+// ————— recentes —————
+function ligarRecentes() {
+  const q = query(
+    collection(db, 'usuarios', eu.uid, 'recentes'),
+    orderBy('ultimaVez', 'desc'), limit(8)
+  );
+  inscricoes.push(onSnapshot(q, snap => {
+    const lista = $('listaRecentes');
+    lista.innerHTML = '';
+    snap.forEach(d => {
+      const dados = d.data();
+      const li = document.createElement('li');
+      li.innerHTML =
+        '<div class="sala-chip"></div>' +
+        '<div class="txt"><div class="t1"></div><div class="t2"></div></div>' +
+        '<div class="acoes"></div>';
+      li.querySelector('.sala-chip').textContent = d.id;
+      li.querySelector('.t1').textContent = 'Sala ' + d.id;
+      li.querySelector('.t2').textContent =
+        (dados.vezes || 1) + (dados.vezes === 1 ? ' visita' : ' visitas');
+      const b = document.createElement('button');
+      b.className = 'btn btn-mini btn-azul';
+      b.textContent = 'Entrar';
+      b.addEventListener('click', () => entrarSala(d.id));
+      li.querySelector('.acoes').appendChild(b);
+      lista.appendChild(li);
+    });
+    $('vazioRecentes').classList.toggle('oculto', snap.size > 0);
+  }));
+}
+
+const registrarVisita = sala =>
+  setDoc(doc(db, 'usuarios', eu.uid, 'recentes', sala),
+    { ultimaVez: serverTimestamp(), vezes: increment(1) }, { merge: true });
+
+// ————— sessão —————
+onAuthStateChanged(auth, async user => {
+  if (!user) {
+    inscricoes.splice(0).forEach(f => f());
+    presencaInscrita.forEach(f => f());
+    presencaInscrita.clear();
+    amigos.clear();
+    if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
+    eu = null;
+    return tela('telaConta');
+  }
+
+  try {
+    eu = await garantirPerfil(user);
+  } catch (e) {
+    return aviso('statusConta', e.message, 'erro');
+  }
+
+  $('euNome').textContent = eu.nome;
+  $('euTag').textContent = eu.handle;
+  $('euAvatar').textContent = iniciais(eu.nome);
+  $('euAvatar').style.background = eu.cor;
+  $('senha').value = '';
+
+  ligarPresenca();
+  ligarAmizades();
+  ligarRecentes();
+  if (!room) tela('telaPainel');
 });
 
-// ————— sala —————
+// ————— call —————
 function pintarPalco() {
   const palco = $('palco');
   palco.innerHTML = '';
   const todos = [room.localParticipant, ...room.remoteParticipants.values()];
 
   todos.forEach(p => {
-    const eu = p === room.localParticipant;
-    const silenciado = eu ? mudo : !p.isMicrophoneEnabled;
+    const souEu = p === room.localParticipant;
+    const silenciado = souEu ? mudo : !p.isMicrophoneEnabled;
     const nome = p.name || p.identity;
-
     const card = document.createElement('div');
     card.className = 'pessoa' + (p.isSpeaking && !silenciado ? ' falando' : '') + (silenciado ? ' mudo' : '');
     card.innerHTML =
-      '<div class="avatar-wrap">' +
-        '<div class="avatar"></div>' +
-        '<span class="selo">' +
-          '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">' +
-            '<path d="M4 4l16 16"/><path d="M12 3a3 3 0 0 1 3 3v4"/><path d="M9 9v3a3 3 0 0 0 4.5 2.6"/>' +
-            '<path d="M18 11a6 6 0 0 1-8.7 5.4M6 11a6 6 0 0 0 6 6v4"/>' +
-          '</svg>' +
-        '</span>' +
-      '</div>' +
-      '<span class="nome"></span>' +
-      '<span class="papel"></span>';
-
-    const av = card.querySelector('.avatar');
+      '<div class="av-wrap"><div class="av av-64"></div>' +
+      '<span class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">' +
+      '<path d="M4 4l16 16"/><path d="M12 3a3 3 0 0 1 3 3v4"/><path d="M9 9v3a3 3 0 0 0 4.5 2.6"/>' +
+      '<path d="M18 11a6 6 0 0 1-8.7 5.4M6 11a6 6 0 0 0 6 6v4"/></svg></span></div>' +
+      '<span class="nome"></span><span class="papel"></span>';
+    const av = card.querySelector('.av');
     av.textContent = iniciais(nome);
     av.style.background = corDe(p.identity);
     card.querySelector('.nome').textContent = nome;
-    card.querySelector('.papel').textContent = eu ? 'Você' : (silenciado ? 'Sem som' : '');
+    card.querySelector('.papel').textContent = souEu ? 'Você' : (silenciado ? 'Sem som' : '');
     palco.appendChild(card);
   });
 
@@ -434,15 +714,14 @@ function iniciarRelogio() {
   clearInterval(relogio);
   relogio = setInterval(() => {
     const s = Math.floor((Date.now() - inicioCall) / 1000);
-    const mm = String(Math.floor(s / 60)).padStart(2, '0');
-    const ss = String(s % 60).padStart(2, '0');
-    $('cronometro').textContent = mm + ':' + ss;
+    $('cronometro').textContent =
+      String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
   }, 1000);
 }
 
-async function entrarSala() {
-  const sala = ($('sala').value.trim() || sortear()).toUpperCase();
-  if (!/^[A-Z]{4}$/.test(sala)) return aviso('statusLobby', 'O código tem 4 letras.', true);
+async function entrarSala(codigo) {
+  const sala = (codigo || $('sala').value.trim() || sortear()).toUpperCase();
+  if (!/^[A-Z]{4}$/.test(sala)) return aviso('statusLobby', 'O código tem 4 letras.', 'erro');
 
   $('btnEntrarSala').disabled = true;
   aviso('statusLobby', 'Pedindo autorização…');
@@ -460,7 +739,7 @@ async function entrarSala() {
     dados = await resp.json();
   } catch (e) {
     $('btnEntrarSala').disabled = false;
-    return aviso('statusLobby', 'Não consegui autorização: ' + e.message, true);
+    return aviso('statusLobby', 'Não consegui autorização: ' + e.message, 'erro');
   }
 
   tela('telaSala');
@@ -469,8 +748,7 @@ async function entrarSala() {
   $('cronometro').textContent = '00:00';
 
   room = new LK.Room({
-    adaptiveStream: true,
-    dynacast: true,
+    adaptiveStream: true, dynacast: true,
     audioCaptureDefaults: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
   });
 
@@ -496,6 +774,9 @@ async function entrarSala() {
   try {
     await room.connect(dados.url, dados.token);
     await room.localParticipant.setMicrophoneEnabled(true);
+    salaAtual = sala;
+    atualizarPresenca();
+    registrarVisita(sala);
     iniciarRelogio();
     pintarPalco();
   } catch (e) {
@@ -510,11 +791,13 @@ function sairSala() {
   clearInterval(relogio);
   room = null;
   mudo = false;
+  salaAtual = null;
+  atualizarPresenca();
   $('btnMudo').classList.remove('ativo');
   $('palco').innerHTML = '';
   $('bannerAudio').classList.add('oculto');
   aviso('statusLobby', '');
-  tela('telaLobby');
+  tela('telaPainel');
 }
 
 // ————— eventos —————
@@ -525,8 +808,10 @@ $('btnEsqueci').addEventListener('click', recuperarSenha);
 $('senha').addEventListener('keydown', e => { if (e.key === 'Enter') enviarConta(); });
 
 $('btnSortear').addEventListener('click', () => { $('sala').value = sortear(); });
-$('btnEntrarSala').addEventListener('click', entrarSala);
+$('btnEntrarSala').addEventListener('click', () => entrarSala());
 $('sala').addEventListener('keydown', e => { if (e.key === 'Enter') entrarSala(); });
+$('btnAdicionar').addEventListener('click', adicionarAmigo);
+$('buscaAmigo').addEventListener('keydown', e => { if (e.key === 'Enter') adicionarAmigo(); });
 $('btnSairConta').addEventListener('click', () => signOut(auth));
 
 $('btnSair').addEventListener('click', sairSala);
@@ -538,7 +823,6 @@ $('btnMudo').addEventListener('click', async () => {
   mudo = !mudo;
   await room.localParticipant.setMicrophoneEnabled(!mudo);
   $('btnMudo').classList.toggle('ativo', mudo);
-  $('btnMudo').setAttribute('aria-label', mudo ? 'Reativar microfone' : 'Silenciar microfone');
   $('btnMudo').title = mudo ? 'Reativar' : 'Silenciar';
   pintarPalco();
 });
