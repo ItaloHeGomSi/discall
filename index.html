@@ -7,300 +7,280 @@
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
 <style>
   :root {
-    --azul:      #00AFF0;
-    --azul-esc:  #0078D4;
-    --fundo:     #1B1B1F;
-    --sup:       #232327;
-    --sup-2:     #2E2E33;
-    --sup-3:     #3C3C42;
-    --rail:      #131316;
-    --texto:     #FFFFFF;
-    --texto-dim: #ADADB2;
-    --linha:     #33333A;
-    --verde:     #6BB700;
-    --perigo:    #C4314B;
-    --perigo-fc: #D94A61;
-    --topo-h:    56px;
-    --fonte: "Segoe UI", -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+    --fundo:    #0C0C0D;
+    --painel:   #131316;
+    --painel-2: #1A1A1F;
+    --painel-3: #22222A;
+    --linha:    #26262B;
+    --linha-2:  #35353C;
+    --texto:    #D6D6D2;
+    --dim:      #7A7A80;
+    --acento:   #B5FF3D;
+    --acento-2: #2A3A12;
+    --perigo:   #FF4D4D;
+    --perigo-2: #3A1414;
+    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body {
     margin: 0; background: var(--fundo); color: var(--texto);
-    font-family: var(--fonte); overflow: hidden;
+    font-family: var(--sans); font-size: 14px; overflow: hidden;
   }
-  .app { height: 100vh; display: flex; flex-direction: column; }
+  ::-webkit-scrollbar { width: 9px; height: 9px; }
+  ::-webkit-scrollbar-thumb { background: var(--linha-2); }
+  ::-webkit-scrollbar-track { background: transparent; }
 
-  /* ——— barra superior ——— */
-  .topbar {
-    height: var(--topo-h); flex: none; display: flex; align-items: center;
-    gap: 12px; padding: 0 18px; background: var(--rail);
-    border-bottom: 1px solid var(--linha);
+  .rot {
+    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--dim);
   }
-  .marca { font-size: 16px; font-weight: 700; letter-spacing: -0.01em; }
-  .marca span { color: var(--azul); }
-  .topbar .fim { margin-left: auto; display: flex; align-items: center; gap: 12px; }
-  .eu-chip { display: flex; align-items: center; gap: 10px; }
-  .eu-chip .eu-nome { font-size: 14px; font-weight: 600; line-height: 1.2; }
-  .eu-chip .eu-tag { font-size: 11px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
 
-  /* ——— tela de conta ——— */
-  #telaConta { flex: 1; display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .cartao { width: 100%; max-width: 380px; background: var(--sup); border: 1px solid var(--linha); border-radius: 12px; }
-  .cartao .topo { padding: 22px 24px 16px; }
-  .cartao h1 { font-size: 22px; font-weight: 600; margin: 0; }
-  .cartao .topo p { margin: 6px 0 0; font-size: 14px; color: var(--texto-dim); line-height: 1.5; }
-  .cartao .corpo { padding: 4px 24px 24px; }
+  /* ——— login ——— */
+  #telaConta { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
+  .cartao { width: 100%; max-width: 360px; background: var(--painel); border: 1px solid var(--linha-2); }
+  .cartao .cab { padding: 18px 20px; border-bottom: 1px solid var(--linha); }
+  .cartao .cab h1 { font-family: var(--mono); font-size: 18px; font-weight: 500; letter-spacing: 0.08em; margin: 0; }
+  .cartao .cab h1 b { color: var(--acento); font-weight: 500; }
+  .cartao .cab p { margin: 7px 0 0; font-size: 13px; color: var(--dim); line-height: 1.5; }
+  .cartao .corpo { padding: 18px 20px 20px; }
 
-  /* ——— formulários ——— */
-  label { display: block; font-size: 13px; font-weight: 600; color: var(--texto-dim); margin-bottom: 6px; }
-  input, select {
-    width: 100%; background: var(--sup-2); border: 1px solid transparent; border-radius: 6px;
-    color: var(--texto); font-family: inherit; font-size: 15px; padding: 10px 12px;
+  label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
+  input, select, textarea {
+    width: 100%; background: var(--fundo); border: 1px solid var(--linha-2); border-radius: 0;
+    color: var(--texto); font-family: inherit; font-size: 14px; padding: 9px 10px;
   }
-  select { padding: 7px 8px; font-size: 13px; font-weight: 600; width: auto; }
-  input::placeholder { color: #74747A; }
-  input:focus, select:focus { border-color: var(--azul); outline: none; }
-  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
-  .campo { margin-bottom: 14px; }
-  .linha-dupla { display: flex; gap: 8px; }
-  .linha-dupla input { flex: 1; min-width: 0; }
-  .largura-curta { width: 76px; flex: none !important; text-align: center; }
+  select { padding: 5px 6px; font-size: 12px; width: auto; font-family: var(--mono); }
+  input::placeholder { color: #55555B; }
+  input:focus, select:focus { border-color: var(--acento); outline: none; }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 1px solid var(--acento); outline-offset: 1px; }
+  .campo { margin-bottom: 13px; }
+  .par { display: flex; gap: 6px; }
+  .par input { flex: 1; min-width: 0; }
+  .curto { width: 62px; flex: none !important; text-align: center; }
 
-  button { font-family: inherit; cursor: pointer; border: none; }
-  .btn { background: var(--sup-2); color: var(--texto); border-radius: 6px; font-size: 14px; font-weight: 600; padding: 10px 15px; }
-  .btn:hover:not(:disabled) { background: var(--sup-3); }
-  .btn-azul { background: var(--azul); color: #06232E; }
-  .btn-azul:hover:not(:disabled) { background: #2CC0F5; }
-  .btn-bloco { width: 100%; padding: 12px; }
-  .btn-mini { font-size: 12px; padding: 6px 10px; border-radius: 5px; }
-  .btn-perigo { color: var(--perigo-fc); }
-  .btn-perigo:hover:not(:disabled) { background: var(--perigo); color: #fff; }
-  button:disabled { opacity: 0.5; cursor: not-allowed; }
-  .btn-texto { background: none; color: var(--azul); font-size: 13px; font-weight: 600; padding: 0; }
-  .btn-texto:hover:not(:disabled) { text-decoration: underline; }
+  button { font-family: inherit; cursor: pointer; border: none; border-radius: 0; }
+  .btn {
+    background: transparent; color: var(--texto); border: 1px solid var(--linha-2);
+    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--acento); color: var(--acento); }
+  .btn-acento { background: var(--acento); border-color: var(--acento); color: #0C0C0D; font-weight: 700; }
+  .btn-acento:hover:not(:disabled) { background: #C9FF6B; border-color: #C9FF6B; color: #0C0C0D; }
+  .btn-full { width: 100%; padding: 10px; }
+  .btn-mini { font-size: 10px; padding: 4px 7px; }
+  .btn-perigo { color: var(--perigo); border-color: var(--linha-2); }
+  .btn-perigo:hover:not(:disabled) { background: var(--perigo); border-color: var(--perigo); color: #0C0C0D; }
+  button:disabled { opacity: 0.35; cursor: not-allowed; }
+  .btn-txt { background: none; border: none; color: var(--acento); font-family: var(--mono); font-size: 11px; padding: 0; letter-spacing: 0.06em; }
+  .btn-txt:hover:not(:disabled) { text-decoration: underline; }
 
-  .abas { display: flex; margin-bottom: 18px; border-bottom: 1px solid var(--linha); }
+  .abas { display: flex; border-bottom: 1px solid var(--linha); margin-bottom: 16px; }
   .abas button {
-    flex: 1; background: none; color: var(--texto-dim); font-size: 13px; font-weight: 600;
-    padding: 9px 0; border-bottom: 2px solid transparent; margin-bottom: -1px;
+    flex: 1; background: none; color: var(--dim); font-family: var(--mono); font-size: 11px;
+    letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 0;
+    border-bottom: 1px solid transparent; margin-bottom: -1px;
   }
-  .abas button[aria-selected="true"] { color: var(--azul); border-bottom-color: var(--azul); }
-  .abas button:hover:not(:disabled) { color: var(--texto); }
+  .abas button[aria-selected="true"] { color: var(--acento); border-bottom-color: var(--acento); }
 
-  .aviso { font-size: 13px; color: var(--texto-dim); margin: 0 0 14px; line-height: 1.5; }
-  .aviso.erro { color: var(--perigo-fc); }
-  .aviso.ok { color: var(--verde); }
+  .aviso { font-size: 12px; color: var(--dim); margin: 0 0 12px; line-height: 1.5; }
+  .aviso.erro { color: var(--perigo); }
+  .aviso.ok { color: var(--acento); }
   .aviso:empty { display: none; }
-  .dica { font-size: 12px; color: var(--texto-dim); margin: 12px 0 0; line-height: 1.5; }
+  .dica { font-size: 11px; color: var(--dim); margin: 10px 0 0; line-height: 1.5; }
+  .vazio { font-size: 12px; color: var(--dim); line-height: 1.6; margin: 0; }
 
-  .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; flex: none; }
-  .av-24 { width: 24px; height: 24px; font-size: 10px; }
-  .av-32 { width: 32px; height: 32px; font-size: 13px; }
-  .av-36 { width: 36px; height: 36px; font-size: 14px; }
-  .av-72 { width: 72px; height: 72px; font-size: 25px; }
-  .av-wrap { position: relative; }
-  .ponto {
-    position: absolute; right: -1px; bottom: -1px; width: 12px; height: 12px;
-    border-radius: 50%; background: #6E6E73; border: 2.5px solid var(--sup);
+  /* ——— grade principal ——— */
+  #telaApp { height: 100vh; display: grid; grid-template-columns: 60px 210px 1fr 280px; }
+  .painel { background: var(--painel); border-right: 1px solid var(--linha-2); min-height: 0; display: flex; flex-direction: column; }
+  .painel:last-child { border-right: none; border-left: 1px solid var(--linha-2); }
+  .cab-painel {
+    height: 34px; flex: none; display: flex; align-items: center; gap: 8px;
+    padding: 0 11px; border-bottom: 1px solid var(--linha);
   }
-  .ponto.on { background: var(--verde); }
-  .ponto.call { background: var(--azul); }
+  .rolagem { flex: 1; min-height: 0; overflow-y: auto; padding: 11px; }
 
-  /* ——— convite ——— */
-  .convite { flex: none; display: flex; align-items: center; gap: 12px; padding: 12px 20px; background: var(--azul-esc); }
-  .convite .txt { flex: 1; min-width: 0; }
-  .convite .t1 { font-size: 14px; font-weight: 600; }
-  .convite .t2 { font-size: 12px; opacity: 0.85; margin-top: 1px; }
-  .convite button { border-radius: 6px; font-size: 13px; font-weight: 600; padding: 8px 14px; }
-  .convite .aceitar { background: #fff; color: var(--azul-esc); }
-  .convite .dispensar { background: rgba(255,255,255,0.18); color: #fff; }
-
-  /* ——— painel em tela cheia ——— */
-  #telaPainel { flex: 1; min-height: 0; display: grid; grid-template-columns: 72px 300px 1fr; }
-  .rail {
-    background: var(--rail); padding: 14px 0; display: flex; flex-direction: column;
-    align-items: center; gap: 10px; overflow-y: auto; border-right: 1px solid var(--linha);
+  /* rail */
+  .rail { background: var(--fundo); align-items: center; padding: 10px 0; gap: 8px; }
+  .rail .grupos { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
+  .rail .gbtn {
+    width: 38px; height: 38px; flex: none; background: var(--painel-2);
+    border: 1px solid var(--linha-2); color: var(--texto);
+    font-family: var(--mono); font-size: 12px; font-weight: 700;
+    display: flex; align-items: center; justify-content: center;
   }
-  .rail button {
-    width: 44px; height: 44px; border-radius: 14px; background: var(--sup-2); flex: none;
-    color: var(--texto); font-size: 15px; font-weight: 700; display: flex;
-    align-items: center; justify-content: center; transition: border-radius 140ms ease;
+  .rail .gbtn:hover { border-color: var(--acento); }
+  .rail .gbtn.ativo { border-color: var(--acento); color: var(--acento); box-shadow: inset 2px 0 0 var(--acento); }
+  .rail .novo { background: transparent; border-style: dashed; color: var(--dim); font-size: 16px; }
+  .rail .disp { flex: none; display: flex; flex-direction: column; gap: 6px; padding-top: 8px; border-top: 1px solid var(--linha); width: 38px; }
+  .disp button {
+    width: 38px; height: 32px; background: var(--painel-2); border: 1px solid var(--linha-2);
+    color: var(--texto); display: flex; align-items: center; justify-content: center;
   }
-  .rail button:hover { border-radius: 12px; }
-  .rail button.ativo { border-radius: 12px; box-shadow: 0 0 0 2px var(--azul); }
-  .rail .novo { background: transparent; border: 1.5px dashed var(--sup-3); color: var(--texto-dim); font-size: 20px; }
-  .rail .novo:hover { border-color: var(--azul); color: var(--azul); }
+  .disp button svg { width: 16px; height: 16px; }
+  .disp button.off { color: var(--perigo); border-color: var(--perigo-2); background: var(--perigo-2); }
 
-  .col { padding: 18px; overflow-y: auto; min-height: 0; }
-  .col-salas { background: var(--sup); border-right: 1px solid var(--linha); }
+  /* salas */
+  .sala {
+    display: flex; align-items: center; gap: 7px; padding: 6px 8px;
+    margin: 0 -8px; cursor: pointer; font-size: 13px;
+  }
+  .sala:hover { background: var(--painel-2); }
+  .sala.ativa { background: var(--acento-2); color: var(--acento); }
+  .sala .marca { font-family: var(--mono); font-size: 13px; color: var(--dim); flex: none; }
+  .sala.ativa .marca { color: var(--acento); }
+  .sala .nome { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sala .qtd { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+  .dentro { padding: 2px 0 6px 22px; display: flex; flex-direction: column; gap: 4px; }
+  .dentro span { font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 6px; }
 
-  h2 { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--texto-dim); margin: 0 0 12px; }
-  .bloco + .bloco { margin-top: 24px; }
+  /* centro */
+  .palco {
+    flex: 1; min-height: 0; overflow-y: auto; padding: 18px;
+    display: grid; gap: 12px; align-content: center;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+  .tile {
+    position: relative; background: var(--painel-2); border: 1px solid var(--linha-2);
+    aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; overflow: hidden;
+  }
+  .tile.falando { border-color: var(--acento); }
+  .tile video { width: 100%; height: 100%; object-fit: cover; background: #000; }
+  .tile .marca-nome {
+    position: absolute; left: 0; bottom: 0; display: flex; align-items: center; gap: 6px;
+    padding: 4px 8px; background: rgba(12,12,13,0.82); font-family: var(--mono); font-size: 11px;
+  }
+  .tile.mudo .marca-nome i { color: var(--perigo); }
+  .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0C0C0D; flex: none; font-family: var(--mono); }
+  .av-20 { width: 20px; height: 20px; font-size: 9px; }
+  .av-26 { width: 26px; height: 26px; font-size: 10px; }
+  .av-30 { width: 30px; height: 30px; font-size: 11px; }
+  .av-64 { width: 64px; height: 64px; font-size: 21px; }
 
-  .grupo-topo { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
-  .grupo-topo .g-nome { font-size: 17px; font-weight: 600; }
-  .grupo-topo .g-handle { font-size: 12px; color: var(--texto-dim); margin-top: 3px; display: flex; align-items: center; gap: 8px; }
-  .grupo-topo .fim { margin-left: auto; }
+  .barra-call {
+    flex: none; display: flex; align-items: center; justify-content: center; gap: 10px;
+    padding: 12px; border-top: 1px solid var(--linha-2); background: var(--fundo);
+  }
+  .barra-call button {
+    width: 46px; height: 40px; background: var(--painel-2); border: 1px solid var(--linha-2);
+    color: var(--texto); display: flex; align-items: center; justify-content: center;
+  }
+  .barra-call button:hover { border-color: var(--acento); color: var(--acento); }
+  .barra-call button.off { color: var(--perigo); border-color: var(--perigo-2); background: var(--perigo-2); }
+  .barra-call button svg { width: 18px; height: 18px; }
+  .barra-call .sair { width: 62px; background: var(--perigo); border-color: var(--perigo); color: #0C0C0D; }
+  .barra-call .sair:hover { background: #FF6B6B; border-color: #FF6B6B; color: #0C0C0D; }
 
-  .sala { border-radius: 8px; padding: 8px 10px; margin: 0 -10px; }
-  .sala:hover { background: var(--sup-2); }
-  .sala-cab { display: flex; align-items: center; gap: 8px; }
-  .sala-cab .hash { color: var(--texto-dim); font-size: 16px; font-weight: 600; }
-  .sala-cab .s-nome { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sala-cab .acoes { display: flex; gap: 6px; }
-  .dentro { display: flex; flex-direction: column; gap: 6px; padding: 8px 0 2px 24px; }
-  .dentro .quem { display: flex; align-items: center; gap: 7px; font-size: 12px; color: var(--texto-dim); }
-
-  /* área principal em cartões que se reorganizam */
-  .cards { display: grid; gap: 18px; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
-  .card { background: var(--sup); border: 1px solid var(--linha); border-radius: 10px; padding: 16px 18px; }
+  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
+  .card { background: var(--painel-2); border: 1px solid var(--linha); padding: 13px 14px; }
+  .card > .rot { display: block; margin-bottom: 10px; }
 
   .lista { list-style: none; margin: 0; padding: 0; }
-  .lista li { display: flex; align-items: center; gap: 11px; padding: 8px 10px; border-radius: 8px; margin: 0 -10px; }
-  .lista li:hover { background: var(--sup-2); }
+  .lista li { display: flex; align-items: center; gap: 9px; padding: 6px 8px; margin: 0 -8px; }
+  .lista li:hover { background: var(--painel-3); }
   .lista .txt { min-width: 0; flex: 1; }
-  .lista .t1 { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
-  .lista .t2 { font-size: 12px; color: var(--texto-dim); margin-top: 1px; }
-  .lista .acoes { display: flex; gap: 6px; flex: none; align-items: center; }
-  .vazio { font-size: 13px; color: var(--texto-dim); line-height: 1.5; margin: 0; }
+  .lista .t1 { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
+  .lista .t2 { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-top: 2px; }
+  .lista .acoes { display: flex; gap: 5px; flex: none; align-items: center; }
+  .pt { width: 7px; height: 7px; flex: none; background: #45454B; }
+  .pt.on { background: var(--acento); }
+  .pt.call { background: #3DC8FF; }
 
-  .selo-cargo {
-    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
-    padding: 2px 7px; border-radius: 999px; flex: none;
-  }
+  .tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 5px; color: #0C0C0D; flex: none; }
 
-  .cargo-card { background: var(--sup-2); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
-  .cargo-cab { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
-  .cargo-cab .c-nome { font-size: 14px; font-weight: 600; flex: 1; }
-  .cargo-cab .c-nivel { font-size: 11px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
-  .perms { display: flex; flex-direction: column; gap: 6px; }
-  .perms label {
-    display: flex; align-items: center; gap: 8px; font-size: 12px;
-    font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--texto); margin: 0;
-  }
-  .perms input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--azul); flex: none; padding: 0; }
-  .perms label.travado { color: var(--texto-dim); }
+  .cargo-bloco { border: 1px solid var(--linha); padding: 10px 11px; margin-bottom: 9px; }
+  .cargo-cab { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .cargo-cab .cn { font-size: 13px; flex: 1; }
+  .cargo-cab .cnv { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+  .perms { display: flex; flex-direction: column; gap: 5px; }
+  .perms label { display: flex; align-items: center; gap: 7px; font-family: var(--sans); font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--texto); margin: 0; }
+  .perms input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--acento); flex: none; padding: 0; }
+  .perms label.travado { color: var(--dim); }
 
-  /* ——— call em tela cheia ——— */
-  #telaSala { flex: 1; min-height: 0; display: flex; flex-direction: column; }
-  .call-topo { flex: none; display: flex; align-items: center; justify-content: space-between; padding: 14px 24px; border-bottom: 1px solid var(--linha); }
-  .call-titulo { font-size: 17px; font-weight: 600; margin: 0; }
-  .call-sub { font-size: 13px; color: var(--texto-dim); margin: 3px 0 0; }
-  .cronometro { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto-dim); background: var(--sup-2); padding: 5px 12px; border-radius: 999px; }
+  /* chat */
+  .chat-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 11px; display: flex; flex-direction: column; gap: 11px; }
+  .msg { display: flex; gap: 8px; }
+  .msg .corpo { min-width: 0; flex: 1; }
+  .msg .quem { font-family: var(--mono); font-size: 10px; color: var(--dim); display: flex; gap: 7px; align-items: baseline; }
+  .msg .quem b { color: var(--texto); font-weight: 500; font-size: 11px; }
+  .msg .texto { font-size: 13px; line-height: 1.5; word-wrap: break-word; margin-top: 2px; white-space: pre-wrap; }
+  .chat-envio { flex: none; border-top: 1px solid var(--linha); padding: 9px; display: flex; gap: 6px; }
+  .chat-envio input { font-size: 13px; padding: 8px 9px; }
 
-  .palco {
-    flex: 1; min-height: 0; overflow-y: auto; padding: 32px;
-    display: grid; gap: 18px; align-content: center; justify-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(170px, 200px));
-  }
-  .pessoa { background: var(--sup); border: 1px solid var(--linha); border-radius: 12px; padding: 24px 14px 18px; display: flex; flex-direction: column; align-items: center; gap: 11px; }
-  .pessoa.falando { border-color: var(--azul); }
-  .pessoa .av { box-shadow: 0 0 0 0 rgba(0,175,240,0); transition: box-shadow 140ms ease; }
-  .pessoa.falando .av { box-shadow: 0 0 0 5px rgba(0,175,240,0.5); }
-  .selo {
-    position: absolute; right: -2px; bottom: -2px; width: 26px; height: 26px; border-radius: 50%;
-    background: var(--perigo); border: 3px solid var(--sup);
-    display: none; align-items: center; justify-content: center;
-  }
-  .pessoa.mudo .selo { display: flex; }
-  .selo svg { width: 13px; height: 13px; }
-  .pessoa .nome { font-size: 15px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .pessoa .papel { font-size: 12px; color: var(--texto-dim); margin-top: -7px; }
-
-  .gaveta { flex: none; padding: 0 24px 10px; }
-  .gaveta .caixa { background: var(--sup); border: 1px solid var(--linha); border-radius: 10px; padding: 14px 18px; max-height: 30vh; overflow-y: auto; }
-
-  .barra { flex: none; display: flex; align-items: center; justify-content: center; gap: 14px; padding: 16px 24px 22px; border-top: 1px solid var(--linha); }
-  .ctrl { width: 52px; height: 52px; border-radius: 50%; background: var(--sup-2); color: var(--texto); display: flex; align-items: center; justify-content: center; transition: background 120ms ease; }
-  .ctrl:hover:not(:disabled) { background: var(--sup-3); }
-  .ctrl.ativo { background: var(--texto); color: var(--fundo); }
-  .ctrl svg { width: 22px; height: 22px; }
-  .desligar { width: 68px; background: var(--perigo); color: #fff; border-radius: 26px; margin-left: 10px; }
-  .desligar:hover { background: var(--perigo-fc); }
-
-  .banner { flex: none; margin: 10px 24px 0; padding: 12px 16px; border-radius: 8px; background: var(--azul-esc); color: #fff; font-size: 14px; font-weight: 600; display: flex; align-items: center; justify-content: space-between; gap: 12px; }
-  .banner button { background: #fff; color: var(--azul-esc); border-radius: 6px; padding: 7px 14px; font-size: 13px; font-weight: 600; }
+  .perfil { display: flex; align-items: center; gap: 9px; padding: 9px 11px; border-bottom: 1px solid var(--linha-2); }
+  .perfil .nm { font-size: 13px; }
+  .perfil .hd { font-family: var(--mono); font-size: 10px; color: var(--dim); }
+  .perfil .fim { margin-left: auto; }
 
   .oculto { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { .av, .ctrl, .rail button { transition: none; } }
-
-  @media (max-width: 900px) {
-    #telaPainel { grid-template-columns: 60px 1fr; grid-template-rows: auto 1fr; }
-    .rail { grid-row: 1 / -1; }
-    .col-salas { grid-column: 2; grid-row: 1; max-height: 42vh; border-right: none; border-bottom: 1px solid var(--linha); }
-    .col-main { grid-column: 2; grid-row: 2; }
-    .palco { padding: 20px; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); }
+  @media (max-width: 1000px) {
+    #telaApp { grid-template-columns: 52px 180px 1fr; }
+    .painel.col-dir { display: none; }
   }
 </style>
 </head>
 <body>
 
-<main class="app" id="app">
-
-  <div class="convite oculto" id="toastConvite">
-    <div class="av av-36" id="convAvatar">?</div>
-    <div class="txt">
-      <div class="t1" id="convTitulo">—</div>
-      <div class="t2" id="convSub">—</div>
+<!-- ——— conta ——— -->
+<div id="telaConta">
+  <div class="cartao">
+    <div class="cab">
+      <h1>DIS<b>CALL</b></h1>
+      <p>Entre para conversar por voz com seus grupos.</p>
     </div>
-    <button class="aceitar" id="btnAceitarConvite">Entrar</button>
-    <button class="dispensar" id="btnDispensarConvite">Agora não</button>
-  </div>
-
-  <div class="topbar oculto" id="topbar">
-    <span class="marca">dis<span>call</span></span>
-    <div class="fim">
-      <div class="eu-chip">
-        <div class="av-wrap">
-          <div class="av av-36" id="euAvatar">?</div>
-          <span class="ponto on"></span>
-        </div>
-        <div>
-          <div class="eu-nome" id="euNome">—</div>
-          <div class="eu-tag" id="euTag">—</div>
-        </div>
+    <div class="corpo">
+      <div class="abas" role="tablist">
+        <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
+        <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
       </div>
-      <button class="btn-texto" id="btnSairConta">Sair</button>
+      <div class="campo oculto" id="campoNome">
+        <label for="nome">Nome de exibição</label>
+        <input id="nome" maxlength="18" placeholder="Como quer aparecer" autocomplete="nickname">
+      </div>
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+      </div>
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+      </div>
+      <p class="aviso" id="statusConta"></p>
+      <button class="btn btn-acento btn-full" id="btnConta">Entrar</button>
+      <p class="dica"><button class="btn-txt" id="btnEsqueci">Esqueci minha senha</button></p>
     </div>
   </div>
+</div>
 
-  <!-- ——— conta ——— -->
-  <div id="telaConta">
-    <div class="cartao">
-      <div class="topo">
-        <h1>discall</h1>
-        <p>Entre para conversar por voz com seus amigos.</p>
-      </div>
-      <div class="corpo">
-        <div class="abas" role="tablist">
-          <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
-          <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
-        </div>
-        <div class="campo oculto" id="campoNome">
-          <label for="nome">Nome de exibição</label>
-          <input id="nome" maxlength="18" placeholder="Como quer aparecer" autocomplete="nickname">
-        </div>
-        <div class="campo">
-          <label for="email">E-mail</label>
-          <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
-        </div>
-        <div class="campo">
-          <label for="senha">Senha</label>
-          <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
-        </div>
-        <p class="aviso" id="statusConta"></p>
-        <button class="btn btn-azul btn-bloco" id="btnConta">Entrar</button>
-        <p class="dica"><button class="btn-texto" id="btnEsqueci">Esqueci minha senha</button></p>
-      </div>
+<!-- ——— app ——— -->
+<div id="telaApp" class="oculto">
+
+  <!-- coluna 1: grupos + dispositivos -->
+  <div class="painel rail">
+    <div class="grupos" id="rail"></div>
+    <div class="disp">
+      <button id="btnMicRail" title="Microfone" aria-label="Microfone" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+        </svg>
+      </button>
+      <button id="btnCamRail" title="Câmera" aria-label="Câmera" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </button>
     </div>
   </div>
 
-  <!-- ——— painel ——— -->
-  <div id="telaPainel" class="oculto">
-    <div class="rail" id="rail"></div>
-
-    <div class="col col-salas">
+  <!-- coluna 2: salas -->
+  <div class="painel">
+    <div class="cab-painel">
+      <span class="rot" id="rotSalas">Salas</span>
+      <button class="btn-txt oculto" id="btnCopiarCodigo" style="margin-left:auto">código</button>
+    </div>
+    <div class="rolagem">
       <div id="areaNovoGrupo" class="oculto">
         <div class="abas" role="tablist">
           <button role="tab" id="abaCriarG" aria-selected="true">Criar</button>
@@ -311,123 +291,142 @@
             <label for="nomeGrupo">Nome do grupo</label>
             <input id="nomeGrupo" maxlength="24" placeholder="Time do trampo" autocomplete="off">
           </div>
-          <button class="btn btn-azul btn-bloco" id="btnCriarGrupo">Criar grupo</button>
+          <button class="btn btn-acento btn-full" id="btnCriarGrupo">Criar grupo</button>
         </div>
         <div id="formEntrarG" class="oculto">
           <div class="campo">
-            <label for="codigoGrupo">Código do grupo</label>
+            <label for="codigoGrupo">Código</label>
             <input id="codigoGrupo" placeholder="time_do_trampo#ETFQ" autocomplete="off">
           </div>
-          <button class="btn btn-azul btn-bloco" id="btnEntrarGrupo">Entrar no grupo</button>
+          <button class="btn btn-acento btn-full" id="btnEntrarGrupo">Entrar no grupo</button>
         </div>
-        <p class="aviso" id="statusGrupo" style="margin-top:14px"></p>
+        <p class="aviso" id="statusGrupo" style="margin-top:12px"></p>
       </div>
 
-      <div id="areaGrupo" class="oculto">
-        <div class="grupo-topo">
-          <div>
-            <div class="g-nome" id="gNome">—</div>
-            <div class="g-handle oculto" id="gHandleLinha">
-              <span id="gHandle">—</span>
-              <button class="btn-texto" id="btnCopiarCodigo">copiar</button>
-            </div>
-          </div>
-          <div class="fim"><button class="btn-texto btn-perigo" id="btnSairGrupo">Sair</button></div>
-        </div>
-
-        <h2>Salas de voz</h2>
-        <div id="listaSalas"></div>
-        <div class="linha-dupla oculto" id="areaNovaSala" style="margin-top:14px">
+      <div id="areaSalas" class="oculto">
+        <div id="listaVoz"></div>
+        <div class="rot" style="margin:16px 0 8px">Texto</div>
+        <div id="listaTexto"></div>
+        <div class="par oculto" id="areaNovaSala" style="margin-top:14px">
           <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
-          <button class="btn" id="btnCriarSala">Criar</button>
+          <select id="tipoSala"><option value="voz">voz</option><option value="texto">texto</option></select>
+          <button class="btn" id="btnCriarSala">+</button>
         </div>
-        <p class="aviso" id="statusSala" style="margin-top:12px"></p>
+        <p class="aviso" id="statusSala" style="margin-top:10px"></p>
+        <button class="btn-txt btn-perigo" id="btnSairGrupo" style="background:none;border:none;margin-top:14px;color:var(--perigo)">Sair do grupo</button>
       </div>
 
-      <p class="vazio" id="semGrupo">Você ainda não faz parte de nenhum grupo. Use o + ao lado para criar um ou entrar com um código.</p>
-    </div>
-
-    <div class="col col-main">
-      <div class="cards">
-        <div class="card oculto" id="blocoMembros">
-          <h2>Membros</h2>
-          <ul class="lista" id="listaMembros"></ul>
-        </div>
-
-        <div class="card oculto" id="blocoCargos">
-          <h2>Cargos</h2>
-          <div id="listaCargos"></div>
-          <div class="linha-dupla" style="margin-top:12px">
-            <input id="nomeCargo" maxlength="18" placeholder="Novo cargo" autocomplete="off">
-            <input id="nivelCargo" class="largura-curta" type="number" min="1" max="99" value="10" title="Nível">
-            <button class="btn" id="btnCriarCargo">Criar</button>
-          </div>
-          <p class="aviso" id="statusCargo" style="margin-top:12px"></p>
-          <p class="dica">Quanto maior o nível, mais alto o cargo. Ninguém mexe em cargo de nível igual ou acima do seu.</p>
-        </div>
-
-        <div class="card">
-          <h2>Amigos</h2>
-          <div class="linha-dupla" style="margin-bottom:14px">
-            <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
-            <button class="btn btn-azul" id="btnAdicionar">Adicionar</button>
-          </div>
-          <p class="aviso" id="statusAmigo"></p>
-          <div class="bloco oculto" id="blocoPedidos">
-            <h2>Pedidos recebidos</h2>
-            <ul class="lista" id="listaPedidos"></ul>
-          </div>
-          <ul class="lista" id="listaAmigos"></ul>
-          <p class="vazio oculto" id="vazioAmigos">Ninguém ainda. Peça o identificador de alguém e mande um convite.</p>
-        </div>
-      </div>
+      <p class="vazio" id="semGrupo">Nenhum grupo ainda. Use o + ao lado para criar um ou entrar com um código.</p>
     </div>
   </div>
 
-  <!-- ——— call ——— -->
-  <div id="telaSala" class="oculto">
-    <div class="call-topo">
-      <div>
-        <p class="call-titulo" id="callTitulo">Sala</p>
-        <p class="call-sub" id="callSub">Conectando…</p>
-      </div>
-      <span class="cronometro" id="cronometro">00:00</span>
-    </div>
-    <div class="banner oculto" id="bannerAudio">
-      <span>O navegador bloqueou o som.</span>
-      <button id="btnLiberarAudio">Tocar áudio</button>
-    </div>
-    <div class="palco" id="palco"></div>
-
-    <div class="gaveta oculto" id="gavetaConvidar">
-      <div class="caixa">
-        <h2>Chamar um amigo</h2>
-        <ul class="lista" id="listaConvidar"></ul>
-        <p class="vazio oculto" id="vazioConvidar">Nenhum amigo seu está neste grupo.</p>
-      </div>
+  <!-- coluna 3: painel central -->
+  <div class="painel">
+    <div class="cab-painel">
+      <span class="rot" id="rotCentro">Grupo</span>
+      <span class="rot" id="relogio" style="margin-left:auto"></span>
     </div>
 
-    <div class="barra">
-      <button class="ctrl" id="btnMudo" aria-label="Silenciar microfone" title="Silenciar">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <div class="rolagem oculto" id="visaoGrupo">
+      <div class="cards">
+        <div class="card oculto" id="blocoMembros">
+          <span class="rot">Membros</span>
+          <ul class="lista" id="listaMembros"></ul>
+        </div>
+        <div class="card oculto" id="blocoCargos">
+          <span class="rot">Cargos</span>
+          <div id="listaCargos"></div>
+          <div class="par" style="margin-top:10px">
+            <input id="nomeCargo" maxlength="18" placeholder="Novo cargo" autocomplete="off">
+            <input id="nivelCargo" class="curto" type="number" min="1" max="99" value="10" title="Nível">
+            <button class="btn" id="btnCriarCargo">+</button>
+          </div>
+          <p class="aviso" id="statusCargo" style="margin-top:10px"></p>
+        </div>
+        <div class="card">
+          <span class="rot">Amigos</span>
+          <div class="par" style="margin-bottom:11px">
+            <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
+            <button class="btn" id="btnAdicionar">+</button>
+          </div>
+          <p class="aviso" id="statusAmigo"></p>
+          <div class="oculto" id="blocoPedidos" style="margin-bottom:12px">
+            <span class="rot" style="display:block;margin-bottom:8px">Pedidos</span>
+            <ul class="lista" id="listaPedidos"></ul>
+          </div>
+          <ul class="lista" id="listaAmigos"></ul>
+          <p class="vazio oculto" id="vazioAmigos">Ninguém ainda. Peça o identificador de alguém.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="palco oculto" id="palco"></div>
+
+    <div class="barra-call oculto" id="barraCall">
+      <button id="btnMudo" title="Microfone" aria-label="Microfone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
         </svg>
       </button>
-      <button class="ctrl" id="btnConvidar" aria-label="Chamar um amigo" title="Chamar um amigo">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <button id="btnCam" title="Câmera" aria-label="Câmera">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </button>
+      <button id="btnConvidar" title="Chamar um amigo" aria-label="Chamar um amigo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
           <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/>
           <circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
         </svg>
       </button>
-      <button class="ctrl desligar" id="btnSair" aria-label="Sair da call" title="Sair da call">
+      <button class="sair" id="btnSairCall" title="Sair da chamada" aria-label="Sair da chamada">
         <svg viewBox="0 0 24 24" fill="currentColor">
           <path d="M12 9c-1.6 0-3.15.25-4.6.7v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.98.98 0 0 1-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .27-.11.52-.29.7l-2.48 2.46c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28a11.27 11.27 0 0 0-2.67-1.85.996.996 0 0 1-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
         </svg>
       </button>
     </div>
+
+    <div class="oculto" id="gavetaConvidar" style="flex:none;border-top:1px solid var(--linha-2);padding:11px;max-height:26vh;overflow-y:auto">
+      <span class="rot" style="display:block;margin-bottom:8px">Chamar um amigo</span>
+      <ul class="lista" id="listaConvidar"></ul>
+      <p class="vazio oculto" id="vazioConvidar">Nenhum amigo seu está neste grupo.</p>
+    </div>
+
+    <p class="vazio" id="semGrupoCentro" style="padding:18px">Selecione ou crie um grupo para começar.</p>
   </div>
-</main>
+
+  <!-- coluna 4: perfil + chat -->
+  <div class="painel col-dir">
+    <div class="perfil">
+      <div class="av av-30" id="euAvatar">?</div>
+      <div>
+        <div class="nm" id="euNome">—</div>
+        <div class="hd" id="euTag">—</div>
+      </div>
+      <div class="fim"><button class="btn-txt" id="btnSairConta">sair</button></div>
+    </div>
+    <div class="cab-painel">
+      <span class="rot" id="rotChat">Chat</span>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-envio">
+      <input id="chatTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
+      <button class="btn" id="btnEnviar" disabled>→</button>
+    </div>
+  </div>
+</div>
+
+<!-- convite recebido -->
+<div id="toastConvite" class="oculto" style="position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:11px;padding:11px 16px;background:var(--acento);color:#0C0C0D">
+  <div class="av av-30" id="convAvatar" style="background:#0C0C0D;color:var(--acento)">?</div>
+  <div style="flex:1;min-width:0">
+    <div style="font-size:13px;font-weight:700" id="convTitulo">—</div>
+    <div style="font-family:var(--mono);font-size:11px" id="convSub">—</div>
+  </div>
+  <button class="btn" id="btnAceitarConvite" style="background:#0C0C0D;border-color:#0C0C0D;color:var(--acento)">Entrar</button>
+  <button class="btn" id="btnDispensarConvite" style="border-color:#0C0C0D;color:#0C0C0D">Agora não</button>
+</div>
 
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js';
@@ -436,14 +435,13 @@ import {
   signOut, onAuthStateChanged, updateProfile, sendPasswordResetEmail
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js';
 import {
-  getFirestore, doc, getDoc, setDoc, updateDoc, deleteDoc, collection,
-  query, where, onSnapshot, serverTimestamp
+  getFirestore, doc, getDoc, setDoc, addDoc, updateDoc, deleteDoc, collection,
+  query, where, orderBy, limit, onSnapshot, serverTimestamp
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-firestore.js';
 import {
   getDatabase, ref, onValue, onDisconnect, set as rtSet, remove as rtRemove
 } from 'https://www.gstatic.com/firebasejs/11.0.2/firebase-database.js';
 
-// ————— configuração —————
 const firebaseConfig = {
   apiKey: "AIzaSyCoQ15L0qhRsYFJeXeJuNxIrqCuTATuTzQ",
   authDomain: "discall-4897e.firebaseapp.com",
@@ -479,29 +477,16 @@ const rtdb = getDatabase(fb);
 const LK   = window.LivekitClient;
 const $ = id => document.getElementById(id);
 
-let eu = null;
-let room = null;
-let mudo = false;
+let eu = null, room = null, mudo = false, camLigada = false;
 let modo = 'entrar';
-let grupoAtivo = null;
-let grupoNaCall = null;
-let salaNaCall = null;
-let souDono = false;
-let meuCargo = null;
-let migrando = false;
-let relogio = null;
-let inicioCall = 0;
-let convitePendente = null;
+let grupoAtivo = null, grupoNaCall = null, salaNaCall = null, canalTexto = null;
+let souDono = false, meuCargo = null, migrando = false;
+let relogio = null, inicioCall = 0, convitePendente = null;
 
-const meusGrupos = new Map();
-const salas = new Map();
-const cargos = new Map();
-const membrosGrupo = new Map();
-const amigos = new Map();
-const presencas = new Map();
+const meusGrupos = new Map(), salas = new Map(), cargos = new Map();
+const membrosGrupo = new Map(), amigos = new Map(), presencas = new Map();
 const presencaInscrita = new Map();
-const inscricoes = [];
-const inscricoesGrupo = [];
+const inscricoes = [], inscricoesGrupo = [], inscricoesChat = [];
 const jaChamados = new Set();
 
 // ————— utilidades —————
@@ -510,15 +495,10 @@ const aviso = (el, texto, tipo) => {
   $(el).className = 'aviso' + (tipo ? ' ' + tipo : '');
 };
 
-function tela(qual) {
-  ['telaConta', 'telaPainel', 'telaSala'].forEach(t => $(t).classList.toggle('oculto', t !== qual));
-  $('topbar').classList.toggle('oculto', qual === 'telaConta');
-}
-
 const iniciais = nome =>
   (nome || '?').trim().split(/[\s_-]+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || '?';
 
-const CORES = ['#0078D4', '#8764B8', '#C239B3', '#CA5010', '#0B6A0B', '#00838F'];
+const CORES = ['#B5FF3D', '#3DC8FF', '#FF9F3D', '#FF5BD1', '#7B6BFF', '#3DFFB0'];
 function corDe(chave) {
   let soma = 0;
   for (let i = 0; i < (chave || '').length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
@@ -526,29 +506,25 @@ function corDe(chave) {
 }
 
 const parDe = (a, b) => [a, b].sort().join('_');
-
 const sorteioLetras = n => {
   const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
   let c = '';
   for (let i = 0; i < n; i++) c += letras[Math.floor(Math.random() * letras.length)];
   return c;
 };
-
-const apelidar = texto =>
-  (texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-    .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
-
+const apelidar = t => (t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+  .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
 const quando = ts => (ts && ts.toMillis ? ts.toMillis() : 0);
-
 const pode = chave => souDono || !!(meuCargo && meuCargo.permissoes && meuCargo.permissoes[chave]);
 const meuNivel = () => souDono ? 1000 : (meuCargo ? (meuCargo.nivel || 0) : -1);
+const emCall = () => !!room;
 
 function traduzir(codigo) {
   const mapa = {
     'auth/invalid-email': 'Esse e-mail não parece válido.',
     'auth/missing-password': 'Digite sua senha.',
     'auth/weak-password': 'A senha precisa de pelo menos 6 caracteres.',
-    'auth/email-already-in-use': 'Já existe uma conta com esse e-mail. Use a aba Entrar.',
+    'auth/email-already-in-use': 'Já existe uma conta com esse e-mail.',
     'auth/invalid-credential': 'E-mail ou senha incorretos.',
     'auth/too-many-requests': 'Muitas tentativas. Espere alguns minutos.',
     'auth/network-request-failed': 'Sem conexão com o servidor.'
@@ -564,7 +540,6 @@ function trocarModo(novo) {
   $('campoNome').classList.toggle('oculto', novo === 'entrar');
   $('btnConta').textContent = novo === 'entrar' ? 'Entrar' : 'Criar conta';
   $('btnEsqueci').classList.toggle('oculto', novo === 'criar');
-  $('senha').setAttribute('autocomplete', novo === 'entrar' ? 'current-password' : 'new-password');
   aviso('statusConta', '');
 }
 
@@ -572,12 +547,9 @@ async function reservarHandle(uid, nome) {
   const base = apelidar(nome).replace(/_/g, '') || 'user';
   for (let i = 0; i < 10; i++) {
     const handle = base + '#' + String(Math.floor(1000 + Math.random() * 9000));
-    try {
-      await setDoc(doc(db, 'handles', handle), { uid });
-      return handle;
-    } catch (e) { /* colidiu */ }
+    try { await setDoc(doc(db, 'handles', handle), { uid }); return handle; } catch (e) {}
   }
-  throw new Error('Não consegui reservar um identificador. Tente outro nome.');
+  throw new Error('Não consegui reservar um identificador.');
 }
 
 async function garantirPerfil(user, nomeSugerido) {
@@ -592,17 +564,13 @@ async function garantirPerfil(user, nomeSugerido) {
 }
 
 async function enviarConta() {
-  const email = $('email').value.trim();
-  const senha = $('senha').value;
-  const nome = $('nome').value.trim();
+  const email = $('email').value.trim(), senha = $('senha').value, nome = $('nome').value.trim();
   if (modo === 'criar' && !nome) return aviso('statusConta', 'Escolha um nome de exibição.', 'erro');
-
   $('btnConta').disabled = true;
   aviso('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
   try {
-    if (modo === 'entrar') {
-      await signInWithEmailAndPassword(auth, email, senha);
-    } else {
+    if (modo === 'entrar') await signInWithEmailAndPassword(auth, email, senha);
+    else {
       const cred = await createUserWithEmailAndPassword(auth, email, senha);
       await updateProfile(cred.user, { displayName: nome });
       await cred.user.getIdToken(true);
@@ -610,9 +578,7 @@ async function enviarConta() {
     }
   } catch (e) {
     aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro');
-  } finally {
-    $('btnConta').disabled = false;
-  }
+  } finally { $('btnConta').disabled = false; }
 }
 
 async function recuperarSenha() {
@@ -620,10 +586,8 @@ async function recuperarSenha() {
   if (!email) return aviso('statusConta', 'Digite seu e-mail primeiro.', 'erro');
   try {
     await sendPasswordResetEmail(auth, email);
-    aviso('statusConta', 'Link de recuperação enviado. Confira seu e-mail.', 'ok');
-  } catch (e) {
-    aviso('statusConta', traduzir(e.code), 'erro');
-  }
+    aviso('statusConta', 'Link enviado. Confira seu e-mail.', 'ok');
+  } catch (e) { aviso('statusConta', traduzir(e.code), 'erro'); }
 }
 
 // ————— presença —————
@@ -666,15 +630,14 @@ function pintarRail() {
   rail.innerHTML = '';
   for (const [gid, g] of meusGrupos) {
     const b = document.createElement('button');
+    b.className = 'gbtn' + (gid === grupoAtivo ? ' ativo' : '');
     b.textContent = iniciais(g.nome);
     b.title = g.nome;
-    b.style.background = corDe(gid);
-    b.className = gid === grupoAtivo ? 'ativo' : '';
     b.addEventListener('click', () => selecionarGrupo(gid));
     rail.appendChild(b);
   }
   const mais = document.createElement('button');
-  mais.className = 'novo';
+  mais.className = 'gbtn novo';
   mais.textContent = '+';
   mais.title = 'Criar ou entrar num grupo';
   mais.addEventListener('click', () => selecionarGrupo(null, true));
@@ -684,46 +647,43 @@ function pintarRail() {
 function selecionarGrupo(gid, mostrarNovo) {
   inscricoesGrupo.splice(0).forEach(f => f());
   salas.clear(); cargos.clear(); membrosGrupo.clear();
-  grupoAtivo = gid;
-  souDono = false;
-  meuCargo = null;
-  migrando = false;
+  grupoAtivo = gid; souDono = false; meuCargo = null; migrando = false;
+  if (!emCall()) { canalTexto = null; ligarChat(null); }
 
   $('areaNovoGrupo').classList.toggle('oculto', !(mostrarNovo || (!gid && !meusGrupos.size)));
-  $('areaGrupo').classList.toggle('oculto', !gid);
+  $('areaSalas').classList.toggle('oculto', !gid);
   $('semGrupo').classList.toggle('oculto', !!gid || mostrarNovo || meusGrupos.size > 0);
   pintarRail();
+  atualizarCentro();
 
   if (!gid) { recalcular(); return; }
 
   const g = meusGrupos.get(gid) || {};
-  $('gNome').textContent = g.nome || '—';
-  $('gHandle').textContent = g.handle || '—';
+  $('rotSalas').textContent = g.nome || 'Salas';
 
   inscricoesGrupo.push(onSnapshot(doc(db, 'grupos', gid), d => {
     souDono = d.exists() && d.data().dono === eu.uid;
     recalcular();
   }));
-
   inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'cargos'), snap => {
     cargos.clear();
     snap.forEach(d => cargos.set(d.id, d.data()));
     if (!cargos.size) migrarCargos(gid);
     recalcular();
   }));
-
   inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'membros'), snap => {
     membrosGrupo.clear();
-    snap.forEach(d => {
-      membrosGrupo.set(d.id, d.data());
-      observarPresencaDe(d.id);
-    });
+    snap.forEach(d => { membrosGrupo.set(d.id, d.data()); observarPresencaDe(d.id); });
     recalcular();
   }));
-
   inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'salas'), snap => {
     salas.clear();
     snap.forEach(d => salas.set(d.id, d.data()));
+    // Abre o primeiro canal de texto automaticamente — chat vazio sem motivo confunde.
+    if (!canalTexto) {
+      const primeiro = [...salas.entries()].find(([, s]) => s.tipo === 'texto');
+      if (primeiro) abrirCanalTexto(primeiro[0]);
+    }
     pintarSalas();
   }));
 }
@@ -736,79 +696,148 @@ async function migrarCargos(gid) {
       await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
     }
     await updateDoc(doc(db, 'grupos', gid, 'membros', eu.uid), { cargo: 'dono' });
-  } catch (e) { /* outro cliente já fez */ }
+  } catch (e) {}
 }
 
 function recalcular() {
   const meu = membrosGrupo.get(eu.uid);
   meuCargo = meu && cargos.get(meu.cargo) ? cargos.get(meu.cargo) : null;
-
   $('areaNovaSala').classList.toggle('oculto', !pode('gerenciarSalas'));
   $('blocoCargos').classList.toggle('oculto', !grupoAtivo || !pode('gerenciarCargos'));
   $('blocoMembros').classList.toggle('oculto', !grupoAtivo);
-  $('gHandleLinha').classList.toggle('oculto', !pode('verCodigo'));
-
+  $('btnCopiarCodigo').classList.toggle('oculto', !grupoAtivo || !pode('verCodigo'));
   pintarSalas(); pintarCargos(); pintarMembros(); pintarConvidar();
 }
 
-function pintarSalas() {
-  const alvo = $('listaSalas');
-  if (!alvo || !grupoAtivo) return;
-  alvo.innerHTML = '';
-
-  if (!salas.size) {
-    alvo.innerHTML = '<p class="vazio">Nenhuma sala ainda.</p>';
-    return;
+// Alterna o painel central entre a visão do grupo e a chamada.
+function atualizarCentro() {
+  const naCall = emCall();
+  $('palco').classList.toggle('oculto', !naCall);
+  $('barraCall').classList.toggle('oculto', !naCall);
+  $('visaoGrupo').classList.toggle('oculto', naCall || !grupoAtivo);
+  $('semGrupoCentro').classList.toggle('oculto', naCall || !!grupoAtivo);
+  $('relogio').textContent = naCall ? $('relogio').textContent : '';
+  $('btnMicRail').disabled = !naCall;
+  $('btnCamRail').disabled = !naCall;
+  if (!naCall) {
+    $('rotCentro').textContent = grupoAtivo ? ((meusGrupos.get(grupoAtivo) || {}).nome || 'Grupo') : 'Grupo';
+    $('gavetaConvidar').classList.add('oculto');
   }
+}
+
+function pintarSalas() {
+  if (!grupoAtivo) return;
+  const voz = $('listaVoz'), texto = $('listaTexto');
+  voz.innerHTML = ''; texto.innerHTML = '';
 
   for (const [sid, s] of salas) {
-    const div = document.createElement('div');
-    div.className = 'sala';
-    div.innerHTML =
-      '<div class="sala-cab"><span class="hash">#</span><span class="s-nome"></span>' +
-      '<div class="acoes"></div></div><div class="dentro"></div>';
-    div.querySelector('.s-nome').textContent = s.nome;
+    const ehTexto = s.tipo === 'texto';
+    const linha = document.createElement('div');
+    const ativa = ehTexto ? canalTexto === sid : (grupoNaCall === grupoAtivo && salaNaCall === sid);
+    linha.className = 'sala' + (ativa ? ' ativa' : '');
+    linha.innerHTML = '<span class="marca"></span><span class="nome"></span><span class="qtd"></span>';
+    linha.querySelector('.marca').textContent = ehTexto ? '#' : '♪';
+    linha.querySelector('.nome').textContent = s.nome;
+    linha.addEventListener('click', () =>
+      ehTexto ? abrirCanalTexto(sid) : entrarSala(grupoAtivo, sid, s.nome));
 
-    const acoes = div.querySelector('.acoes');
-    const aqui = grupoNaCall === grupoAtivo && salaNaCall === sid;
-    const entrar = document.createElement('button');
-    entrar.className = 'btn btn-mini btn-azul';
-    entrar.textContent = aqui ? 'Aqui' : 'Entrar';
-    entrar.disabled = aqui;
-    entrar.addEventListener('click', () => entrarSala(grupoAtivo, sid, s.nome));
-    acoes.appendChild(entrar);
+    const bloco = document.createElement('div');
+    bloco.appendChild(linha);
+
+    if (!ehTexto) {
+      const dentro = document.createElement('div');
+      dentro.className = 'dentro';
+      let n = 0;
+      for (const [uid, m] of membrosGrupo) {
+        const p = uid === eu.uid ? { grupo: grupoNaCall, sala: salaNaCall } : presencas.get(uid);
+        if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
+        n++;
+        const sp = document.createElement('span');
+        sp.innerHTML = '<span class="av av-20"></span><span></span>';
+        const av = sp.querySelector('.av');
+        av.textContent = iniciais(m.nome);
+        av.style.background = corDe(uid);
+        sp.lastElementChild.textContent = m.nome;
+        dentro.appendChild(sp);
+      }
+      linha.querySelector('.qtd').textContent = n ? String(n) : '';
+      if (n) bloco.appendChild(dentro);
+    }
 
     if (pode('gerenciarSalas')) {
-      const apagar = document.createElement('button');
-      apagar.className = 'btn btn-mini btn-perigo';
-      apagar.textContent = '✕';
-      apagar.title = 'Apagar sala';
-      apagar.addEventListener('click', async () => {
+      const x = document.createElement('button');
+      x.className = 'btn btn-mini btn-perigo';
+      x.textContent = '✕';
+      x.style.marginLeft = '6px';
+      x.title = 'Apagar sala';
+      x.addEventListener('click', async e => {
+        e.stopPropagation();
         if (confirm('Apagar a sala ' + s.nome + '?')) {
           await deleteDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid)).catch(() =>
-            aviso('statusSala', 'Você não tem permissão para isso.', 'erro'));
+            aviso('statusSala', 'Sem permissão.', 'erro'));
         }
       });
-      acoes.appendChild(apagar);
+      linha.appendChild(x);
     }
 
-    const dentro = div.querySelector('.dentro');
-    let n = 0;
-    for (const [uid, m] of membrosGrupo) {
-      const p = uid === eu.uid ? { grupo: grupoNaCall, sala: salaNaCall } : presencas.get(uid);
-      if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
-      n++;
-      const span = document.createElement('span');
-      span.className = 'quem';
-      span.innerHTML = '<span class="av av-24"></span><span></span>';
-      const av = span.querySelector('.av');
+    (ehTexto ? texto : voz).appendChild(bloco);
+  }
+  if (!voz.children.length) voz.innerHTML = '<p class="vazio">Nenhuma sala de voz.</p>';
+  if (!texto.children.length) texto.innerHTML = '<p class="vazio">Nenhum canal de texto.</p>';
+}
+
+// ————— chat —————
+function abrirCanalTexto(sid) {
+  canalTexto = sid;
+  ligarChat(sid);
+  pintarSalas();
+}
+
+function ligarChat(sid) {
+  inscricoesChat.splice(0).forEach(f => f());
+  const caixa = $('chatMsgs');
+  caixa.innerHTML = '';
+  $('chatTexto').disabled = !sid;
+  $('btnEnviar').disabled = !sid;
+  $('rotChat').textContent = sid ? '# ' + ((salas.get(sid) || {}).nome || sid) : 'Chat';
+  if (!sid || !grupoAtivo) return;
+
+  const q = query(
+    collection(db, 'grupos', grupoAtivo, 'salas', sid, 'mensagens'),
+    orderBy('em', 'desc'), limit(60)
+  );
+  inscricoesChat.push(onSnapshot(q, snap => {
+    const msgs = snap.docs.map(d => d.data()).reverse();
+    caixa.innerHTML = '';
+    msgs.forEach(m => {
+      const div = document.createElement('div');
+      div.className = 'msg';
+      div.innerHTML =
+        '<div class="av av-26"></div>' +
+        '<div class="corpo"><div class="quem"><b></b><span></span></div><div class="texto"></div></div>';
+      const av = div.querySelector('.av');
       av.textContent = iniciais(m.nome);
-      av.style.background = corDe(uid);
-      span.lastElementChild.textContent = m.nome;
-      dentro.appendChild(span);
-    }
-    if (!n) dentro.remove();
-    alvo.appendChild(div);
+      av.style.background = corDe(m.de);
+      div.querySelector('b').textContent = m.nome;
+      div.querySelector('.quem span').textContent = m.em
+        ? new Date(m.em.toMillis()).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
+        : '';
+      div.querySelector('.texto').textContent = m.texto;
+      caixa.appendChild(div);
+    });
+    caixa.scrollTop = caixa.scrollHeight;
+  }));
+}
+
+async function enviarMensagem() {
+  const texto = $('chatTexto').value.trim();
+  if (!texto || !canalTexto || !grupoAtivo) return;
+  $('chatTexto').value = '';
+  try {
+    await addDoc(collection(db, 'grupos', grupoAtivo, 'salas', canalTexto, 'mensagens'),
+      { de: eu.uid, nome: eu.nome, texto, em: serverTimestamp() });
+  } catch (e) {
+    $('chatTexto').value = texto;
   }
 }
 
@@ -817,24 +846,21 @@ function pintarCargos() {
   const alvo = $('listaCargos');
   if (!alvo || !grupoAtivo) return;
   alvo.innerHTML = '';
-
   const ordenados = [...cargos.entries()].sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0));
   for (const [cid, c] of ordenados) {
     const editavel = pode('gerenciarCargos') && (c.nivel || 0) < meuNivel();
-    const card = document.createElement('div');
-    card.className = 'cargo-card';
-    card.innerHTML =
-      '<div class="cargo-cab"><span class="selo-cargo"></span>' +
-      '<span class="c-nome"></span><span class="c-nivel"></span>' +
-      '<div class="acoes"></div></div><div class="perms"></div>';
+    const bloco = document.createElement('div');
+    bloco.className = 'cargo-bloco';
+    bloco.innerHTML =
+      '<div class="cargo-cab"><span class="tag"></span><span class="cn"></span>' +
+      '<span class="cnv"></span><span class="acoes"></span></div><div class="perms"></div>';
+    const tag = bloco.querySelector('.tag');
+    tag.textContent = cid;
+    tag.style.background = corDe(cid);
+    bloco.querySelector('.cn').textContent = c.nome;
+    bloco.querySelector('.cnv').textContent = 'nv ' + (c.nivel || 0);
 
-    const selo = card.querySelector('.selo-cargo');
-    selo.textContent = cid;
-    selo.style.background = corDe(cid);
-    card.querySelector('.c-nome').textContent = c.nome;
-    card.querySelector('.c-nivel').textContent = 'nível ' + (c.nivel || 0);
-
-    const perms = card.querySelector('.perms');
+    const perms = bloco.querySelector('.perms');
     PERMISSOES.forEach(([chave, rotulo]) => {
       const lab = document.createElement('label');
       if (!editavel) lab.className = 'travado';
@@ -844,9 +870,7 @@ function pintarCargos() {
       cb.disabled = !editavel;
       cb.addEventListener('change', async () => {
         try {
-          await updateDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), {
-            ['permissoes.' + chave]: cb.checked
-          });
+          await updateDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), { ['permissoes.' + chave]: cb.checked });
           aviso('statusCargo', '');
         } catch (e) {
           cb.checked = !cb.checked;
@@ -859,14 +883,13 @@ function pintarCargos() {
     });
 
     if (editavel && !CARGOS_BASE[cid]) {
-      const apagar = document.createElement('button');
-      apagar.className = 'btn btn-mini btn-perigo';
-      apagar.textContent = '✕';
-      apagar.title = 'Apagar cargo';
-      apagar.addEventListener('click', () => apagarCargo(cid, c));
-      card.querySelector('.acoes').appendChild(apagar);
+      const x = document.createElement('button');
+      x.className = 'btn btn-mini btn-perigo';
+      x.textContent = '✕';
+      x.addEventListener('click', () => apagarCargo(cid, c));
+      bloco.querySelector('.acoes').appendChild(x);
     }
-    alvo.appendChild(card);
+    alvo.appendChild(bloco);
   }
 }
 
@@ -874,37 +897,30 @@ async function criarCargo() {
   const nome = $('nomeCargo').value.trim();
   const nivel = parseInt($('nivelCargo').value, 10);
   if (!nome) return aviso('statusCargo', 'Dê um nome ao cargo.', 'erro');
-  if (!(nivel > 0 && nivel < meuNivel())) {
+  if (!(nivel > 0 && nivel < meuNivel()))
     return aviso('statusCargo', 'O nível precisa ficar entre 1 e ' + (meuNivel() - 1) + '.', 'erro');
-  }
   const cid = apelidar(nome) || ('cargo' + Date.now());
   if (cargos.has(cid)) return aviso('statusCargo', 'Já existe um cargo com esse nome.', 'erro');
-
   try {
     const permissoes = {};
     PERMISSOES.forEach(([chave]) => { permissoes[chave] = false; });
     await setDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), { nome, nivel, permissoes });
     $('nomeCargo').value = '';
-    aviso('statusCargo', 'Cargo criado. Marque as permissões dele acima.', 'ok');
-  } catch (e) {
-    aviso('statusCargo', 'O banco recusou. Confira seu nível e sua permissão.', 'erro');
-  }
+    aviso('statusCargo', 'Cargo criado. Marque as permissões acima.', 'ok');
+  } catch (e) { aviso('statusCargo', 'O banco recusou.', 'erro'); }
 }
 
 async function apagarCargo(cid, c) {
   const usando = [...membrosGrupo.entries()].filter(([, m]) => m.cargo === cid);
-  const texto = usando.length
-    ? 'Apagar o cargo ' + c.nome + '? ' + usando.length + ' pessoa(s) voltam a ser Membro.'
-    : 'Apagar o cargo ' + c.nome + '?';
-  if (!confirm(texto)) return;
+  if (!confirm(usando.length
+    ? 'Apagar ' + c.nome + '? ' + usando.length + ' pessoa(s) voltam a ser Membro.'
+    : 'Apagar o cargo ' + c.nome + '?')) return;
   try {
     for (const [uid] of usando) {
       await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: 'membro' });
     }
     await deleteDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid));
-  } catch (e) {
-    aviso('statusCargo', 'Não consegui apagar: falta permissão.', 'erro');
-  }
+  } catch (e) { aviso('statusCargo', 'Sem permissão.', 'erro'); }
 }
 
 // ————— membros —————
@@ -912,7 +928,6 @@ function pintarMembros() {
   const lista = $('listaMembros');
   if (!lista || !grupoAtivo) return;
   lista.innerHTML = '';
-
   const ordenados = [...membrosGrupo.entries()].sort((a, b) => {
     const ca = cargos.get(a[1].cargo), cb = cargos.get(b[1].cargo);
     return ((cb && cb.nivel) || 0) - ((ca && ca.nivel) || 0);
@@ -923,57 +938,46 @@ function pintarMembros() {
     const pres = uid === eu.uid ? { online: true, sala: salaNaCall } : presencas.get(uid);
     const li = document.createElement('li');
     li.innerHTML =
-      '<div class="av-wrap"><div class="av av-32"></div><span class="ponto"></span></div>' +
-      '<div class="txt"><div class="t1"><span class="n"></span><span class="selo-cargo"></span></div>' +
+      '<span class="pt"></span><div class="av av-26"></div>' +
+      '<div class="txt"><div class="t1"><span class="n"></span><span class="tag"></span></div>' +
       '<div class="t2"></div></div><div class="acoes"></div>';
-
     const av = li.querySelector('.av');
     av.textContent = iniciais(m.nome);
     av.style.background = corDe(uid);
     li.querySelector('.n').textContent = m.nome + (uid === eu.uid ? ' (você)' : '');
-    const selo = li.querySelector('.selo-cargo');
-    selo.textContent = c.nome;
-    selo.style.background = corDe(m.cargo);
-    li.querySelector('.ponto').className = 'ponto' + (pres && pres.sala ? ' call' : pres && pres.online ? ' on' : '');
-    li.querySelector('.t2').textContent = pres && pres.sala ? 'Em call' : pres && pres.online ? 'Online' : 'Offline';
+    const tag = li.querySelector('.tag');
+    tag.textContent = c.nome;
+    tag.style.background = corDe(m.cargo);
+    li.querySelector('.pt').className = 'pt' + (pres && pres.sala ? ' call' : pres && pres.online ? ' on' : '');
+    li.querySelector('.t2').textContent = pres && pres.sala ? 'em call' : pres && pres.online ? 'online' : 'offline';
 
     const acoes = li.querySelector('.acoes');
-    const abaixoDeMim = (c.nivel || 0) < meuNivel() && uid !== eu.uid;
+    const abaixo = (c.nivel || 0) < meuNivel() && uid !== eu.uid;
 
-    if (pode('atribuirCargos') && abaixoDeMim) {
+    if (pode('atribuirCargos') && abaixo) {
       const sel = document.createElement('select');
-      [...cargos.entries()]
-        .filter(([, cc]) => (cc.nivel || 0) < meuNivel())
+      [...cargos.entries()].filter(([, cc]) => (cc.nivel || 0) < meuNivel())
         .sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0))
         .forEach(([cid, cc]) => {
           const o = document.createElement('option');
-          o.value = cid;
-          o.textContent = cc.nome;
-          o.selected = cid === m.cargo;
+          o.value = cid; o.textContent = cc.nome; o.selected = cid === m.cargo;
           sel.appendChild(o);
         });
       sel.addEventListener('change', async () => {
-        try {
-          await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: sel.value });
-        } catch (e) {
-          aviso('statusCargo', 'O banco recusou a troca de cargo.', 'erro');
-        }
+        try { await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: sel.value }); }
+        catch (e) { aviso('statusCargo', 'O banco recusou a troca.', 'erro'); }
       });
       acoes.appendChild(sel);
     }
-
-    if (pode('expulsar') && abaixoDeMim) {
+    if (pode('expulsar') && abaixo) {
       const b = document.createElement('button');
       b.className = 'btn btn-mini btn-perigo';
       b.textContent = '✕';
       b.title = 'Remover do grupo';
       b.addEventListener('click', async () => {
         if (!confirm('Remover ' + m.nome + ' do grupo?')) return;
-        try {
-          await deleteDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid));
-        } catch (e) {
-          aviso('statusCargo', 'Não consegui remover: falta permissão.', 'erro');
-        }
+        try { await deleteDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid)); }
+        catch (e) { aviso('statusCargo', 'Sem permissão.', 'erro'); }
       });
       acoes.appendChild(b);
     }
@@ -985,75 +989,59 @@ function pintarMembros() {
 async function criarGrupo() {
   const nome = $('nomeGrupo').value.trim();
   if (!nome) return aviso('statusGrupo', 'Dê um nome ao grupo.', 'erro');
-
   $('btnCriarGrupo').disabled = true;
   aviso('statusGrupo', 'Criando…');
   try {
     const gid = doc(collection(db, 'grupos')).id;
     await setDoc(doc(db, 'grupos', gid), { nome, dono: eu.uid, criadoEm: serverTimestamp() });
-
     for (const [cid, c] of Object.entries(CARGOS_BASE)) {
       await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
     }
-
     const base = apelidar(nome) || 'grupo';
     let handle = null;
     for (let i = 0; i < 10 && !handle; i++) {
-      const tentativa = base + '#' + sorteioLetras(4);
-      try {
-        await setDoc(doc(db, 'handlesGrupo', tentativa), { grupo: gid });
-        handle = tentativa;
-      } catch (e) { /* colidiu */ }
+      const t = base + '#' + sorteioLetras(4);
+      try { await setDoc(doc(db, 'handlesGrupo', t), { grupo: gid }); handle = t; } catch (e) {}
     }
-    if (!handle) throw new Error('Não consegui gerar um código. Tente outro nome.');
-
+    if (!handle) throw new Error('Não consegui gerar um código.');
     await updateDoc(doc(db, 'grupos', gid), { handle });
     await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
       { uid: eu.uid, nome: eu.nome, cargo: 'dono', entrouEm: serverTimestamp() });
     await setDoc(doc(db, 'grupos', gid, 'salas', 'geral'),
-      { nome: 'Geral', criadoEm: serverTimestamp() });
+      { nome: 'Geral', tipo: 'voz', criadoEm: serverTimestamp() });
+    await setDoc(doc(db, 'grupos', gid, 'salas', 'bate_papo'),
+      { nome: 'bate-papo', tipo: 'texto', criadoEm: serverTimestamp() });
     await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome, handle });
-
     $('nomeGrupo').value = '';
-    aviso('statusGrupo', 'Grupo criado. O código é ' + handle, 'ok');
+    aviso('statusGrupo', 'Código: ' + handle, 'ok');
     selecionarGrupo(gid);
   } catch (e) {
     aviso('statusGrupo', e.message, 'erro');
-  } finally {
-    $('btnCriarGrupo').disabled = false;
-  }
+  } finally { $('btnCriarGrupo').disabled = false; }
 }
 
 async function entrarGrupo() {
   const bruto = $('codigoGrupo').value.trim();
-  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(bruto)) {
+  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(bruto))
     return aviso('statusGrupo', 'Use o formato nome_do_grupo#ABCD.', 'erro');
-  }
-  const partes = bruto.split('#');
-  const chave = partes[0].toLowerCase() + '#' + partes[1].toUpperCase();
-
+  const p = bruto.split('#');
+  const chave = p[0].toLowerCase() + '#' + p[1].toUpperCase();
   $('btnEntrarGrupo').disabled = true;
   aviso('statusGrupo', 'Procurando…');
   try {
     const h = await getDoc(doc(db, 'handlesGrupo', chave));
     if (!h.exists()) throw new Error('Nenhum grupo com esse código.');
     const gid = h.data().grupo;
-
     await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
       { uid: eu.uid, nome: eu.nome, cargo: 'membro', entrouEm: serverTimestamp() });
-
     const g = await getDoc(doc(db, 'grupos', gid));
-    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid),
-      { nome: g.data().nome, handle: chave });
-
+    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome: g.data().nome, handle: chave });
     $('codigoGrupo').value = '';
     aviso('statusGrupo', 'Bem-vindo ao ' + g.data().nome + '.', 'ok');
     selecionarGrupo(gid);
   } catch (e) {
     aviso('statusGrupo', e.message, 'erro');
-  } finally {
-    $('btnEntrarGrupo').disabled = false;
-  }
+  } finally { $('btnEntrarGrupo').disabled = false; }
 }
 
 async function criarSala() {
@@ -1061,27 +1049,24 @@ async function criarSala() {
   if (!nome || !grupoAtivo) return;
   const sid = apelidar(nome) || ('sala' + Date.now());
   try {
-    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid), { nome, criadoEm: serverTimestamp() });
+    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid),
+      { nome, tipo: $('tipoSala').value, criadoEm: serverTimestamp() });
     $('nomeSala').value = '';
     aviso('statusSala', '');
-  } catch (e) {
-    aviso('statusSala', 'Você não tem permissão para criar salas.', 'erro');
-  }
+  } catch (e) { aviso('statusSala', 'Sem permissão para criar salas.', 'erro'); }
 }
 
 async function sairDoGrupo() {
   if (!grupoAtivo) return;
-  const gid = grupoAtivo;
-  const g = meusGrupos.get(gid) || {};
-  const outros = [...membrosGrupo.entries()]
-    .filter(([u]) => u !== eu.uid)
+  const gid = grupoAtivo, g = meusGrupos.get(gid) || {};
+  const outros = [...membrosGrupo.entries()].filter(([u]) => u !== eu.uid)
     .sort((a, b) => quando(a[1].entrouEm) - quando(b[1].entrouEm));
   const sucessor = outros.length ? outros[0] : null;
 
   const pergunta = !sucessor
-    ? 'Você é a última pessoa em ' + g.nome + '. Sair vai desfazer o grupo e apagar as salas. Continuar?'
+    ? 'Você é a última pessoa em ' + g.nome + '. Sair vai desfazer o grupo. Continuar?'
     : souDono
-      ? 'Sair de ' + g.nome + '? Como você é o dono, o grupo passa para ' + sucessor[1].nome + '.'
+      ? 'Sair de ' + g.nome + '? O grupo passa para ' + sucessor[1].nome + '.'
       : 'Sair de ' + g.nome + '? Você vai precisar do código para voltar.';
   if (!confirm(pergunta)) return;
 
@@ -1099,9 +1084,7 @@ async function sairDoGrupo() {
     await deleteDoc(doc(db, 'grupos', gid, 'membros', eu.uid));
     await deleteDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid));
     selecionarGrupo(null);
-  } catch (e) {
-    aviso('statusSala', 'Não consegui sair: ' + e.message, 'erro');
-  }
+  } catch (e) { aviso('statusSala', 'Não consegui sair: ' + e.message, 'erro'); }
 }
 
 // ————— amigos —————
@@ -1119,9 +1102,7 @@ function ligarAmizades() {
         reg = { perfil: p.exists() ? p.data() : { nome: 'Usuário', handle: '—' } };
         amigos.set(outro, reg);
       }
-      reg.parId = d.id;
-      reg.status = dados.status;
-      reg.euPedi = dados.de === eu.uid;
+      reg.parId = d.id; reg.status = dados.status; reg.euPedi = dados.de === eu.uid;
       if (dados.status === 'aceita') observarPresencaDe(outro);
     }
     for (const uid of [...amigos.keys()]) if (!vistos.has(uid)) amigos.delete(uid);
@@ -1133,66 +1114,54 @@ async function adicionarAmigo() {
   const alvo = $('buscaAmigo').value.trim().toLowerCase();
   if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) return aviso('statusAmigo', 'Use o formato nome#0000.', 'erro');
   if (alvo === eu.handle) return aviso('statusAmigo', 'Esse é você.', 'erro');
-
   $('btnAdicionar').disabled = true;
   aviso('statusAmigo', 'Procurando…');
   try {
     const h = await getDoc(doc(db, 'handles', alvo));
-    if (!h.exists()) throw new Error('Ninguém encontrado com esse identificador.');
+    if (!h.exists()) throw new Error('Ninguém com esse identificador.');
     const outro = h.data().uid;
     const existente = amigos.get(outro);
-    if (existente) {
-      throw new Error(
-        existente.status === 'aceita' ? 'Vocês já são amigos.'
-        : existente.euPedi ? 'Você já enviou um convite para essa pessoa.'
-        : 'Essa pessoa já te enviou um convite — aceite no bloco acima.'
-      );
-    }
+    if (existente) throw new Error(
+      existente.status === 'aceita' ? 'Vocês já são amigos.'
+      : existente.euPedi ? 'Convite já enviado.'
+      : 'Essa pessoa já te convidou — aceite acima.');
     await setDoc(doc(db, 'amizades', parDe(eu.uid, outro)), {
-      membros: [eu.uid, outro].sort(),
-      de: eu.uid, para: outro,
+      membros: [eu.uid, outro].sort(), de: eu.uid, para: outro,
       status: 'pendente', criadoEm: serverTimestamp()
     });
     $('buscaAmigo').value = '';
     aviso('statusAmigo', 'Convite enviado.', 'ok');
   } catch (e) {
-    aviso('statusAmigo', e.code === 'permission-denied'
-      ? 'O banco recusou o convite. As regras do Firestore foram publicadas?'
-      : e.message, 'erro');
-  } finally {
-    $('btnAdicionar').disabled = false;
-  }
+    aviso('statusAmigo', e.code === 'permission-denied' ? 'O banco recusou.' : e.message, 'erro');
+  } finally { $('btnAdicionar').disabled = false; }
 }
 
 const aceitar = parId => updateDoc(doc(db, 'amizades', parId), { status: 'aceita' });
 const recusar = parId => deleteDoc(doc(db, 'amizades', parId));
 
 async function removerAmigo(uid, reg) {
-  if (!confirm('Remover ' + reg.perfil.nome + ' dos seus amigos?')) return;
+  if (!confirm('Remover ' + reg.perfil.nome + '?')) return;
   await deleteDoc(doc(db, 'amizades', reg.parId));
   await deleteDoc(doc(db, 'convites', uid + '_' + eu.uid)).catch(() => {});
   await deleteDoc(doc(db, 'convites', eu.uid + '_' + uid)).catch(() => {});
 }
 
-function itemPessoa(uid, nome, handle, legenda, estado, acoes) {
+function itemPessoa(uid, nome, legenda, estado, acoes) {
   const li = document.createElement('li');
   li.innerHTML =
-    '<div class="av-wrap"><div class="av av-32"></div><span class="ponto"></span></div>' +
-    '<div class="txt"><div class="t1"></div><div class="t2"></div></div>' +
-    '<div class="acoes"></div>';
+    '<span class="pt"></span><div class="av av-26"></div>' +
+    '<div class="txt"><div class="t1"></div><div class="t2"></div></div><div class="acoes"></div>';
   const av = li.querySelector('.av');
   av.textContent = iniciais(nome);
   av.style.background = corDe(uid);
   li.querySelector('.t1').textContent = nome;
-  li.querySelector('.t2').textContent = legenda || handle;
-  li.querySelector('.ponto').className = 'ponto' + (estado ? ' ' + estado : '');
-
+  li.querySelector('.t2').textContent = legenda;
+  li.querySelector('.pt').className = 'pt' + (estado ? ' ' + estado : '');
   const caixa = li.querySelector('.acoes');
   (acoes || []).forEach(a => {
     const b = document.createElement('button');
-    b.className = 'btn btn-mini' + (a.azul ? ' btn-azul' : '') + (a.perigo ? ' btn-perigo' : '');
+    b.className = 'btn btn-mini' + (a.acento ? ' btn-acento' : '') + (a.perigo ? ' btn-perigo' : '');
     b.textContent = a.rotulo;
-    if (a.titulo) b.title = a.titulo;
     b.disabled = !!a.travado;
     b.addEventListener('click', a.acao);
     caixa.appendChild(b);
@@ -1201,42 +1170,38 @@ function itemPessoa(uid, nome, handle, legenda, estado, acoes) {
 }
 
 function pintarAmigos() {
-  const listaA = $('listaAmigos');
-  const listaP = $('listaPedidos');
-  listaA.innerHTML = '';
-  listaP.innerHTML = '';
+  const listaA = $('listaAmigos'), listaP = $('listaPedidos');
+  listaA.innerHTML = ''; listaP.innerHTML = '';
   let pedidos = 0, aceitos = 0;
 
   for (const [uid, reg] of amigos) {
     const p = reg.perfil;
     if (reg.status === 'pendente' && !reg.euPedi) {
       pedidos++;
-      listaP.appendChild(itemPessoa(uid, p.nome, p.handle, null, null, [
-        { rotulo: 'Aceitar', azul: true, acao: () => aceitar(reg.parId) },
-        { rotulo: 'Recusar', acao: () => recusar(reg.parId) }
+      listaP.appendChild(itemPessoa(uid, p.nome, p.handle, null, [
+        { rotulo: 'ok', acento: true, acao: () => aceitar(reg.parId) },
+        { rotulo: '✕', acao: () => recusar(reg.parId) }
       ]));
       continue;
     }
     aceitos++;
     if (reg.status === 'pendente') {
-      listaA.appendChild(itemPessoa(uid, p.nome, p.handle, 'Convite enviado', null, [
-        { rotulo: 'Cancelar', acao: () => recusar(reg.parId) }
+      listaA.appendChild(itemPessoa(uid, p.nome, 'convite enviado', null, [
+        { rotulo: '✕', acao: () => recusar(reg.parId) }
       ]));
       continue;
     }
     const pres = presencas.get(uid);
-    let legenda = 'Offline', estado = '';
-    if (pres && pres.sala) { legenda = 'Em uma call'; estado = 'call'; }
-    else if (pres && pres.online) { legenda = 'Online'; estado = 'on'; }
-
+    let legenda = 'offline', estado = '';
+    if (pres && pres.sala) { legenda = 'em call'; estado = 'call'; }
+    else if (pres && pres.online) { legenda = 'online'; estado = 'on'; }
     const acoes = [];
     if (pres && pres.sala && meusGrupos.has(pres.grupo)) {
-      acoes.push({ rotulo: 'Entrar', azul: true, acao: () => entrarSala(pres.grupo, pres.sala) });
+      acoes.push({ rotulo: 'entrar', acento: true, acao: () => entrarSala(pres.grupo, pres.sala) });
     }
-    acoes.push({ rotulo: '✕', perigo: true, titulo: 'Remover amigo', acao: () => removerAmigo(uid, reg) });
-    listaA.appendChild(itemPessoa(uid, p.nome, p.handle, legenda, estado, acoes));
+    acoes.push({ rotulo: '✕', perigo: true, acao: () => removerAmigo(uid, reg) });
+    listaA.appendChild(itemPessoa(uid, p.nome, legenda, estado, acoes));
   }
-
   $('blocoPedidos').classList.toggle('oculto', pedidos === 0);
   $('vazioAmigos').classList.toggle('oculto', aceitos > 0);
 }
@@ -1274,9 +1239,8 @@ function mostrarConvite(c) {
   $('toastConvite').classList.toggle('oculto', !c);
   if (!c) return;
   $('convAvatar').textContent = iniciais(c.nome);
-  $('convAvatar').style.background = c.cor || corDe(c.de);
   $('convTitulo').textContent = c.nome + ' está te chamando';
-  $('convSub').textContent = '# ' + (c.nomeSala || c.sala);
+  $('convSub').textContent = '♪ ' + (c.nomeSala || c.sala);
 }
 
 async function responderConvite(entrar) {
@@ -1284,10 +1248,7 @@ async function responderConvite(entrar) {
   mostrarConvite(null);
   if (!c) return;
   await deleteDoc(doc(db, 'convites', c.id)).catch(() => {});
-  if (entrar) {
-    if (room) sairSala();
-    entrarSala(c.grupo, c.sala, c.nomeSala);
-  }
+  if (entrar) { if (room) await sairSala(); entrarSala(c.grupo, c.sala, c.nomeSala); }
 }
 
 function pintarConvidar() {
@@ -1301,13 +1262,13 @@ function pintarConvidar() {
     const pres = presencas.get(uid);
     const naSala = pres && pres.grupo === grupoNaCall && pres.sala === salaNaCall;
     const online = pres && pres.online;
-    lista.appendChild(itemPessoa(uid, reg.perfil.nome, reg.perfil.handle,
-      naSala ? 'Já está aqui' : online ? 'Online' : 'Offline',
+    lista.appendChild(itemPessoa(uid, reg.perfil.nome,
+      naSala ? 'já está aqui' : online ? 'online' : 'offline',
       naSala ? 'call' : online ? 'on' : '',
-      [ naSala  ? { rotulo: 'Aqui', travado: true, acao: () => {} }
-      : !online ? { rotulo: 'Offline', travado: true, acao: () => {} }
-      : jaChamados.has(uid) ? { rotulo: 'Chamado', travado: true, acao: () => {} }
-      : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) } ]));
+      [ naSala ? { rotulo: 'aqui', travado: true, acao: () => {} }
+      : !online ? { rotulo: 'offline', travado: true, acao: () => {} }
+      : jaChamados.has(uid) ? { rotulo: 'chamado', travado: true, acao: () => {} }
+      : { rotulo: 'chamar', acento: true, acao: () => chamarParaCall(uid) } ]));
   }
   $('vazioConvidar').classList.toggle('oculto', n > 0);
 }
@@ -1317,38 +1278,43 @@ onAuthStateChanged(auth, async user => {
   if (!user) {
     inscricoes.splice(0).forEach(f => f());
     inscricoesGrupo.splice(0).forEach(f => f());
+    inscricoesChat.splice(0).forEach(f => f());
     presencaInscrita.forEach(f => f());
-    presencaInscrita.clear();
-    presencas.clear();
+    presencaInscrita.clear(); presencas.clear();
     amigos.clear(); meusGrupos.clear(); salas.clear(); cargos.clear(); membrosGrupo.clear();
     jaChamados.clear();
-    grupoAtivo = null; souDono = false; meuCargo = null;
+    grupoAtivo = null; souDono = false; meuCargo = null; canalTexto = null;
     if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
     eu = null;
-    return tela('telaConta');
+    $('telaConta').classList.remove('oculto');
+    $('telaApp').classList.add('oculto');
+    return;
   }
-
-  try {
-    eu = await garantirPerfil(user);
-  } catch (e) {
-    return aviso('statusConta', e.message, 'erro');
-  }
+  try { eu = await garantirPerfil(user); }
+  catch (e) { return aviso('statusConta', e.message, 'erro'); }
 
   $('euNome').textContent = eu.nome;
   $('euTag').textContent = eu.handle;
   $('euAvatar').textContent = iniciais(eu.nome);
-  $('euAvatar').style.background = eu.cor;
+  $('euAvatar').style.background = eu.cor || corDe(eu.uid);
   $('senha').value = '';
+  $('telaConta').classList.add('oculto');
+  $('telaApp').classList.remove('oculto');
 
-  ligarPresenca();
-  ligarGrupos();
-  ligarAmizades();
-  ligarConvites();
-  if (!room) tela('telaPainel');
+  ligarPresenca(); ligarGrupos(); ligarAmizades(); ligarConvites();
 });
 
 // ————— call —————
+// A publicação de câmera é opcional: só existe se a pessoa ligar. Vídeo consome
+// muito mais banda que voz, então nada de ligar sozinho ao entrar.
+function pubCamera(p) {
+  if (p.getTrackPublication) return p.getTrackPublication(LK.Track.Source.Camera);
+  if (p.getTrack) return p.getTrack(LK.Track.Source.Camera);
+  return null;
+}
+
 function pintarPalco() {
+  if (!room) return;
   const palco = $('palco');
   palco.innerHTML = '';
   const todos = [room.localParticipant, ...room.remoteParticipants.values()];
@@ -1357,25 +1323,34 @@ function pintarPalco() {
     const souEu = p === room.localParticipant;
     const silenciado = souEu ? mudo : !p.isMicrophoneEnabled;
     const nome = p.name || p.identity;
-    const card = document.createElement('div');
-    card.className = 'pessoa' + (p.isSpeaking && !silenciado ? ' falando' : '') + (silenciado ? ' mudo' : '');
-    card.innerHTML =
-      '<div class="av-wrap"><div class="av av-72"></div>' +
-      '<span class="selo"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round">' +
-      '<path d="M4 4l16 16"/><path d="M12 3a3 3 0 0 1 3 3v4"/><path d="M9 9v3a3 3 0 0 0 4.5 2.6"/>' +
-      '<path d="M18 11a6 6 0 0 1-8.7 5.4M6 11a6 6 0 0 0 6 6v4"/></svg></span></div>' +
-      '<span class="nome"></span><span class="papel"></span>';
-    const av = card.querySelector('.av');
-    av.textContent = iniciais(nome);
-    av.style.background = corDe(p.identity);
-    card.querySelector('.nome').textContent = nome;
-    card.querySelector('.papel').textContent = souEu ? 'Você' : (silenciado ? 'Sem som' : '');
-    palco.appendChild(card);
+    const tile = document.createElement('div');
+    tile.className = 'tile' + (p.isSpeaking && !silenciado ? ' falando' : '') + (silenciado ? ' mudo' : '');
+
+    const pub = pubCamera(p);
+    if (pub && pub.track && (souEu || pub.isSubscribed)) {
+      const v = document.createElement('video');
+      v.autoplay = true; v.playsInline = true; v.muted = true;
+      tile.appendChild(v);
+      pub.track.attach(v);
+    } else {
+      const av = document.createElement('div');
+      av.className = 'av av-64';
+      av.textContent = iniciais(nome);
+      av.style.background = corDe(p.identity);
+      tile.appendChild(av);
+    }
+
+    const marca = document.createElement('div');
+    marca.className = 'marca-nome';
+    marca.innerHTML = '<i>' + (silenciado ? '✕' : '♪') + '</i><span></span>';
+    marca.querySelector('span').textContent = nome + (souEu ? ' (você)' : '');
+    tile.appendChild(marca);
+    palco.appendChild(tile);
   });
 
-  $('callSub').textContent = todos.length === 1
-    ? 'Aguardando outras pessoas'
-    : todos.length + ' pessoas na chamada';
+  $('rotCentro').textContent =
+    ((meusGrupos.get(grupoNaCall) || {}).nome || 'Grupo') + ' · ' +
+    ((salas.get(salaNaCall) || {}).nome || salaNaCall) + ' · ' + todos.length + ' na chamada';
   pintarConvidar();
 }
 
@@ -1384,13 +1359,14 @@ function iniciarRelogio() {
   clearInterval(relogio);
   relogio = setInterval(() => {
     const s = Math.floor((Date.now() - inicioCall) / 1000);
-    $('cronometro').textContent =
+    $('relogio').textContent =
       String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
   }, 1000);
 }
 
 async function entrarSala(gid, sid, nomeSala) {
   if (!gid || !sid) return;
+  if (room) await sairSala();
   aviso('statusSala', 'Pedindo autorização…');
 
   let dados;
@@ -1405,25 +1381,15 @@ async function entrarSala(gid, sid, nomeSala) {
       throw new Error(corpo.erro || ('erro ' + resp.status));
     }
     dados = await resp.json();
-  } catch (e) {
-    return aviso('statusSala', e.message, 'erro');
-  }
+  } catch (e) { return aviso('statusSala', e.message, 'erro'); }
   aviso('statusSala', '');
-
-  tela('telaSala');
-  const rotulo = nomeSala || (salas.get(sid) || {}).nome || sid;
-  const nomeGrupo = (meusGrupos.get(gid) || {}).nome || 'Grupo';
-  $('callTitulo').textContent = '# ' + rotulo;
-  $('callSub').textContent = 'Conectando…';
-  $('cronometro').textContent = '00:00';
-  $('gavetaConvidar').classList.add('oculto');
-  $('btnConvidar').classList.remove('ativo');
-  jaChamados.clear();
 
   room = new LK.Room({
     adaptiveStream: true, dynacast: true,
     audioCaptureDefaults: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
   });
+  atualizarCentro();
+  $('rotCentro').textContent = 'Conectando…';
 
   room
     .on(LK.RoomEvent.ParticipantConnected, pintarPalco)
@@ -1431,51 +1397,77 @@ async function entrarSala(gid, sid, nomeSala) {
     .on(LK.RoomEvent.TrackMuted, pintarPalco)
     .on(LK.RoomEvent.TrackUnmuted, pintarPalco)
     .on(LK.RoomEvent.ActiveSpeakersChanged, pintarPalco)
+    .on(LK.RoomEvent.LocalTrackPublished, pintarPalco)
+    .on(LK.RoomEvent.LocalTrackUnpublished, pintarPalco)
     .on(LK.RoomEvent.TrackSubscribed, track => {
       if (track.kind === LK.Track.Kind.Audio) {
         const el = track.attach();
         el.dataset.lk = '1';
         document.body.appendChild(el);
       }
+      pintarPalco();
     })
-    .on(LK.RoomEvent.TrackUnsubscribed, track => track.detach().forEach(el => el.remove()))
-    .on(LK.RoomEvent.AudioPlaybackStatusChanged, () => {
-      $('bannerAudio').classList.toggle('oculto', room.canPlaybackAudio);
+    .on(LK.RoomEvent.TrackUnsubscribed, track => {
+      track.detach().forEach(el => { if (el.dataset.lk) el.remove(); });
+      pintarPalco();
     })
-    .on(LK.RoomEvent.Disconnected, () => { $('callSub').textContent = 'Chamada encerrada'; clearInterval(relogio); });
+    .on(LK.RoomEvent.Disconnected, () => { $('rotCentro').textContent = 'Chamada encerrada'; clearInterval(relogio); });
 
   try {
     await room.connect(dados.url, dados.token);
     await room.localParticipant.setMicrophoneEnabled(true);
-    grupoNaCall = gid;
-    salaNaCall = sid;
-    $('callTitulo').textContent = nomeGrupo + ' · # ' + rotulo;
+    grupoNaCall = gid; salaNaCall = sid;
+    mudo = false; camLigada = false;
+    atualizarBotoes();
     atualizarPresenca();
     iniciarRelogio();
     pintarPalco();
     pintarSalas();
   } catch (e) {
-    $('callSub').textContent = 'Falha ao conectar: ' + e.message;
+    $('rotCentro').textContent = 'Falha ao conectar: ' + e.message;
   }
 }
 
-function sairSala() {
-  if (room) room.disconnect();
+async function sairSala() {
+  if (room) await room.disconnect();
   document.querySelectorAll('audio[data-lk]').forEach(el => el.remove());
   clearInterval(relogio);
-  room = null;
-  mudo = false;
-  grupoNaCall = null;
-  salaNaCall = null;
+  room = null; mudo = false; camLigada = false;
+  grupoNaCall = null; salaNaCall = null;
   jaChamados.clear();
   atualizarPresenca();
-  $('btnMudo').classList.remove('ativo');
+  atualizarBotoes();
   $('palco').innerHTML = '';
-  $('bannerAudio').classList.add('oculto');
-  $('gavetaConvidar').classList.add('oculto');
-  $('btnConvidar').classList.remove('ativo');
-  tela('telaPainel');
+  $('relogio').textContent = '';
+  atualizarCentro();
   pintarSalas();
+}
+
+function atualizarBotoes() {
+  $('btnMudo').classList.toggle('off', mudo);
+  $('btnMicRail').classList.toggle('off', mudo);
+  $('btnCam').classList.toggle('off', !camLigada);
+  $('btnCamRail').classList.toggle('off', !camLigada);
+}
+
+async function alternarMic() {
+  if (!room) return;
+  mudo = !mudo;
+  await room.localParticipant.setMicrophoneEnabled(!mudo);
+  atualizarBotoes();
+  pintarPalco();
+}
+
+async function alternarCam() {
+  if (!room) return;
+  camLigada = !camLigada;
+  try {
+    await room.localParticipant.setCameraEnabled(camLigada);
+  } catch (e) {
+    camLigada = false;
+  }
+  atualizarBotoes();
+  pintarPalco();
 }
 
 // ————— eventos —————
@@ -1504,9 +1496,10 @@ $('btnCriarCargo').addEventListener('click', criarCargo);
 $('nomeCargo').addEventListener('keydown', e => { if (e.key === 'Enter') criarCargo(); });
 $('btnSairGrupo').addEventListener('click', sairDoGrupo);
 $('btnCopiarCodigo').addEventListener('click', () => {
-  navigator.clipboard.writeText($('gHandle').textContent).then(() => {
+  const h = (meusGrupos.get(grupoAtivo) || {}).handle;
+  if (h) navigator.clipboard.writeText(h).then(() => {
     $('btnCopiarCodigo').textContent = 'copiado';
-    setTimeout(() => { $('btnCopiarCodigo').textContent = 'copiar'; }, 1500);
+    setTimeout(() => { $('btnCopiarCodigo').textContent = 'código'; }, 1500);
   });
 });
 
@@ -1514,27 +1507,22 @@ $('btnAdicionar').addEventListener('click', adicionarAmigo);
 $('buscaAmigo').addEventListener('keydown', e => { if (e.key === 'Enter') adicionarAmigo(); });
 $('btnSairConta').addEventListener('click', () => signOut(auth));
 
+$('btnEnviar').addEventListener('click', enviarMensagem);
+$('chatTexto').addEventListener('keydown', e => { if (e.key === 'Enter') enviarMensagem(); });
+
 $('btnAceitarConvite').addEventListener('click', () => responderConvite(true));
 $('btnDispensarConvite').addEventListener('click', () => responderConvite(false));
 
 $('btnConvidar').addEventListener('click', () => {
   const aberta = !$('gavetaConvidar').classList.toggle('oculto');
-  $('btnConvidar').classList.toggle('ativo', aberta);
   if (aberta) pintarConvidar();
 });
 
-$('btnSair').addEventListener('click', sairSala);
-$('btnLiberarAudio').addEventListener('click', async () => {
-  await room.startAudio();
-  $('bannerAudio').classList.add('oculto');
-});
-$('btnMudo').addEventListener('click', async () => {
-  mudo = !mudo;
-  await room.localParticipant.setMicrophoneEnabled(!mudo);
-  $('btnMudo').classList.toggle('ativo', mudo);
-  $('btnMudo').title = mudo ? 'Reativar' : 'Silenciar';
-  pintarPalco();
-});
+$('btnSairCall').addEventListener('click', sairSala);
+$('btnMudo').addEventListener('click', alternarMic);
+$('btnMicRail').addEventListener('click', alternarMic);
+$('btnCam').addEventListener('click', alternarCam);
+$('btnCamRail').addEventListener('click', alternarCam);
 </script>
 </body>
 </html>
