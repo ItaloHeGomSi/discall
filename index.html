@@ -61,6 +61,8 @@
   .btn-azul:hover:not(:disabled) { background: #2CC0F5; }
   .btn-bloco { width: 100%; padding: 12px; }
   .btn-mini { font-size: 12px; padding: 6px 11px; border-radius: 5px; }
+  .btn-perigo { color: var(--perigo-fc); }
+  .btn-perigo:hover:not(:disabled) { background: var(--perigo); color: #fff; }
   button:disabled { opacity: 0.5; cursor: not-allowed; }
   .btn-texto { background: none; color: var(--azul); font-size: 13px; font-weight: 600; padding: 0; }
   .btn-texto:hover:not(:disabled) { text-decoration: underline; }
@@ -80,10 +82,7 @@
   .dica { font-size: 13px; color: var(--texto-dim); margin: 14px 0 0; line-height: 1.5; }
 
   /* ——— avatar ——— */
-  .av {
-    border-radius: 50%; display: flex; align-items: center; justify-content: center;
-    font-weight: 600; color: #fff; flex: none;
-  }
+  .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; flex: none; }
   .av-32 { width: 32px; height: 32px; font-size: 13px; }
   .av-40 { width: 40px; height: 40px; font-size: 15px; }
   .av-64 { width: 64px; height: 64px; font-size: 22px; }
@@ -95,11 +94,20 @@
   .ponto.on { background: var(--verde); }
   .ponto.call { background: var(--azul); }
 
-  /* ——— painel ——— */
-  .painel-topo {
+  /* ——— convite recebido ——— */
+  .convite {
     display: flex; align-items: center; gap: 12px;
-    padding: 16px 20px; border-bottom: 1px solid var(--linha);
+    padding: 14px 20px; background: var(--azul-esc);
   }
+  .convite .txt { flex: 1; min-width: 0; }
+  .convite .t1 { font-size: 14px; font-weight: 600; }
+  .convite .t2 { font-size: 12px; opacity: 0.85; margin-top: 1px; }
+  .convite button { border-radius: 6px; font-size: 13px; font-weight: 600; padding: 8px 14px; }
+  .convite .aceitar { background: #fff; color: var(--azul-esc); }
+  .convite .dispensar { background: rgba(255,255,255,0.18); color: #fff; }
+
+  /* ——— painel ——— */
+  .painel-topo { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--linha); }
   .painel-topo .eu-nome { font-size: 15px; font-weight: 600; }
   .painel-topo .eu-tag { font-size: 12px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
   .painel-topo .fim { margin-left: auto; }
@@ -108,17 +116,11 @@
   .coluna { padding: 20px; }
   .coluna + .coluna { border-left: 1px solid var(--linha); }
 
-  h2 {
-    font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em;
-    color: var(--texto-dim); margin: 0 0 12px;
-  }
+  h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-dim); margin: 0 0 12px; }
   .bloco + .bloco { margin-top: 26px; }
 
   .lista { list-style: none; margin: 0; padding: 0; }
-  .lista li {
-    display: flex; align-items: center; gap: 11px;
-    padding: 9px 10px; border-radius: 8px; margin: 0 -10px;
-  }
+  .lista li { display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 8px; margin: 0 -10px; }
   .lista li:hover { background: var(--sup-2); }
   .lista .txt { min-width: 0; flex: 1; }
   .lista .t1 { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -138,11 +140,8 @@
   .call-sub { font-size: 13px; color: var(--texto-dim); margin: 3px 0 0; }
   .cronometro { font-size: 14px; font-variant-numeric: tabular-nums; color: var(--texto-dim); background: var(--sup-2); padding: 5px 12px; border-radius: 999px; }
 
-  .palco { padding: 24px; min-height: 220px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-content: center; }
-  .pessoa {
-    background: var(--sup-2); border-radius: 10px; padding: 20px 12px 16px;
-    display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid transparent;
-  }
+  .palco { padding: 24px; min-height: 200px; display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); align-content: center; }
+  .pessoa { background: var(--sup-2); border-radius: 10px; padding: 20px 12px 16px; display: flex; flex-direction: column; align-items: center; gap: 10px; border: 1px solid transparent; }
   .pessoa.falando { border-color: var(--azul); }
   .pessoa .av { box-shadow: 0 0 0 0 rgba(0,175,240,0); transition: box-shadow 140ms ease; }
   .pessoa.falando .av { box-shadow: 0 0 0 4px rgba(0,175,240,0.55); }
@@ -155,6 +154,10 @@
   .selo svg { width: 12px; height: 12px; }
   .pessoa .nome { font-size: 14px; font-weight: 600; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
   .pessoa .papel { font-size: 12px; color: var(--texto-dim); margin-top: -6px; }
+
+  .gaveta { padding: 0 24px 8px; }
+  .gaveta .caixa { background: var(--sup-2); border-radius: 10px; padding: 14px 16px; }
+  .gaveta .lista li:hover { background: var(--sup-3); }
 
   .barra { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 18px 24px 24px; border-top: 1px solid var(--linha); }
   .ctrl { width: 52px; height: 52px; border-radius: 50%; background: var(--sup-2); color: var(--texto); display: flex; align-items: center; justify-content: center; transition: background 120ms ease; }
@@ -179,6 +182,17 @@
 <body>
 
 <main class="app" id="app">
+
+  <!-- convite recebido: aparece em qualquer tela -->
+  <div class="convite oculto" id="toastConvite">
+    <div class="av av-40" id="convAvatar">?</div>
+    <div class="txt">
+      <div class="t1" id="convTitulo">—</div>
+      <div class="t2" id="convSub">—</div>
+    </div>
+    <button class="aceitar" id="btnAceitarConvite">Entrar</button>
+    <button class="dispensar" id="btnDispensarConvite">Agora não</button>
+  </div>
 
   <!-- ——— conta ——— -->
   <div id="telaConta">
@@ -234,7 +248,6 @@
           </div>
           <p class="aviso" id="statusLobby" style="margin-top:12px"></p>
         </div>
-
         <div class="bloco">
           <h2>Calls recentes</h2>
           <ul class="lista" id="listaRecentes"></ul>
@@ -251,12 +264,10 @@
           </div>
           <p class="aviso" id="statusAmigo" style="margin-top:12px"></p>
         </div>
-
         <div class="bloco oculto" id="blocoPedidos">
           <h2>Pedidos recebidos</h2>
           <ul class="lista" id="listaPedidos"></ul>
         </div>
-
         <div class="bloco">
           <h2>Amigos</h2>
           <ul class="lista" id="listaAmigos"></ul>
@@ -280,11 +291,26 @@
       <button id="btnLiberarAudio">Tocar áudio</button>
     </div>
     <div class="palco" id="palco"></div>
+
+    <div class="gaveta oculto" id="gavetaConvidar">
+      <div class="caixa">
+        <h2>Chamar um amigo</h2>
+        <ul class="lista" id="listaConvidar"></ul>
+        <p class="vazio oculto" id="vazioConvidar">Você ainda não tem amigos para chamar.</p>
+      </div>
+    </div>
+
     <div class="barra">
       <button class="ctrl" id="btnMudo" aria-label="Silenciar microfone" title="Silenciar">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
           <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+        </svg>
+      </button>
+      <button class="ctrl" id="btnConvidar" aria-label="Chamar um amigo" title="Chamar um amigo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/>
+          <circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
         </svg>
       </button>
       <button class="ctrl desligar" id="btnSair" aria-label="Sair da call" title="Sair da call">
@@ -320,6 +346,7 @@ const firebaseConfig = {
 };
 
 const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
+const VALIDADE_CONVITE = 120; // segundos
 
 const fb   = initializeApp(firebaseConfig);
 const auth = getAuth(fb);
@@ -328,17 +355,19 @@ const rtdb = getDatabase(fb);
 const LK   = window.LivekitClient;
 const $ = id => document.getElementById(id);
 
-let eu = null;          // { uid, nome, handle, cor }
+let eu = null;
 let room = null;
 let mudo = false;
 let modo = 'entrar';
 let salaAtual = null;
 let relogio = null;
 let inicioCall = 0;
+let convitePendente = null;
 
-const amigos = new Map();       // uid -> { perfil, presenca, parId, status, souDono }
-const inscricoes = [];          // funções de cancelamento
+const amigos = new Map();
+const inscricoes = [];
 const presencaInscrita = new Map();
+const jaChamados = new Set();
 
 // ————— utilidades —————
 const aviso = (el, texto, tipo) => {
@@ -369,7 +398,6 @@ function corDe(chave) {
   return CORES[soma % CORES.length];
 }
 
-// Um documento por relação, com id previsível: evita duas listas dessincronizadas.
 const parDe = (a, b) => [a, b].sort().join('_');
 
 function traduzir(codigo) {
@@ -397,15 +425,11 @@ function trocarModo(novo) {
   aviso('statusConta', '');
 }
 
-// O identificador público é o que amigos digitam. O e-mail nunca é pesquisável:
-// se fosse, qualquer um descobriria quais e-mails têm conta aqui.
 async function reservarHandle(uid, nome) {
   const base = nome.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '') || 'user';
-  for (let tentativa = 0; tentativa < 10; tentativa++) {
-    const tag = String(Math.floor(1000 + Math.random() * 9000));
-    const handle = base + '#' + tag;
+  for (let i = 0; i < 10; i++) {
+    const handle = base + '#' + String(Math.floor(1000 + Math.random() * 9000));
     try {
-      // A regra só permite create — se o documento existir, isto falha e tentamos outro.
       await setDoc(doc(db, 'handles', handle), { uid });
       return handle;
     } catch (e) { /* colidiu, sorteia outra etiqueta */ }
@@ -417,7 +441,6 @@ async function garantirPerfil(user, nomeSugerido) {
   const ref = doc(db, 'usuarios', user.uid);
   const snap = await getDoc(ref);
   if (snap.exists()) return { uid: user.uid, ...snap.data() };
-
   const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0, 18);
   const handle = await reservarHandle(user.uid, nome);
   const perfil = { nome, handle, cor: corDe(user.uid), criadoEm: serverTimestamp() };
@@ -461,8 +484,6 @@ async function recuperarSenha() {
 }
 
 // ————— presença —————
-// O Firestore não percebe quando alguém fecha a aba. O Realtime Database percebe:
-// onDisconnect deixa a instrução pronta no servidor antes de a conexão cair.
 function ligarPresenca() {
   const meuRef = ref(rtdb, 'presenca/' + eu.uid);
   onValue(ref(rtdb, '.info/connected'), snap => {
@@ -479,11 +500,10 @@ const atualizarPresenca = () => {
 
 function observarPresencaDe(uid) {
   if (presencaInscrita.has(uid)) return;
-  const parar = onValue(ref(rtdb, 'presenca/' + uid), snap => {
+  presencaInscrita.set(uid, onValue(ref(rtdb, 'presenca/' + uid), snap => {
     const reg = amigos.get(uid);
-    if (reg) { reg.presenca = snap.val(); pintarAmigos(); }
-  });
-  presencaInscrita.set(uid, parar);
+    if (reg) { reg.presenca = snap.val(); pintarAmigos(); pintarConvidar(); }
+  }));
 }
 
 // ————— amigos —————
@@ -508,7 +528,8 @@ function ligarAmizades() {
     }
     for (const uid of [...amigos.keys()]) if (!vistos.has(uid)) amigos.delete(uid);
     pintarAmigos();
-  }, err => aviso('statusAmigo', 'Não consegui carregar seus amigos.', 'erro')));
+    pintarConvidar();
+  }));
 }
 
 async function adicionarAmigo() {
@@ -524,7 +545,7 @@ async function adicionarAmigo() {
     const outro = h.data().uid;
 
     // A lista já está em memória pela inscrição ao vivo — consultar ela evita
-    // um getDoc que as regras negam (corretamente) quando o doc não existe.
+    // um getDoc que as regras negam quando o documento ainda não existe.
     const existente = amigos.get(outro);
     if (existente) {
       throw new Error(
@@ -553,6 +574,15 @@ async function adicionarAmigo() {
 const aceitar = parId => updateDoc(doc(db, 'amizades', parId), { status: 'aceita' });
 const recusar = parId => deleteDoc(doc(db, 'amizades', parId));
 
+// Desfazer amizade apaga o documento da relação — some dos dois lados de uma vez,
+// já que existe um documento só. Também limpa convites de call em aberto.
+async function removerAmigo(uid, reg) {
+  if (!confirm('Remover ' + reg.perfil.nome + ' dos seus amigos?')) return;
+  await deleteDoc(doc(db, 'amizades', reg.parId));
+  await deleteDoc(doc(db, 'convites', uid + '_' + eu.uid)).catch(() => {});
+  await deleteDoc(doc(db, 'convites', eu.uid + '_' + uid)).catch(() => {});
+}
+
 function itemAmigo(uid, reg, acoes) {
   const p = reg.perfil;
   const pres = reg.presenca;
@@ -579,8 +609,10 @@ function itemAmigo(uid, reg, acoes) {
   const caixa = li.querySelector('.acoes');
   acoes.forEach(a => {
     const b = document.createElement('button');
-    b.className = 'btn btn-mini' + (a.azul ? ' btn-azul' : '');
+    b.className = 'btn btn-mini' + (a.azul ? ' btn-azul' : '') + (a.perigo ? ' btn-perigo' : '');
     b.textContent = a.rotulo;
+    if (a.titulo) b.title = a.titulo;
+    b.disabled = !!a.travado;
     b.addEventListener('click', a.acao);
     caixa.appendChild(b);
   });
@@ -612,6 +644,7 @@ function pintarAmigos() {
       if (reg.presenca && reg.presenca.sala) {
         acoes.push({ rotulo: 'Entrar', azul: true, acao: () => entrarSala(reg.presenca.sala) });
       }
+      acoes.push({ rotulo: '✕', perigo: true, titulo: 'Remover amigo', acao: () => removerAmigo(uid, reg) });
       listaA.appendChild(itemAmigo(uid, reg, acoes));
     }
   }
@@ -620,12 +653,82 @@ function pintarAmigos() {
   $('vazioAmigos').classList.toggle('oculto', aceitos > 0);
 }
 
+// ————— convites para a call —————
+// O convite é um documento efêmero. Quem recebe escuta em tempo real; quem
+// entra ou dispensa apaga. As regras só deixam criar entre amigos aceitos.
+async function chamarParaCall(uid) {
+  if (!salaAtual) return;
+  await setDoc(doc(db, 'convites', uid + '_' + eu.uid), {
+    de: eu.uid, para: uid,
+    nome: eu.nome, cor: eu.cor,
+    sala: salaAtual, criadoEm: serverTimestamp()
+  });
+  jaChamados.add(uid);
+  pintarConvidar();
+}
+
+function ligarConvites() {
+  const q = query(collection(db, 'convites'), where('para', '==', eu.uid));
+  inscricoes.push(onSnapshot(q, snap => {
+    let melhor = null;
+    snap.forEach(d => {
+      const c = d.data();
+      const idade = c.criadoEm ? (Date.now() - c.criadoEm.toMillis()) / 1000 : 0;
+      // Convite velho não deve tocar a campainha: apaga em silêncio.
+      if (idade > VALIDADE_CONVITE) return deleteDoc(d.ref).catch(() => {});
+      if (c.sala === salaAtual) return deleteDoc(d.ref).catch(() => {});
+      if (!melhor) melhor = { id: d.id, ...c };
+    });
+    mostrarConvite(melhor);
+  }));
+}
+
+function mostrarConvite(c) {
+  convitePendente = c;
+  $('toastConvite').classList.toggle('oculto', !c);
+  if (!c) return;
+  $('convAvatar').textContent = iniciais(c.nome);
+  $('convAvatar').style.background = c.cor || corDe(c.de);
+  $('convTitulo').textContent = c.nome + ' está te chamando';
+  $('convSub').textContent = 'Sala ' + c.sala;
+}
+
+async function responderConvite(entrar) {
+  const c = convitePendente;
+  mostrarConvite(null);
+  if (!c) return;
+  await deleteDoc(doc(db, 'convites', c.id)).catch(() => {});
+  if (entrar) {
+    if (room) sairSala();
+    entrarSala(c.sala);
+  }
+}
+
+function pintarConvidar() {
+  const lista = $('listaConvidar');
+  if (!lista) return;
+  lista.innerHTML = '';
+  let n = 0;
+
+  for (const [uid, reg] of amigos) {
+    if (reg.status !== 'aceita') continue;
+    n++;
+    const pres = reg.presenca;
+    const naSala = pres && pres.sala === salaAtual;
+    const online = pres && pres.online;
+    lista.appendChild(itemAmigo(uid, reg, [
+      naSala   ? { rotulo: 'Já está aqui', travado: true, acao: () => {} }
+      : !online ? { rotulo: 'Offline', travado: true, acao: () => {} }
+      : jaChamados.has(uid) ? { rotulo: 'Chamado', travado: true, acao: () => {} }
+      : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) }
+    ]));
+  }
+  $('vazioConvidar').classList.toggle('oculto', n > 0);
+}
+
 // ————— recentes —————
 function ligarRecentes() {
-  const q = query(
-    collection(db, 'usuarios', eu.uid, 'recentes'),
-    orderBy('ultimaVez', 'desc'), limit(8)
-  );
+  const q = query(collection(db, 'usuarios', eu.uid, 'recentes'), orderBy('ultimaVez', 'desc'), limit(8));
   inscricoes.push(onSnapshot(q, snap => {
     const lista = $('listaRecentes');
     lista.innerHTML = '';
@@ -638,8 +741,7 @@ function ligarRecentes() {
         '<div class="acoes"></div>';
       li.querySelector('.sala-chip').textContent = d.id;
       li.querySelector('.t1').textContent = 'Sala ' + d.id;
-      li.querySelector('.t2').textContent =
-        (dados.vezes || 1) + (dados.vezes === 1 ? ' visita' : ' visitas');
+      li.querySelector('.t2').textContent = (dados.vezes || 1) + (dados.vezes === 1 ? ' visita' : ' visitas');
       const b = document.createElement('button');
       b.className = 'btn btn-mini btn-azul';
       b.textContent = 'Entrar';
@@ -662,6 +764,7 @@ onAuthStateChanged(auth, async user => {
     presencaInscrita.forEach(f => f());
     presencaInscrita.clear();
     amigos.clear();
+    jaChamados.clear();
     if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
     eu = null;
     return tela('telaConta');
@@ -682,6 +785,7 @@ onAuthStateChanged(auth, async user => {
   ligarPresenca();
   ligarAmizades();
   ligarRecentes();
+  ligarConvites();
   if (!room) tela('telaPainel');
 });
 
@@ -714,6 +818,7 @@ function pintarPalco() {
   $('callSub').textContent = todos.length === 1
     ? 'Aguardando outras pessoas'
     : todos.length + ' pessoas na chamada';
+  pintarConvidar();
 }
 
 function iniciarRelogio() {
@@ -753,6 +858,9 @@ async function entrarSala(codigo) {
   $('callTitulo').textContent = 'Sala ' + sala;
   $('callSub').textContent = 'Conectando…';
   $('cronometro').textContent = '00:00';
+  $('gavetaConvidar').classList.add('oculto');
+  $('btnConvidar').classList.remove('ativo');
+  jaChamados.clear();
 
   room = new LK.Room({
     adaptiveStream: true, dynacast: true,
@@ -799,10 +907,13 @@ function sairSala() {
   room = null;
   mudo = false;
   salaAtual = null;
+  jaChamados.clear();
   atualizarPresenca();
   $('btnMudo').classList.remove('ativo');
   $('palco').innerHTML = '';
   $('bannerAudio').classList.add('oculto');
+  $('gavetaConvidar').classList.add('oculto');
+  $('btnConvidar').classList.remove('ativo');
   aviso('statusLobby', '');
   tela('telaPainel');
 }
@@ -820,6 +931,15 @@ $('sala').addEventListener('keydown', e => { if (e.key === 'Enter') entrarSala()
 $('btnAdicionar').addEventListener('click', adicionarAmigo);
 $('buscaAmigo').addEventListener('keydown', e => { if (e.key === 'Enter') adicionarAmigo(); });
 $('btnSairConta').addEventListener('click', () => signOut(auth));
+
+$('btnAceitarConvite').addEventListener('click', () => responderConvite(true));
+$('btnDispensarConvite').addEventListener('click', () => responderConvite(false));
+
+$('btnConvidar').addEventListener('click', () => {
+  const aberta = !$('gavetaConvidar').classList.toggle('oculto');
+  $('btnConvidar').classList.toggle('ativo', aberta);
+  if (aberta) pintarConvidar();
+});
 
 $('btnSair').addEventListener('click', sairSala);
 $('btnLiberarAudio').addEventListener('click', async () => {
