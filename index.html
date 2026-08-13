@@ -34,7 +34,7 @@
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     transition: max-width 220ms ease;
   }
-  .app.largo { max-width: 860px; }
+  .app.largo { max-width: 880px; }
   .app.emCall { max-width: 680px; }
 
   .topo { padding: 20px 24px 16px; }
@@ -43,16 +43,18 @@
   .corpo { padding: 4px 24px 24px; }
 
   label { display: block; font-size: 13px; font-weight: 600; color: var(--texto-dim); margin-bottom: 6px; }
-  input {
+  input, select {
     width: 100%; background: var(--sup-2); border: 1px solid transparent; border-radius: 6px;
     color: var(--texto); font-family: inherit; font-size: 15px; padding: 11px 12px;
   }
+  select { padding: 7px 8px; font-size: 13px; font-weight: 600; width: auto; }
   input::placeholder { color: #74747A; }
-  input:focus { border-color: var(--azul); outline: none; }
-  input:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
+  input:focus, select:focus { border-color: var(--azul); outline: none; }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--azul); outline-offset: 2px; }
   .campo { margin-bottom: 14px; }
   .linha-dupla { display: flex; gap: 8px; }
   .linha-dupla input { flex: 1; }
+  .largura-curta { width: 84px; flex: none !important; text-align: center; }
 
   button { font-family: inherit; cursor: pointer; border: none; }
   .btn { background: var(--sup-2); color: var(--texto); border-radius: 6px; font-size: 14px; font-weight: 600; padding: 11px 16px; }
@@ -81,7 +83,6 @@
   .aviso:empty { display: none; }
   .dica { font-size: 13px; color: var(--texto-dim); margin: 14px 0 0; line-height: 1.5; }
 
-  /* ——— avatar ——— */
   .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; flex: none; }
   .av-24 { width: 24px; height: 24px; font-size: 10px; }
   .av-32 { width: 32px; height: 32px; font-size: 13px; }
@@ -95,7 +96,6 @@
   .ponto.on { background: var(--verde); }
   .ponto.call { background: var(--azul); }
 
-  /* ——— convite ——— */
   .convite { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--azul-esc); }
   .convite .txt { flex: 1; min-width: 0; }
   .convite .t1 { font-size: 14px; font-weight: 600; }
@@ -104,25 +104,20 @@
   .convite .aceitar { background: #fff; color: var(--azul-esc); }
   .convite .dispensar { background: rgba(255,255,255,0.18); color: #fff; }
 
-  /* ——— painel ——— */
   .painel-topo { display: flex; align-items: center; gap: 12px; padding: 16px 20px; border-bottom: 1px solid var(--linha); }
   .painel-topo .eu-nome { font-size: 15px; font-weight: 600; }
   .painel-topo .eu-tag { font-size: 12px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
   .painel-topo .fim { margin-left: auto; }
 
-  .colunas { display: grid; grid-template-columns: 72px 1fr 280px; min-height: 340px; }
-  .coluna { padding: 20px; }
+  .colunas { display: grid; grid-template-columns: 72px 1fr 280px; min-height: 360px; }
+  .coluna { padding: 20px; max-height: 560px; overflow-y: auto; }
   .coluna + .coluna { border-left: 1px solid var(--linha); }
 
-  /* barra de grupos */
-  .rail {
-    background: var(--rail); padding: 14px 0; display: flex; flex-direction: column;
-    align-items: center; gap: 10px;
-  }
+  .rail { background: var(--rail); padding: 14px 0; display: flex; flex-direction: column; align-items: center; gap: 10px; }
   .rail button {
     width: 44px; height: 44px; border-radius: 14px; background: var(--sup-2);
     color: var(--texto); font-size: 15px; font-weight: 700; display: flex;
-    align-items: center; justify-content: center; transition: border-radius 140ms ease, background 140ms ease;
+    align-items: center; justify-content: center; transition: border-radius 140ms ease;
   }
   .rail button:hover { border-radius: 12px; }
   .rail button.ativo { border-radius: 12px; box-shadow: 0 0 0 2px var(--azul); }
@@ -134,19 +129,15 @@
 
   .grupo-topo { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px; }
   .grupo-topo .g-nome { font-size: 17px; font-weight: 600; }
-  .grupo-topo .g-handle {
-    font-size: 12px; color: var(--texto-dim); margin-top: 2px;
-    display: flex; align-items: center; gap: 8px;
-  }
+  .grupo-topo .g-handle { font-size: 12px; color: var(--texto-dim); margin-top: 2px; display: flex; align-items: center; gap: 8px; }
   .grupo-topo .fim { margin-left: auto; }
 
-  .sala {
-    border-radius: 8px; padding: 8px 10px; margin: 0 -10px;
-  }
+  .sala { border-radius: 8px; padding: 8px 10px; margin: 0 -10px; }
   .sala:hover { background: var(--sup-2); }
   .sala-cab { display: flex; align-items: center; gap: 8px; }
   .sala-cab .hash { color: var(--texto-dim); font-size: 16px; font-weight: 600; }
   .sala-cab .s-nome { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .sala-cab .acoes { display: flex; gap: 6px; }
   .dentro { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 0 2px 24px; }
   .dentro .quem { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--texto-dim); }
 
@@ -154,12 +145,28 @@
   .lista li { display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 8px; margin: 0 -10px; }
   .lista li:hover { background: var(--sup-2); }
   .lista .txt { min-width: 0; flex: 1; }
-  .lista .t1 { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .lista .t1 { font-size: 14px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
   .lista .t2 { font-size: 12px; color: var(--texto-dim); margin-top: 1px; }
-  .lista .acoes { display: flex; gap: 6px; flex: none; }
+  .lista .acoes { display: flex; gap: 6px; flex: none; align-items: center; }
   .vazio { font-size: 13px; color: var(--texto-dim); line-height: 1.5; margin: 0; }
 
-  /* ——— call ——— */
+  .selo-cargo {
+    font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em;
+    padding: 2px 7px; border-radius: 999px; flex: none;
+  }
+
+  .cargo-card { background: var(--sup-2); border-radius: 8px; padding: 12px 14px; margin-bottom: 10px; }
+  .cargo-cab { display: flex; align-items: center; gap: 9px; margin-bottom: 10px; }
+  .cargo-cab .c-nome { font-size: 14px; font-weight: 600; flex: 1; }
+  .cargo-cab .c-nivel { font-size: 11px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
+  .perms { display: flex; flex-direction: column; gap: 6px; }
+  .perms label {
+    display: flex; align-items: center; gap: 8px; font-size: 12px;
+    font-weight: 500; text-transform: none; letter-spacing: 0; color: var(--texto); margin: 0;
+  }
+  .perms input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--azul); flex: none; padding: 0; }
+  .perms label.travado { color: var(--texto-dim); }
+
   .call-topo { display: flex; align-items: center; justify-content: space-between; padding: 16px 24px; border-bottom: 1px solid var(--linha); }
   .call-titulo { font-size: 17px; font-weight: 600; margin: 0; }
   .call-sub { font-size: 13px; color: var(--texto-dim); margin: 3px 0 0; }
@@ -197,7 +204,7 @@
 
   .oculto { display: none !important; }
   @media (prefers-reduced-motion: reduce) { .av, .app, .ctrl, .rail button { transition: none; } }
-  @media (max-width: 760px) {
+  @media (max-width: 780px) {
     .colunas { grid-template-columns: 60px 1fr; }
     .coluna.amigos { grid-column: 1 / -1; border-left: none; border-top: 1px solid var(--linha); }
     .palco { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); padding: 18px; }
@@ -265,7 +272,6 @@
       <div class="rail" id="rail"></div>
 
       <div class="coluna">
-        <!-- criar / entrar em grupo -->
         <div id="areaNovoGrupo" class="oculto">
           <div class="abas" role="tablist">
             <button role="tab" id="abaCriarG" aria-selected="true">Criar grupo</button>
@@ -288,12 +294,11 @@
           <p class="aviso" id="statusGrupo" style="margin-top:14px"></p>
         </div>
 
-        <!-- grupo selecionado -->
         <div id="areaGrupo" class="oculto">
           <div class="grupo-topo">
             <div>
               <div class="g-nome" id="gNome">—</div>
-              <div class="g-handle">
+              <div class="g-handle oculto" id="gHandleLinha">
                 <span id="gHandle">—</span>
                 <button class="btn-texto" id="btnCopiarCodigo">copiar</button>
               </div>
@@ -301,14 +306,32 @@
             <div class="fim"><button class="btn-texto btn-perigo" id="btnSairGrupo" style="background:none">Sair do grupo</button></div>
           </div>
 
-          <h2>Salas de voz</h2>
-          <div id="listaSalas"></div>
-
-          <div class="linha-dupla oculto" id="areaNovaSala" style="margin-top:14px">
-            <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
-            <button class="btn" id="btnCriarSala">Criar</button>
+          <div class="bloco">
+            <h2>Salas de voz</h2>
+            <div id="listaSalas"></div>
+            <div class="linha-dupla oculto" id="areaNovaSala" style="margin-top:14px">
+              <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
+              <button class="btn" id="btnCriarSala">Criar</button>
+            </div>
+            <p class="aviso" id="statusSala" style="margin-top:12px"></p>
           </div>
-          <p class="aviso" id="statusSala" style="margin-top:12px"></p>
+
+          <div class="bloco">
+            <h2>Membros</h2>
+            <ul class="lista" id="listaMembros"></ul>
+          </div>
+
+          <div class="bloco oculto" id="blocoCargos">
+            <h2>Cargos</h2>
+            <div id="listaCargos"></div>
+            <div class="linha-dupla" style="margin-top:12px">
+              <input id="nomeCargo" maxlength="18" placeholder="Novo cargo" autocomplete="off">
+              <input id="nivelCargo" class="largura-curta" type="number" min="1" max="99" value="10" title="Nível">
+              <button class="btn" id="btnCriarCargo">Criar</button>
+            </div>
+            <p class="aviso" id="statusCargo" style="margin-top:12px"></p>
+            <p class="dica">Quanto maior o nível, mais alto o cargo. Ninguém mexe em cargo de nível igual ou acima do seu.</p>
+          </div>
         </div>
 
         <p class="vazio" id="semGrupo">Você ainda não faz parte de nenhum grupo. Use o + ao lado para criar um ou entrar com um código.</p>
@@ -407,6 +430,25 @@ const firebaseConfig = {
 const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
 const VALIDADE_CONVITE = 120;
 
+// Lista mestra de permissões. Para acrescentar uma nova depois:
+// 1) uma linha aqui, 2) usar a chave numa regra do Firestore, 3) usar pode('chave') na tela.
+const PERMISSOES = [
+  ['gerenciarSalas',  'Criar e apagar salas'],
+  ['gerenciarCargos', 'Criar e editar cargos'],
+  ['atribuirCargos',  'Dar cargos aos membros'],
+  ['expulsar',        'Remover membros'],
+  ['verCodigo',       'Ver o código do grupo']
+];
+
+const CARGOS_BASE = {
+  dono: { nome: 'Dono', nivel: 100, permissoes: {
+    gerenciarSalas: true, gerenciarCargos: true, atribuirCargos: true, expulsar: true, verCodigo: true } },
+  coordenador: { nome: 'Coordenador', nivel: 50, permissoes: {
+    gerenciarSalas: true, gerenciarCargos: false, atribuirCargos: true, expulsar: true, verCodigo: true } },
+  membro: { nome: 'Membro', nivel: 0, permissoes: {
+    gerenciarSalas: false, gerenciarCargos: false, atribuirCargos: false, expulsar: false, verCodigo: true } }
+};
+
 const fb   = initializeApp(firebaseConfig);
 const auth = getAuth(fb);
 const db   = getFirestore(fb);
@@ -419,21 +461,25 @@ let room = null;
 let mudo = false;
 let modo = 'entrar';
 let modoGrupo = 'criar';
-let grupoAtivo = null;        // grupo selecionado no painel
-let grupoNaCall = null;       // grupo da call em andamento
+let grupoAtivo = null;
+let grupoNaCall = null;
 let salaNaCall = null;
+let souDono = false;
+let meuCargo = null;
+let migrando = false;
 let relogio = null;
 let inicioCall = 0;
 let convitePendente = null;
 
-const meusGrupos = new Map();    // gid -> { nome, handle }
-const salas = new Map();         // sid -> { nome }
-const membrosGrupo = new Map();  // uid -> { nome }
-const amigos = new Map();        // uid -> { perfil, status, parId, euPedi }
-const presencas = new Map();     // uid -> { online, grupo, sala }
+const meusGrupos = new Map();
+const salas = new Map();
+const cargos = new Map();
+const membrosGrupo = new Map();
+const amigos = new Map();
+const presencas = new Map();
 const presencaInscrita = new Map();
-const inscricoes = [];           // inscrições da sessão
-const inscricoesGrupo = [];      // inscrições do grupo selecionado
+const inscricoes = [];
+const inscricoesGrupo = [];
 const jaChamados = new Set();
 
 // ————— utilidades —————
@@ -468,8 +514,15 @@ const sorteioLetras = n => {
 };
 
 const apelidar = texto =>
-  texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-       .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
+  (texto || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
+
+const quando = ts => (ts && ts.toMillis ? ts.toMillis() : 0);
+
+// Estas duas espelham as regras do Firestore. Aqui servem para esconder botão;
+// lá servem para valer. Nunca confie só nesta metade.
+const pode = chave => souDono || !!(meuCargo && meuCargo.permissoes && meuCargo.permissoes[chave]);
+const meuNivel = () => souDono ? 1000 : (meuCargo ? (meuCargo.nivel || 0) : -1);
 
 function traduzir(codigo) {
   const mapa = {
@@ -571,11 +624,12 @@ const atualizarPresenca = () => {
 };
 
 function observarPresencaDe(uid) {
-  if (presencaInscrita.has(uid) || uid === eu.uid) return;
+  if (presencaInscrita.has(uid) || !eu || uid === eu.uid) return;
   presencaInscrita.set(uid, onValue(ref(rtdb, 'presenca/' + uid), snap => {
     presencas.set(uid, snap.val());
     pintarAmigos();
     pintarSalas();
+    pintarMembros();
     pintarConvidar();
   }));
 }
@@ -585,10 +639,9 @@ function ligarGrupos() {
   inscricoes.push(onSnapshot(collection(db, 'usuarios', eu.uid, 'grupos'), snap => {
     meusGrupos.clear();
     snap.forEach(d => meusGrupos.set(d.id, d.data()));
-    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) selecionarGrupo(null);
-    if (!grupoAtivo && meusGrupos.size) selecionarGrupo([...meusGrupos.keys()][0]);
+    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) return selecionarGrupo(null);
+    if (!grupoAtivo && meusGrupos.size) return selecionarGrupo([...meusGrupos.keys()][0]);
     pintarRail();
-    pintarGrupo();
   }));
 }
 
@@ -614,31 +667,32 @@ function pintarRail() {
 
 function selecionarGrupo(gid, mostrarNovo) {
   inscricoesGrupo.splice(0).forEach(f => f());
-  salas.clear();
-  membrosGrupo.clear();
+  salas.clear(); cargos.clear(); membrosGrupo.clear();
   grupoAtivo = gid;
+  souDono = false;
+  meuCargo = null;
+  migrando = false;
 
   $('areaNovoGrupo').classList.toggle('oculto', !(mostrarNovo || (!gid && !meusGrupos.size)));
   $('areaGrupo').classList.toggle('oculto', !gid);
   $('semGrupo').classList.toggle('oculto', !!gid || mostrarNovo || meusGrupos.size > 0);
-
   pintarRail();
   if (!gid) return;
 
-  const g = meusGrupos.get(gid);
-  $('gNome').textContent = g.nome;
-  $('gHandle').textContent = g.handle;
+  const g = meusGrupos.get(gid) || {};
+  $('gNome').textContent = g.nome || '—';
+  $('gHandle').textContent = g.handle || '—';
 
-  // dono? só ele cria salas
-  getDoc(doc(db, 'grupos', gid)).then(d => {
-    const dono = d.exists() && d.data().dono === eu.uid;
-    $('areaNovaSala').classList.toggle('oculto', !dono);
-  }).catch(() => {});
+  inscricoesGrupo.push(onSnapshot(doc(db, 'grupos', gid), d => {
+    souDono = d.exists() && d.data().dono === eu.uid;
+    recalcular();
+  }));
 
-  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'salas'), snap => {
-    salas.clear();
-    snap.forEach(d => salas.set(d.id, d.data()));
-    pintarSalas();
+  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'cargos'), snap => {
+    cargos.clear();
+    snap.forEach(d => cargos.set(d.id, d.data()));
+    if (!cargos.size) migrarCargos(gid);
+    recalcular();
   }));
 
   inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'membros'), snap => {
@@ -647,14 +701,42 @@ function selecionarGrupo(gid, mostrarNovo) {
       membrosGrupo.set(d.id, d.data());
       observarPresencaDe(d.id);
     });
-    pintarSalas();
-    pintarConvidar();
+    recalcular();
   }));
 
-  pintarGrupo();
+  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'salas'), snap => {
+    salas.clear();
+    snap.forEach(d => salas.set(d.id, d.data()));
+    pintarSalas();
+  }));
 }
 
-const pintarGrupo = () => { if (!meusGrupos.size && !grupoAtivo) $('semGrupo').classList.remove('oculto'); };
+// Grupos criados antes dos cargos existirem não têm nenhum. O dono cria na
+// primeira visita e assume o cargo de dono.
+async function migrarCargos(gid) {
+  if (migrando || !souDono) return;
+  migrando = true;
+  try {
+    for (const [cid, c] of Object.entries(CARGOS_BASE)) {
+      await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
+    }
+    await updateDoc(doc(db, 'grupos', gid, 'membros', eu.uid), { cargo: 'dono' });
+  } catch (e) { /* outro cliente já fez */ }
+}
+
+function recalcular() {
+  const meu = membrosGrupo.get(eu.uid);
+  meuCargo = meu && cargos.get(meu.cargo) ? cargos.get(meu.cargo) : null;
+
+  $('areaNovaSala').classList.toggle('oculto', !pode('gerenciarSalas'));
+  $('blocoCargos').classList.toggle('oculto', !pode('gerenciarCargos'));
+  $('gHandleLinha').classList.toggle('oculto', !pode('verCodigo'));
+
+  pintarSalas();
+  pintarCargos();
+  pintarMembros();
+  pintarConvidar();
+}
 
 function pintarSalas() {
   const alvo = $('listaSalas');
@@ -674,20 +756,33 @@ function pintarSalas() {
       '<div class="acoes"></div></div><div class="dentro"></div>';
     div.querySelector('.s-nome').textContent = s.nome;
 
+    const acoes = div.querySelector('.acoes');
+    const aqui = grupoNaCall === grupoAtivo && salaNaCall === sid;
     const entrar = document.createElement('button');
     entrar.className = 'btn btn-mini btn-azul';
-    entrar.textContent = (grupoNaCall === grupoAtivo && salaNaCall === sid) ? 'Aqui' : 'Entrar';
-    entrar.disabled = (grupoNaCall === grupoAtivo && salaNaCall === sid);
+    entrar.textContent = aqui ? 'Aqui' : 'Entrar';
+    entrar.disabled = aqui;
     entrar.addEventListener('click', () => entrarSala(grupoAtivo, sid, s.nome));
-    div.querySelector('.acoes').appendChild(entrar);
+    acoes.appendChild(entrar);
 
-    // Quem já está dentro — o motivo de existir uma sala de voz permanente.
+    if (pode('gerenciarSalas')) {
+      const apagar = document.createElement('button');
+      apagar.className = 'btn btn-mini btn-perigo';
+      apagar.textContent = '✕';
+      apagar.title = 'Apagar sala';
+      apagar.addEventListener('click', async () => {
+        if (confirm('Apagar a sala ' + s.nome + '?')) {
+          await deleteDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid)).catch(() =>
+            aviso('statusSala', 'Você não tem permissão para isso.', 'erro'));
+        }
+      });
+      acoes.appendChild(apagar);
+    }
+
     const dentro = div.querySelector('.dentro');
     let n = 0;
     for (const [uid, m] of membrosGrupo) {
-      const p = uid === eu.uid
-        ? { grupo: grupoNaCall, sala: salaNaCall }
-        : presencas.get(uid);
+      const p = uid === eu.uid ? { grupo: grupoNaCall, sala: salaNaCall } : presencas.get(uid);
       if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
       n++;
       const span = document.createElement('span');
@@ -700,11 +795,181 @@ function pintarSalas() {
       dentro.appendChild(span);
     }
     if (!n) dentro.remove();
-
     alvo.appendChild(div);
   }
 }
 
+// ————— cargos —————
+function pintarCargos() {
+  const alvo = $('listaCargos');
+  if (!alvo || !grupoAtivo) return;
+  alvo.innerHTML = '';
+
+  const ordenados = [...cargos.entries()].sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0));
+  for (const [cid, c] of ordenados) {
+    const editavel = pode('gerenciarCargos') && (c.nivel || 0) < meuNivel();
+    const card = document.createElement('div');
+    card.className = 'cargo-card';
+    card.innerHTML =
+      '<div class="cargo-cab"><span class="selo-cargo"></span>' +
+      '<span class="c-nome"></span><span class="c-nivel"></span>' +
+      '<div class="acoes"></div></div><div class="perms"></div>';
+
+    const selo = card.querySelector('.selo-cargo');
+    selo.textContent = cid;
+    selo.style.background = corDe(cid);
+    card.querySelector('.c-nome').textContent = c.nome;
+    card.querySelector('.c-nivel').textContent = 'nível ' + (c.nivel || 0);
+
+    const perms = card.querySelector('.perms');
+    PERMISSOES.forEach(([chave, rotulo]) => {
+      const lab = document.createElement('label');
+      if (!editavel) lab.className = 'travado';
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      cb.checked = !!(c.permissoes && c.permissoes[chave]);
+      cb.disabled = !editavel;
+      cb.addEventListener('change', async () => {
+        try {
+          await updateDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), {
+            ['permissoes.' + chave]: cb.checked
+          });
+          aviso('statusCargo', '');
+        } catch (e) {
+          cb.checked = !cb.checked;
+          aviso('statusCargo', 'O banco recusou essa mudança.', 'erro');
+        }
+      });
+      lab.appendChild(cb);
+      lab.appendChild(document.createTextNode(rotulo));
+      perms.appendChild(lab);
+    });
+
+    if (editavel && !CARGOS_BASE[cid]) {
+      const apagar = document.createElement('button');
+      apagar.className = 'btn btn-mini btn-perigo';
+      apagar.textContent = '✕';
+      apagar.title = 'Apagar cargo';
+      apagar.addEventListener('click', () => apagarCargo(cid, c));
+      card.querySelector('.acoes').appendChild(apagar);
+    }
+    alvo.appendChild(card);
+  }
+}
+
+async function criarCargo() {
+  const nome = $('nomeCargo').value.trim();
+  const nivel = parseInt($('nivelCargo').value, 10);
+  if (!nome) return aviso('statusCargo', 'Dê um nome ao cargo.', 'erro');
+  if (!(nivel > 0 && nivel < meuNivel())) {
+    return aviso('statusCargo', 'O nível precisa ficar entre 1 e ' + (meuNivel() - 1) + '.', 'erro');
+  }
+  const cid = apelidar(nome) || ('cargo' + Date.now());
+  if (cargos.has(cid)) return aviso('statusCargo', 'Já existe um cargo com esse nome.', 'erro');
+
+  try {
+    const permissoes = {};
+    PERMISSOES.forEach(([chave]) => { permissoes[chave] = false; });
+    await setDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), { nome, nivel, permissoes });
+    $('nomeCargo').value = '';
+    aviso('statusCargo', 'Cargo criado. Marque as permissões dele acima.', 'ok');
+  } catch (e) {
+    aviso('statusCargo', 'O banco recusou. Confira seu nível e sua permissão.', 'erro');
+  }
+}
+
+async function apagarCargo(cid, c) {
+  const usando = [...membrosGrupo.entries()].filter(([, m]) => m.cargo === cid);
+  const texto = usando.length
+    ? 'Apagar o cargo ' + c.nome + '? ' + usando.length + ' pessoa(s) voltam a ser Membro.'
+    : 'Apagar o cargo ' + c.nome + '?';
+  if (!confirm(texto)) return;
+  try {
+    // Sem isso, quem tem o cargo apagado fica com uma referência quebrada.
+    for (const [uid] of usando) {
+      await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: 'membro' });
+    }
+    await deleteDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid));
+  } catch (e) {
+    aviso('statusCargo', 'Não consegui apagar: falta permissão.', 'erro');
+  }
+}
+
+// ————— membros —————
+function pintarMembros() {
+  const lista = $('listaMembros');
+  if (!lista || !grupoAtivo) return;
+  lista.innerHTML = '';
+
+  const ordenados = [...membrosGrupo.entries()].sort((a, b) => {
+    const ca = cargos.get(a[1].cargo), cb = cargos.get(b[1].cargo);
+    return ((cb && cb.nivel) || 0) - ((ca && ca.nivel) || 0);
+  });
+
+  for (const [uid, m] of ordenados) {
+    const c = cargos.get(m.cargo) || { nome: '—', nivel: 0 };
+    const pres = uid === eu.uid ? { online: true } : presencas.get(uid);
+    const li = document.createElement('li');
+    li.innerHTML =
+      '<div class="av-wrap"><div class="av av-32"></div><span class="ponto"></span></div>' +
+      '<div class="txt"><div class="t1"><span class="n"></span><span class="selo-cargo"></span></div>' +
+      '<div class="t2"></div></div><div class="acoes"></div>';
+
+    const av = li.querySelector('.av');
+    av.textContent = iniciais(m.nome);
+    av.style.background = corDe(uid);
+    li.querySelector('.n').textContent = m.nome + (uid === eu.uid ? ' (você)' : '');
+    const selo = li.querySelector('.selo-cargo');
+    selo.textContent = c.nome;
+    selo.style.background = corDe(m.cargo);
+    li.querySelector('.ponto').className = 'ponto' + (pres && pres.sala ? ' call' : pres && pres.online ? ' on' : '');
+    li.querySelector('.t2').textContent = pres && pres.sala ? 'Em call' : pres && pres.online ? 'Online' : 'Offline';
+
+    const acoes = li.querySelector('.acoes');
+    const abaixoDeMim = (c.nivel || 0) < meuNivel() && uid !== eu.uid;
+
+    if (pode('atribuirCargos') && abaixoDeMim) {
+      const sel = document.createElement('select');
+      [...cargos.entries()]
+        .filter(([, cc]) => (cc.nivel || 0) < meuNivel())
+        .sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0))
+        .forEach(([cid, cc]) => {
+          const o = document.createElement('option');
+          o.value = cid;
+          o.textContent = cc.nome;
+          o.selected = cid === m.cargo;
+          sel.appendChild(o);
+        });
+      sel.addEventListener('change', async () => {
+        try {
+          await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: sel.value });
+        } catch (e) {
+          aviso('statusCargo', 'O banco recusou a troca de cargo.', 'erro');
+        }
+      });
+      acoes.appendChild(sel);
+    }
+
+    if (pode('expulsar') && abaixoDeMim) {
+      const b = document.createElement('button');
+      b.className = 'btn btn-mini btn-perigo';
+      b.textContent = '✕';
+      b.title = 'Remover do grupo';
+      b.addEventListener('click', async () => {
+        if (!confirm('Remover ' + m.nome + ' do grupo?')) return;
+        try {
+          await deleteDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid));
+        } catch (e) {
+          aviso('statusCargo', 'Não consegui remover: falta permissão.', 'erro');
+        }
+      });
+      acoes.appendChild(b);
+    }
+    lista.appendChild(li);
+  }
+}
+
+// ————— criar / entrar em grupo —————
 async function criarGrupo() {
   const nome = $('nomeGrupo').value.trim();
   if (!nome) return aviso('statusGrupo', 'Dê um nome ao grupo.', 'erro');
@@ -715,7 +980,10 @@ async function criarGrupo() {
     const gid = doc(collection(db, 'grupos')).id;
     await setDoc(doc(db, 'grupos', gid), { nome, dono: eu.uid, criadoEm: serverTimestamp() });
 
-    // Reserva o código. A regra só deixa criar se o grupo já existir e for seu.
+    for (const [cid, c] of Object.entries(CARGOS_BASE)) {
+      await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
+    }
+
     const base = apelidar(nome) || 'grupo';
     let handle = null;
     for (let i = 0; i < 10 && !handle; i++) {
@@ -729,7 +997,7 @@ async function criarGrupo() {
 
     await updateDoc(doc(db, 'grupos', gid), { handle });
     await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
-      { uid: eu.uid, nome: eu.nome, entrouEm: serverTimestamp() });
+      { uid: eu.uid, nome: eu.nome, cargo: 'dono', entrouEm: serverTimestamp() });
     await setDoc(doc(db, 'grupos', gid, 'salas', 'geral'),
       { nome: 'Geral', criadoEm: serverTimestamp() });
     await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome, handle });
@@ -745,11 +1013,12 @@ async function criarGrupo() {
 }
 
 async function entrarGrupo() {
-  const codigo = $('codigoGrupo').value.trim().toLowerCase();
-  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(codigo)) {
+  const bruto = $('codigoGrupo').value.trim();
+  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(bruto)) {
     return aviso('statusGrupo', 'Use o formato nome_do_grupo#ABCD.', 'erro');
   }
-  const chave = codigo.split('#')[0] + '#' + codigo.split('#')[1].toUpperCase();
+  const partes = bruto.split('#');
+  const chave = partes[0].toLowerCase() + '#' + partes[1].toUpperCase();
 
   $('btnEntrarGrupo').disabled = true;
   aviso('statusGrupo', 'Procurando…');
@@ -759,9 +1028,8 @@ async function entrarGrupo() {
     const gid = h.data().grupo;
 
     await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
-      { uid: eu.uid, nome: eu.nome, entrouEm: serverTimestamp() });
+      { uid: eu.uid, nome: eu.nome, cargo: 'membro', entrouEm: serverTimestamp() });
 
-    // Só agora conseguimos ler o grupo: a regra exige ser membro.
     const g = await getDoc(doc(db, 'grupos', gid));
     await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid),
       { nome: g.data().nome, handle: chave });
@@ -781,23 +1049,50 @@ async function criarSala() {
   if (!nome || !grupoAtivo) return;
   const sid = apelidar(nome) || ('sala' + Date.now());
   try {
-    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid),
-      { nome, criadoEm: serverTimestamp() });
+    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid), { nome, criadoEm: serverTimestamp() });
     $('nomeSala').value = '';
     aviso('statusSala', '');
   } catch (e) {
-    aviso('statusSala', 'Só o dono do grupo pode criar salas.', 'erro');
+    aviso('statusSala', 'Você não tem permissão para criar salas.', 'erro');
   }
 }
 
+// Sair nunca desfaz o grupo, exceto se você for a última pessoa. Quando o dono
+// sai, a posse vai para o membro mais antigo — assim o dono é sempre alguém
+// presente, e por isso o último a sair é sempre quem pode apagar tudo.
 async function sairDoGrupo() {
   if (!grupoAtivo) return;
-  const g = meusGrupos.get(grupoAtivo);
-  if (!confirm('Sair de ' + g.nome + '? Você vai precisar do código para voltar.')) return;
   const gid = grupoAtivo;
-  await deleteDoc(doc(db, 'grupos', gid, 'membros', eu.uid));
-  await deleteDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid));
-  selecionarGrupo(null);
+  const g = meusGrupos.get(gid) || {};
+  const outros = [...membrosGrupo.entries()]
+    .filter(([u]) => u !== eu.uid)
+    .sort((a, b) => quando(a[1].entrouEm) - quando(b[1].entrouEm));
+  const sucessor = outros.length ? outros[0] : null;
+
+  const pergunta = !sucessor
+    ? 'Você é a última pessoa em ' + g.nome + '. Sair vai desfazer o grupo e apagar as salas. Continuar?'
+    : souDono
+      ? 'Sair de ' + g.nome + '? Como você é o dono, o grupo passa para ' + sucessor[1].nome + '.'
+      : 'Sair de ' + g.nome + '? Você vai precisar do código para voltar.';
+  if (!confirm(pergunta)) return;
+
+  try {
+    if (!sucessor) {
+      if (!souDono) throw new Error('só o dono pode desfazer o grupo');
+      for (const sid of [...salas.keys()]) await deleteDoc(doc(db, 'grupos', gid, 'salas', sid));
+      for (const cid of [...cargos.keys()]) await deleteDoc(doc(db, 'grupos', gid, 'cargos', cid)).catch(() => {});
+      if (g.handle) await deleteDoc(doc(db, 'handlesGrupo', g.handle)).catch(() => {});
+      await deleteDoc(doc(db, 'grupos', gid));
+    } else if (souDono) {
+      await updateDoc(doc(db, 'grupos', gid, 'membros', sucessor[0]), { cargo: 'dono' });
+      await updateDoc(doc(db, 'grupos', gid), { dono: sucessor[0] });
+    }
+    await deleteDoc(doc(db, 'grupos', gid, 'membros', eu.uid));
+    await deleteDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid));
+    selecionarGrupo(null);
+  } catch (e) {
+    aviso('statusSala', 'Não consegui sair: ' + e.message, 'erro');
+  }
 }
 
 // ————— amigos —————
@@ -837,7 +1132,6 @@ async function adicionarAmigo() {
     const h = await getDoc(doc(db, 'handles', alvo));
     if (!h.exists()) throw new Error('Ninguém encontrado com esse identificador.');
     const outro = h.data().uid;
-
     const existente = amigos.get(outro);
     if (existente) {
       throw new Error(
@@ -846,7 +1140,6 @@ async function adicionarAmigo() {
         : 'Essa pessoa já te enviou um convite — aceite no bloco acima.'
       );
     }
-
     await setDoc(doc(db, 'amizades', parDe(eu.uid, outro)), {
       membros: [eu.uid, outro].sort(),
       de: eu.uid, para: outro,
@@ -923,7 +1216,6 @@ function pintarAmigos() {
       ]));
       continue;
     }
-
     const pres = presencas.get(uid);
     let legenda = 'Offline', estado = '';
     if (pres && pres.sala) { legenda = 'Em uma call'; estado = 'call'; }
@@ -941,7 +1233,7 @@ function pintarAmigos() {
   $('vazioAmigos').classList.toggle('oculto', aceitos > 0);
 }
 
-// ————— convites para a call —————
+// ————— convites para call —————
 async function chamarParaCall(uid) {
   if (!salaNaCall) return;
   await setDoc(doc(db, 'convites', uid + '_' + eu.uid), {
@@ -990,13 +1282,11 @@ async function responderConvite(entrar) {
   }
 }
 
-// Só faz sentido chamar quem pode entrar: amigo E membro do grupo da call.
 function pintarConvidar() {
   const lista = $('listaConvidar');
   if (!lista) return;
   lista.innerHTML = '';
   let n = 0;
-
   for (const [uid, reg] of amigos) {
     if (reg.status !== 'aceita' || !membrosGrupo.has(uid)) continue;
     n++;
@@ -1006,8 +1296,8 @@ function pintarConvidar() {
     lista.appendChild(itemPessoa(uid, reg.perfil.nome, reg.perfil.handle,
       naSala ? 'Já está aqui' : online ? 'Online' : 'Offline',
       naSala ? 'call' : online ? 'on' : '',
-      [ naSala    ? { rotulo: 'Aqui', travado: true, acao: () => {} }
-      : !online   ? { rotulo: 'Offline', travado: true, acao: () => {} }
+      [ naSala  ? { rotulo: 'Aqui', travado: true, acao: () => {} }
+      : !online ? { rotulo: 'Offline', travado: true, acao: () => {} }
       : jaChamados.has(uid) ? { rotulo: 'Chamado', travado: true, acao: () => {} }
       : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) } ]));
   }
@@ -1022,9 +1312,9 @@ onAuthStateChanged(auth, async user => {
     presencaInscrita.forEach(f => f());
     presencaInscrita.clear();
     presencas.clear();
-    amigos.clear(); meusGrupos.clear(); salas.clear(); membrosGrupo.clear();
+    amigos.clear(); meusGrupos.clear(); salas.clear(); cargos.clear(); membrosGrupo.clear();
     jaChamados.clear();
-    grupoAtivo = null;
+    grupoAtivo = null; souDono = false; meuCargo = null;
     if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
     eu = null;
     return tela('telaConta');
@@ -1203,6 +1493,8 @@ $('nomeGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') criarGr
 $('codigoGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') entrarGrupo(); });
 $('btnCriarSala').addEventListener('click', criarSala);
 $('nomeSala').addEventListener('keydown', e => { if (e.key === 'Enter') criarSala(); });
+$('btnCriarCargo').addEventListener('click', criarCargo);
+$('nomeCargo').addEventListener('keydown', e => { if (e.key === 'Enter') criarCargo(); });
 $('btnSairGrupo').addEventListener('click', sairDoGrupo);
 $('btnCopiarCodigo').addEventListener('click', () => {
   navigator.clipboard.writeText($('gHandle').textContent).then(() => {
