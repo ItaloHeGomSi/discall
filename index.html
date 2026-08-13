@@ -513,9 +513,7 @@ function ligarAmizades() {
 
 async function adicionarAmigo() {
   const alvo = $('buscaAmigo').value.trim().toLowerCase();
-  if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) {
-    return aviso('statusAmigo', 'Use o formato nome#0000.', 'erro');
-  }
+  if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) return aviso('statusAmigo', 'Use o formato nome#0000.', 'erro');
   if (alvo === eu.handle) return aviso('statusAmigo', 'Esse é você.', 'erro');
 
   $('btnAdicionar').disabled = true;
@@ -524,12 +522,19 @@ async function adicionarAmigo() {
     const h = await getDoc(doc(db, 'handles', alvo));
     if (!h.exists()) throw new Error('Ninguém encontrado com esse identificador.');
     const outro = h.data().uid;
-    const parId = parDe(eu.uid, outro);
 
-    if ((await getDoc(doc(db, 'amizades', parId))).exists()) {
-      throw new Error('Vocês já têm um convite ou amizade.');
+    // A lista já está em memória pela inscrição ao vivo — consultar ela evita
+    // um getDoc que as regras negam (corretamente) quando o doc não existe.
+    const existente = amigos.get(outro);
+    if (existente) {
+      throw new Error(
+        existente.status === 'aceita' ? 'Vocês já são amigos.'
+        : existente.euPedi ? 'Você já enviou um convite para essa pessoa.'
+        : 'Essa pessoa já te enviou um convite — aceite no bloco acima.'
+      );
     }
-    await setDoc(doc(db, 'amizades', parId), {
+
+    await setDoc(doc(db, 'amizades', parDe(eu.uid, outro)), {
       membros: [eu.uid, outro].sort(),
       de: eu.uid, para: outro,
       status: 'pendente', criadoEm: serverTimestamp()
@@ -537,7 +542,9 @@ async function adicionarAmigo() {
     $('buscaAmigo').value = '';
     aviso('statusAmigo', 'Convite enviado.', 'ok');
   } catch (e) {
-    aviso('statusAmigo', e.message, 'erro');
+    aviso('statusAmigo', e.code === 'permission-denied'
+      ? 'O banco recusou o convite. As regras do Firestore foram publicadas?'
+      : e.message, 'erro');
   } finally {
     $('btnAdicionar').disabled = false;
   }
