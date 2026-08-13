@@ -7,216 +7,188 @@
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
 <style>
   :root {
-    --fundo:    #0C0C0D;
-    --painel:   #131316;
-    --painel-2: #1A1A1F;
-    --painel-3: #22222A;
-    --linha:    #26262B;
-    --linha-2:  #35353C;
-    --texto:    #D6D6D2;
-    --dim:      #7A7A80;
-    --acento:   #B5FF3D;
-    --acento-2: #2A3A12;
-    --perigo:   #FF4D4D;
-    --perigo-2: #3A1414;
-    --mono: ui-monospace, "SF Mono", "Cascadia Mono", Consolas, "Liberation Mono", monospace;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+    --fundo:#0C0C0D; --painel:#131316; --painel-2:#1A1A1F; --painel-3:#22222A;
+    --linha:#26262B; --linha-2:#35353C; --texto:#D6D6D2; --dim:#7A7A80;
+    --acento:#B5FF3D; --acento-2:#2A3A12; --perigo:#FF4D4D; --perigo-2:#3A1414;
+    --topo:36px;
+    --mono: ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
+    --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
-  body {
-    margin: 0; background: var(--fundo); color: var(--texto);
-    font-family: var(--sans); font-size: 14px; overflow: hidden;
-  }
-  ::-webkit-scrollbar { width: 9px; height: 9px; }
-  ::-webkit-scrollbar-thumb { background: var(--linha-2); }
-  ::-webkit-scrollbar-track { background: transparent; }
+  body { margin:0; background:var(--fundo); color:var(--texto); font-family:var(--sans); font-size:14px; overflow:hidden; }
+  ::-webkit-scrollbar { width:9px; height:9px; }
+  ::-webkit-scrollbar-thumb { background:var(--linha-2); }
+  ::-webkit-scrollbar-track { background:transparent; }
 
-  .rot {
-    font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em;
-    text-transform: uppercase; color: var(--dim);
-  }
+  .rot { font-family:var(--mono); font-size:10px; letter-spacing:0.14em; text-transform:uppercase; color:var(--dim); }
+
+  /* ——— topbar ——— */
+  .topbar { height:var(--topo); display:flex; align-items:center; gap:10px; padding:0 12px; background:var(--fundo); border-bottom:1px solid var(--linha-2); }
+  .marca { font-family:var(--mono); font-size:12px; letter-spacing:0.14em; cursor:pointer; background:none; border:none; color:var(--texto); padding:0; }
+  .marca b { color:var(--acento); font-weight:500; }
+  .topbar .fim { margin-left:auto; display:flex; align-items:center; gap:9px; }
+  .topbar .nm { font-size:12px; }
+  .topbar .hd { font-family:var(--mono); font-size:10px; color:var(--dim); }
 
   /* ——— login ——— */
-  #telaConta { height: 100vh; display: flex; align-items: center; justify-content: center; padding: 24px; }
-  .cartao { width: 100%; max-width: 360px; background: var(--painel); border: 1px solid var(--linha-2); }
-  .cartao .cab { padding: 18px 20px; border-bottom: 1px solid var(--linha); }
-  .cartao .cab h1 { font-family: var(--mono); font-size: 18px; font-weight: 500; letter-spacing: 0.08em; margin: 0; }
-  .cartao .cab h1 b { color: var(--acento); font-weight: 500; }
-  .cartao .cab p { margin: 7px 0 0; font-size: 13px; color: var(--dim); line-height: 1.5; }
-  .cartao .corpo { padding: 18px 20px 20px; }
+  #telaConta { height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
+  .cartao { width:100%; max-width:360px; background:var(--painel); border:1px solid var(--linha-2); }
+  .cartao .cab { padding:18px 20px; border-bottom:1px solid var(--linha); }
+  .cartao .cab h1 { font-family:var(--mono); font-size:18px; font-weight:500; letter-spacing:0.08em; margin:0; }
+  .cartao .cab h1 b { color:var(--acento); font-weight:500; }
+  .cartao .cab p { margin:7px 0 0; font-size:13px; color:var(--dim); line-height:1.5; }
+  .cartao .corpo { padding:18px 20px 20px; }
 
-  label { display: block; font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--dim); margin-bottom: 6px; }
-  input, select, textarea {
-    width: 100%; background: var(--fundo); border: 1px solid var(--linha-2); border-radius: 0;
-    color: var(--texto); font-family: inherit; font-size: 14px; padding: 9px 10px;
+  label { display:block; font-family:var(--mono); font-size:10px; letter-spacing:0.12em; text-transform:uppercase; color:var(--dim); margin-bottom:6px; }
+  input, select { width:100%; background:var(--fundo); border:1px solid var(--linha-2); border-radius:0; color:var(--texto); font-family:inherit; font-size:14px; padding:9px 10px; }
+  select { padding:5px 6px; font-size:12px; width:auto; font-family:var(--mono); }
+  input::placeholder { color:#55555B; }
+  input:focus, select:focus { border-color:var(--acento); outline:none; }
+  input:focus-visible, select:focus-visible, button:focus-visible { outline:1px solid var(--acento); outline-offset:1px; }
+  .campo { margin-bottom:12px; }
+  .par { display:flex; gap:6px; }
+  .par input { flex:1; min-width:0; }
+  .curto { width:62px; flex:none !important; text-align:center; }
+
+  button { font-family:inherit; cursor:pointer; border:none; border-radius:0; }
+  .btn { background:transparent; color:var(--texto); border:1px solid var(--linha-2); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:8px 12px; }
+  .btn:hover:not(:disabled) { border-color:var(--acento); color:var(--acento); }
+  .btn-acento { background:var(--acento); border-color:var(--acento); color:#0C0C0D; font-weight:700; }
+  .btn-acento:hover:not(:disabled) { background:#C9FF6B; border-color:#C9FF6B; color:#0C0C0D; }
+  .btn-full { width:100%; padding:10px; }
+  .btn-mini { font-size:10px; padding:4px 7px; }
+  .btn-perigo { color:var(--perigo); border-color:var(--linha-2); }
+  .btn-perigo:hover:not(:disabled) { background:var(--perigo); border-color:var(--perigo); color:#0C0C0D; }
+  button:disabled { opacity:0.35; cursor:not-allowed; }
+  .btn-txt { background:none; border:none; color:var(--acento); font-family:var(--mono); font-size:11px; padding:0; letter-spacing:0.06em; }
+  .btn-txt:hover:not(:disabled) { text-decoration:underline; }
+
+  .abas { display:flex; border-bottom:1px solid var(--linha); margin-bottom:14px; }
+  .abas button { flex:1; background:none; color:var(--dim); font-family:var(--mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:8px 0; border-bottom:1px solid transparent; margin-bottom:-1px; }
+  .abas button[aria-selected="true"] { color:var(--acento); border-bottom-color:var(--acento); }
+
+  .aviso { font-size:12px; color:var(--dim); margin:0 0 10px; line-height:1.5; }
+  .aviso.erro { color:var(--perigo); }
+  .aviso.ok { color:var(--acento); }
+  .aviso:empty { display:none; }
+  .dica { font-size:11px; color:var(--dim); margin:10px 0 0; line-height:1.5; }
+  .vazio { font-size:12px; color:var(--dim); line-height:1.6; margin:0; }
+
+  .av { border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:#0C0C0D; flex:none; font-family:var(--mono); }
+  .av-20 { width:20px; height:20px; font-size:9px; }
+  .av-26 { width:26px; height:26px; font-size:10px; }
+  .av-30 { width:30px; height:30px; font-size:11px; }
+  .av-64 { width:64px; height:64px; font-size:21px; }
+  .pt { width:7px; height:7px; flex:none; background:#45454B; }
+  .pt.on { background:var(--acento); }
+  .pt.call { background:#3DC8FF; }
+  .tag { font-family:var(--mono); font-size:9px; letter-spacing:0.08em; text-transform:uppercase; padding:1px 5px; color:#0C0C0D; flex:none; }
+
+  /* ——— tela inicial ——— */
+  #telaInicio { height:calc(100vh - var(--topo)); display:grid; grid-template-columns:1fr 300px; }
+  .inicio-esq { display:flex; flex-direction:column; min-height:0; }
+  .faixa { display:grid; grid-template-columns:270px 1fr; border-bottom:1px solid var(--linha-2); flex:none; }
+  .faixa > div { padding:13px 15px; }
+  .faixa > div + div { border-left:1px solid var(--linha-2); }
+  .inicio-corpo { flex:1; min-height:0; overflow-y:auto; padding:15px; }
+  .secao + .secao { margin-top:22px; }
+  .secao > .rot { display:block; margin-bottom:10px; }
+  .grade { display:grid; gap:11px; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); }
+
+  .cartao-item {
+    background:var(--painel); border:1px solid var(--linha-2); padding:13px;
+    display:flex; flex-direction:column; gap:8px; align-items:flex-start;
+    text-align:left; color:var(--texto); min-height:104px; position:relative;
   }
-  select { padding: 5px 6px; font-size: 12px; width: auto; font-family: var(--mono); }
-  input::placeholder { color: #55555B; }
-  input:focus, select:focus { border-color: var(--acento); outline: none; }
-  input:focus-visible, select:focus-visible, button:focus-visible { outline: 1px solid var(--acento); outline-offset: 1px; }
-  .campo { margin-bottom: 13px; }
-  .par { display: flex; gap: 6px; }
-  .par input { flex: 1; min-width: 0; }
-  .curto { width: 62px; flex: none !important; text-align: center; }
+  .cartao-item:hover { border-color:var(--acento); }
+  .cartao-item .nm { font-size:14px; }
+  .cartao-item .hd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .cartao-item .rodape { display:flex; align-items:center; gap:6px; margin-top:auto; }
+  .cartao-item .x { position:absolute; top:7px; right:7px; }
+  .cartao-novo { border-style:dashed; color:var(--dim); align-items:center; justify-content:center; font-size:24px; font-family:var(--mono); }
+  .cartao-novo:hover { color:var(--acento); }
+  .quadro-ini { width:36px; height:36px; background:var(--painel-3); display:flex; align-items:center; justify-content:center; font-family:var(--mono); font-size:13px; font-weight:700; color:#0C0C0D; }
 
-  button { font-family: inherit; cursor: pointer; border: none; border-radius: 0; }
-  .btn {
-    background: transparent; color: var(--texto); border: 1px solid var(--linha-2);
-    font-family: var(--mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 12px;
-  }
-  .btn:hover:not(:disabled) { border-color: var(--acento); color: var(--acento); }
-  .btn-acento { background: var(--acento); border-color: var(--acento); color: #0C0C0D; font-weight: 700; }
-  .btn-acento:hover:not(:disabled) { background: #C9FF6B; border-color: #C9FF6B; color: #0C0C0D; }
-  .btn-full { width: 100%; padding: 10px; }
-  .btn-mini { font-size: 10px; padding: 4px 7px; }
-  .btn-perigo { color: var(--perigo); border-color: var(--linha-2); }
-  .btn-perigo:hover:not(:disabled) { background: var(--perigo); border-color: var(--perigo); color: #0C0C0D; }
-  button:disabled { opacity: 0.35; cursor: not-allowed; }
-  .btn-txt { background: none; border: none; color: var(--acento); font-family: var(--mono); font-size: 11px; padding: 0; letter-spacing: 0.06em; }
-  .btn-txt:hover:not(:disabled) { text-decoration: underline; }
+  /* ——— tela de grupo ——— */
+  #telaApp { height:calc(100vh - var(--topo)); display:grid; grid-template-columns:60px 210px 1fr 280px; }
+  .painel { background:var(--painel); border-right:1px solid var(--linha-2); min-height:0; display:flex; flex-direction:column; }
+  .painel:last-child { border-right:none; border-left:1px solid var(--linha-2); }
+  .cab-painel { height:32px; flex:none; display:flex; align-items:center; gap:8px; padding:0 11px; border-bottom:1px solid var(--linha); }
+  .rolagem { flex:1; min-height:0; overflow-y:auto; padding:11px; }
 
-  .abas { display: flex; border-bottom: 1px solid var(--linha); margin-bottom: 16px; }
-  .abas button {
-    flex: 1; background: none; color: var(--dim); font-family: var(--mono); font-size: 11px;
-    letter-spacing: 0.08em; text-transform: uppercase; padding: 8px 0;
-    border-bottom: 1px solid transparent; margin-bottom: -1px;
-  }
-  .abas button[aria-selected="true"] { color: var(--acento); border-bottom-color: var(--acento); }
+  .rail { background:var(--fundo); align-items:center; padding:9px 0; gap:8px; }
+  .rail .grupos { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; gap:8px; width:100%; }
+  .gbtn { width:38px; height:38px; flex:none; background:var(--painel-2); border:1px solid var(--linha-2); color:var(--texto); font-family:var(--mono); font-size:12px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .gbtn:hover { border-color:var(--acento); }
+  .gbtn.ativo { border-color:var(--acento); color:var(--acento); box-shadow:inset 2px 0 0 var(--acento); }
+  .rail .disp { flex:none; display:flex; flex-direction:column; gap:6px; padding-top:8px; border-top:1px solid var(--linha); width:38px; }
+  .disp button { width:38px; height:32px; background:var(--painel-2); border:1px solid var(--linha-2); color:var(--texto); display:flex; align-items:center; justify-content:center; }
+  .disp button svg { width:16px; height:16px; }
+  .disp button.off, .barra-call button.off { color:var(--perigo); border-color:var(--perigo-2); background:var(--perigo-2); }
 
-  .aviso { font-size: 12px; color: var(--dim); margin: 0 0 12px; line-height: 1.5; }
-  .aviso.erro { color: var(--perigo); }
-  .aviso.ok { color: var(--acento); }
-  .aviso:empty { display: none; }
-  .dica { font-size: 11px; color: var(--dim); margin: 10px 0 0; line-height: 1.5; }
-  .vazio { font-size: 12px; color: var(--dim); line-height: 1.6; margin: 0; }
+  .sala { display:flex; align-items:center; gap:7px; padding:6px 8px; margin:0 -8px; cursor:pointer; font-size:13px; }
+  .sala:hover { background:var(--painel-2); }
+  .sala.ativa { background:var(--acento-2); color:var(--acento); }
+  .sala .marca2 { font-family:var(--mono); font-size:13px; color:var(--dim); flex:none; }
+  .sala.ativa .marca2 { color:var(--acento); }
+  .sala .nome { flex:1; min-width:0; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sala .qtd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .dentro { padding:2px 0 6px 22px; display:flex; flex-direction:column; gap:4px; }
+  .dentro span { font-size:11px; color:var(--dim); display:flex; align-items:center; gap:6px; }
 
-  /* ——— grade principal ——— */
-  #telaApp { height: 100vh; display: grid; grid-template-columns: 60px 210px 1fr 280px; }
-  .painel { background: var(--painel); border-right: 1px solid var(--linha-2); min-height: 0; display: flex; flex-direction: column; }
-  .painel:last-child { border-right: none; border-left: 1px solid var(--linha-2); }
-  .cab-painel {
-    height: 34px; flex: none; display: flex; align-items: center; gap: 8px;
-    padding: 0 11px; border-bottom: 1px solid var(--linha);
-  }
-  .rolagem { flex: 1; min-height: 0; overflow-y: auto; padding: 11px; }
+  .palco { flex:1; min-height:0; overflow-y:auto; padding:18px; display:grid; gap:12px; align-content:center; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr)); }
+  .tile { position:relative; background:var(--painel-2); border:1px solid var(--linha-2); aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .tile.falando { border-color:var(--acento); }
+  .tile video { width:100%; height:100%; object-fit:cover; background:#000; }
+  .tile .marca-nome { position:absolute; left:0; bottom:0; display:flex; align-items:center; gap:6px; padding:4px 8px; background:rgba(12,12,13,0.82); font-family:var(--mono); font-size:11px; }
+  .tile.mudo .marca-nome i { color:var(--perigo); }
 
-  /* rail */
-  .rail { background: var(--fundo); align-items: center; padding: 10px 0; gap: 8px; }
-  .rail .grupos { flex: 1; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; align-items: center; gap: 8px; width: 100%; }
-  .rail .gbtn {
-    width: 38px; height: 38px; flex: none; background: var(--painel-2);
-    border: 1px solid var(--linha-2); color: var(--texto);
-    font-family: var(--mono); font-size: 12px; font-weight: 700;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .rail .gbtn:hover { border-color: var(--acento); }
-  .rail .gbtn.ativo { border-color: var(--acento); color: var(--acento); box-shadow: inset 2px 0 0 var(--acento); }
-  .rail .novo { background: transparent; border-style: dashed; color: var(--dim); font-size: 16px; }
-  .rail .disp { flex: none; display: flex; flex-direction: column; gap: 6px; padding-top: 8px; border-top: 1px solid var(--linha); width: 38px; }
-  .disp button {
-    width: 38px; height: 32px; background: var(--painel-2); border: 1px solid var(--linha-2);
-    color: var(--texto); display: flex; align-items: center; justify-content: center;
-  }
-  .disp button svg { width: 16px; height: 16px; }
-  .disp button.off { color: var(--perigo); border-color: var(--perigo-2); background: var(--perigo-2); }
+  .barra-call { flex:none; display:flex; align-items:center; justify-content:center; gap:10px; padding:12px; border-top:1px solid var(--linha-2); background:var(--fundo); }
+  .barra-call button { width:46px; height:40px; background:var(--painel-2); border:1px solid var(--linha-2); color:var(--texto); display:flex; align-items:center; justify-content:center; }
+  .barra-call button:hover { border-color:var(--acento); color:var(--acento); }
+  .barra-call button svg { width:18px; height:18px; }
+  .barra-call .sair { width:62px; background:var(--perigo); border-color:var(--perigo); color:#0C0C0D; }
 
-  /* salas */
-  .sala {
-    display: flex; align-items: center; gap: 7px; padding: 6px 8px;
-    margin: 0 -8px; cursor: pointer; font-size: 13px;
-  }
-  .sala:hover { background: var(--painel-2); }
-  .sala.ativa { background: var(--acento-2); color: var(--acento); }
-  .sala .marca { font-family: var(--mono); font-size: 13px; color: var(--dim); flex: none; }
-  .sala.ativa .marca { color: var(--acento); }
-  .sala .nome { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .sala .qtd { font-family: var(--mono); font-size: 10px; color: var(--dim); }
-  .dentro { padding: 2px 0 6px 22px; display: flex; flex-direction: column; gap: 4px; }
-  .dentro span { font-size: 11px; color: var(--dim); display: flex; align-items: center; gap: 6px; }
+  .cards { display:grid; gap:14px; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); align-items:start; }
+  .card { background:var(--painel-2); border:1px solid var(--linha); padding:13px 14px; }
+  .card > .rot { display:block; margin-bottom:10px; }
 
-  /* centro */
-  .palco {
-    flex: 1; min-height: 0; overflow-y: auto; padding: 18px;
-    display: grid; gap: 12px; align-content: center;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  }
-  .tile {
-    position: relative; background: var(--painel-2); border: 1px solid var(--linha-2);
-    aspect-ratio: 16 / 10; display: flex; align-items: center; justify-content: center; overflow: hidden;
-  }
-  .tile.falando { border-color: var(--acento); }
-  .tile video { width: 100%; height: 100%; object-fit: cover; background: #000; }
-  .tile .marca-nome {
-    position: absolute; left: 0; bottom: 0; display: flex; align-items: center; gap: 6px;
-    padding: 4px 8px; background: rgba(12,12,13,0.82); font-family: var(--mono); font-size: 11px;
-  }
-  .tile.mudo .marca-nome i { color: var(--perigo); }
-  .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; color: #0C0C0D; flex: none; font-family: var(--mono); }
-  .av-20 { width: 20px; height: 20px; font-size: 9px; }
-  .av-26 { width: 26px; height: 26px; font-size: 10px; }
-  .av-30 { width: 30px; height: 30px; font-size: 11px; }
-  .av-64 { width: 64px; height: 64px; font-size: 21px; }
+  .lista { list-style:none; margin:0; padding:0; }
+  .lista li { display:flex; align-items:center; gap:9px; padding:6px 8px; margin:0 -8px; }
+  .lista li:hover { background:var(--painel-3); }
+  .lista .txt { min-width:0; flex:1; }
+  .lista .t1 { font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:6px; }
+  .lista .t2 { font-family:var(--mono); font-size:10px; color:var(--dim); margin-top:2px; }
+  .lista .acoes { display:flex; gap:5px; flex:none; align-items:center; }
 
-  .barra-call {
-    flex: none; display: flex; align-items: center; justify-content: center; gap: 10px;
-    padding: 12px; border-top: 1px solid var(--linha-2); background: var(--fundo);
-  }
-  .barra-call button {
-    width: 46px; height: 40px; background: var(--painel-2); border: 1px solid var(--linha-2);
-    color: var(--texto); display: flex; align-items: center; justify-content: center;
-  }
-  .barra-call button:hover { border-color: var(--acento); color: var(--acento); }
-  .barra-call button.off { color: var(--perigo); border-color: var(--perigo-2); background: var(--perigo-2); }
-  .barra-call button svg { width: 18px; height: 18px; }
-  .barra-call .sair { width: 62px; background: var(--perigo); border-color: var(--perigo); color: #0C0C0D; }
-  .barra-call .sair:hover { background: #FF6B6B; border-color: #FF6B6B; color: #0C0C0D; }
+  .cargo-bloco { border:1px solid var(--linha); padding:10px 11px; margin-bottom:9px; }
+  .cargo-cab { display:flex; align-items:center; gap:8px; margin-bottom:8px; }
+  .cargo-cab .cn { font-size:13px; flex:1; }
+  .cargo-cab .cnv { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .perms { display:flex; flex-direction:column; gap:5px; }
+  .perms label { display:flex; align-items:center; gap:7px; font-family:var(--sans); font-size:12px; letter-spacing:0; text-transform:none; color:var(--texto); margin:0; }
+  .perms input[type=checkbox] { width:14px; height:14px; accent-color:var(--acento); flex:none; padding:0; }
+  .perms label.travado { color:var(--dim); }
 
-  .cards { display: grid; gap: 14px; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); align-items: start; }
-  .card { background: var(--painel-2); border: 1px solid var(--linha); padding: 13px 14px; }
-  .card > .rot { display: block; margin-bottom: 10px; }
+  /* ——— chat (grupo e dm) ——— */
+  .chat { display:flex; flex-direction:column; min-height:0; }
+  .chat-msgs { flex:1; min-height:0; overflow-y:auto; padding:11px; display:flex; flex-direction:column; gap:11px; }
+  .msg { display:flex; gap:8px; }
+  .msg .corpo { min-width:0; flex:1; }
+  .msg .quem { font-family:var(--mono); font-size:10px; color:var(--dim); display:flex; gap:7px; align-items:baseline; }
+  .msg .quem b { color:var(--texto); font-weight:500; font-size:11px; }
+  .msg .texto { font-size:13px; line-height:1.5; word-wrap:break-word; margin-top:2px; white-space:pre-wrap; }
+  .chat-envio { flex:none; border-top:1px solid var(--linha); padding:9px; display:flex; gap:6px; }
+  .chat-envio input { font-size:13px; padding:8px 9px; }
 
-  .lista { list-style: none; margin: 0; padding: 0; }
-  .lista li { display: flex; align-items: center; gap: 9px; padding: 6px 8px; margin: 0 -8px; }
-  .lista li:hover { background: var(--painel-3); }
-  .lista .txt { min-width: 0; flex: 1; }
-  .lista .t1 { font-size: 13px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; display: flex; align-items: center; gap: 6px; }
-  .lista .t2 { font-family: var(--mono); font-size: 10px; color: var(--dim); margin-top: 2px; }
-  .lista .acoes { display: flex; gap: 5px; flex: none; align-items: center; }
-  .pt { width: 7px; height: 7px; flex: none; background: #45454B; }
-  .pt.on { background: var(--acento); }
-  .pt.call { background: #3DC8FF; }
-
-  .tag { font-family: var(--mono); font-size: 9px; letter-spacing: 0.08em; text-transform: uppercase; padding: 1px 5px; color: #0C0C0D; flex: none; }
-
-  .cargo-bloco { border: 1px solid var(--linha); padding: 10px 11px; margin-bottom: 9px; }
-  .cargo-cab { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
-  .cargo-cab .cn { font-size: 13px; flex: 1; }
-  .cargo-cab .cnv { font-family: var(--mono); font-size: 10px; color: var(--dim); }
-  .perms { display: flex; flex-direction: column; gap: 5px; }
-  .perms label { display: flex; align-items: center; gap: 7px; font-family: var(--sans); font-size: 12px; letter-spacing: 0; text-transform: none; color: var(--texto); margin: 0; }
-  .perms input[type=checkbox] { width: 14px; height: 14px; accent-color: var(--acento); flex: none; padding: 0; }
-  .perms label.travado { color: var(--dim); }
-
-  /* chat */
-  .chat-msgs { flex: 1; min-height: 0; overflow-y: auto; padding: 11px; display: flex; flex-direction: column; gap: 11px; }
-  .msg { display: flex; gap: 8px; }
-  .msg .corpo { min-width: 0; flex: 1; }
-  .msg .quem { font-family: var(--mono); font-size: 10px; color: var(--dim); display: flex; gap: 7px; align-items: baseline; }
-  .msg .quem b { color: var(--texto); font-weight: 500; font-size: 11px; }
-  .msg .texto { font-size: 13px; line-height: 1.5; word-wrap: break-word; margin-top: 2px; white-space: pre-wrap; }
-  .chat-envio { flex: none; border-top: 1px solid var(--linha); padding: 9px; display: flex; gap: 6px; }
-  .chat-envio input { font-size: 13px; padding: 8px 9px; }
-
-  .perfil { display: flex; align-items: center; gap: 9px; padding: 9px 11px; border-bottom: 1px solid var(--linha-2); }
-  .perfil .nm { font-size: 13px; }
-  .perfil .hd { font-family: var(--mono); font-size: 10px; color: var(--dim); }
-  .perfil .fim { margin-left: auto; }
-
-  .oculto { display: none !important; }
-  @media (max-width: 1000px) {
-    #telaApp { grid-template-columns: 52px 180px 1fr; }
-    .painel.col-dir { display: none; }
+  .oculto { display:none !important; }
+  @media (max-width:1000px) {
+    #telaInicio { grid-template-columns:1fr; }
+    #telaApp { grid-template-columns:52px 180px 1fr; }
+    .painel.col-dir, .col-dm { display:none; }
+    .faixa { grid-template-columns:1fr; }
+    .faixa > div + div { border-left:none; border-top:1px solid var(--linha-2); }
   }
 </style>
 </head>
@@ -253,17 +225,86 @@
   </div>
 </div>
 
-<!-- ——— app ——— -->
-<div id="telaApp" class="oculto">
+<!-- ——— topbar ——— -->
+<div class="topbar oculto" id="topbar">
+  <button class="marca" id="btnInicio">DIS<b>CALL</b></button>
+  <div class="fim">
+    <div class="av av-26" id="euAvatar">?</div>
+    <div>
+      <div class="nm" id="euNome">—</div>
+      <div class="hd" id="euTag">—</div>
+    </div>
+    <button class="btn-txt" id="btnSairConta">sair</button>
+  </div>
+</div>
 
-  <!-- coluna 1: grupos + dispositivos -->
+<!-- ——— tela inicial ——— -->
+<div id="telaInicio" class="oculto">
+  <div class="inicio-esq">
+    <div class="faixa">
+      <div>
+        <div class="abas" role="tablist">
+          <button role="tab" id="abaCriarG" aria-selected="true">Criar</button>
+          <button role="tab" id="abaEntrarG" aria-selected="false">Entrar</button>
+        </div>
+        <div id="formCriarG" class="par">
+          <input id="nomeGrupo" maxlength="24" placeholder="Nome do grupo" autocomplete="off">
+          <button class="btn btn-acento" id="btnCriarGrupo">+</button>
+        </div>
+        <div id="formEntrarG" class="par oculto">
+          <input id="codigoGrupo" placeholder="grupo#ETFQ" autocomplete="off">
+          <button class="btn btn-acento" id="btnEntrarGrupo">→</button>
+        </div>
+        <p class="aviso" id="statusGrupo" style="margin:10px 0 0"></p>
+      </div>
+      <div>
+        <span class="rot" style="display:block;margin-bottom:9px">Adicionar amigo</span>
+        <div class="par" style="max-width:420px">
+          <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
+          <button class="btn btn-acento" id="btnAdicionar">+</button>
+        </div>
+        <p class="aviso" id="statusAmigo" style="margin:10px 0 0"></p>
+      </div>
+    </div>
+
+    <div class="inicio-corpo">
+      <div class="secao">
+        <span class="rot">Grupos</span>
+        <div class="grade" id="gradeGrupos"></div>
+      </div>
+
+      <div class="secao oculto" id="secaoPedidos">
+        <span class="rot">Pedidos de amizade</span>
+        <div class="grade" id="gradePedidos"></div>
+      </div>
+
+      <div class="secao">
+        <span class="rot">Amigos</span>
+        <div class="grade" id="gradeAmigos"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="painel chat col-dm">
+    <div class="cab-painel"><span class="rot" id="rotDm">Bate-papo</span></div>
+    <div class="chat-msgs" id="dmMsgs">
+      <p class="vazio">Escolha um amigo para conversar.</p>
+    </div>
+    <div class="chat-envio">
+      <input id="dmTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
+      <button class="btn" id="btnDmEnviar" disabled>→</button>
+    </div>
+  </div>
+</div>
+
+<!-- ——— tela de grupo ——— -->
+<div id="telaApp" class="oculto">
   <div class="painel rail">
     <div class="grupos" id="rail"></div>
     <div class="disp">
       <button id="btnMicRail" title="Microfone" aria-label="Microfone" disabled>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
         </svg>
       </button>
       <button id="btnCamRail" title="Câmera" aria-label="Câmera" disabled>
@@ -274,60 +315,32 @@
     </div>
   </div>
 
-  <!-- coluna 2: salas -->
   <div class="painel">
     <div class="cab-painel">
       <span class="rot" id="rotSalas">Salas</span>
       <button class="btn-txt oculto" id="btnCopiarCodigo" style="margin-left:auto">código</button>
     </div>
     <div class="rolagem">
-      <div id="areaNovoGrupo" class="oculto">
-        <div class="abas" role="tablist">
-          <button role="tab" id="abaCriarG" aria-selected="true">Criar</button>
-          <button role="tab" id="abaEntrarG" aria-selected="false">Entrar</button>
-        </div>
-        <div id="formCriarG">
-          <div class="campo">
-            <label for="nomeGrupo">Nome do grupo</label>
-            <input id="nomeGrupo" maxlength="24" placeholder="Time do trampo" autocomplete="off">
-          </div>
-          <button class="btn btn-acento btn-full" id="btnCriarGrupo">Criar grupo</button>
-        </div>
-        <div id="formEntrarG" class="oculto">
-          <div class="campo">
-            <label for="codigoGrupo">Código</label>
-            <input id="codigoGrupo" placeholder="time_do_trampo#ETFQ" autocomplete="off">
-          </div>
-          <button class="btn btn-acento btn-full" id="btnEntrarGrupo">Entrar no grupo</button>
-        </div>
-        <p class="aviso" id="statusGrupo" style="margin-top:12px"></p>
+      <div id="listaVoz"></div>
+      <div class="rot" style="margin:16px 0 8px">Texto</div>
+      <div id="listaTexto"></div>
+      <div class="par oculto" id="areaNovaSala" style="margin-top:14px">
+        <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
+        <select id="tipoSala"><option value="voz">voz</option><option value="texto">texto</option></select>
+        <button class="btn" id="btnCriarSala">+</button>
       </div>
-
-      <div id="areaSalas" class="oculto">
-        <div id="listaVoz"></div>
-        <div class="rot" style="margin:16px 0 8px">Texto</div>
-        <div id="listaTexto"></div>
-        <div class="par oculto" id="areaNovaSala" style="margin-top:14px">
-          <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
-          <select id="tipoSala"><option value="voz">voz</option><option value="texto">texto</option></select>
-          <button class="btn" id="btnCriarSala">+</button>
-        </div>
-        <p class="aviso" id="statusSala" style="margin-top:10px"></p>
-        <button class="btn-txt btn-perigo" id="btnSairGrupo" style="background:none;border:none;margin-top:14px;color:var(--perigo)">Sair do grupo</button>
-      </div>
-
-      <p class="vazio" id="semGrupo">Nenhum grupo ainda. Use o + ao lado para criar um ou entrar com um código.</p>
+      <p class="aviso" id="statusSala" style="margin-top:10px"></p>
+      <button class="btn-txt" id="btnSairGrupo" style="color:var(--perigo);margin-top:14px">Sair do grupo</button>
     </div>
   </div>
 
-  <!-- coluna 3: painel central -->
   <div class="painel">
     <div class="cab-painel">
       <span class="rot" id="rotCentro">Grupo</span>
       <span class="rot" id="relogio" style="margin-left:auto"></span>
     </div>
 
-    <div class="rolagem oculto" id="visaoGrupo">
+    <div class="rolagem" id="visaoGrupo">
       <div class="cards">
         <div class="card oculto" id="blocoMembros">
           <span class="rot">Membros</span>
@@ -343,20 +356,6 @@
           </div>
           <p class="aviso" id="statusCargo" style="margin-top:10px"></p>
         </div>
-        <div class="card">
-          <span class="rot">Amigos</span>
-          <div class="par" style="margin-bottom:11px">
-            <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
-            <button class="btn" id="btnAdicionar">+</button>
-          </div>
-          <p class="aviso" id="statusAmigo"></p>
-          <div class="oculto" id="blocoPedidos" style="margin-bottom:12px">
-            <span class="rot" style="display:block;margin-bottom:8px">Pedidos</span>
-            <ul class="lista" id="listaPedidos"></ul>
-          </div>
-          <ul class="lista" id="listaAmigos"></ul>
-          <p class="vazio oculto" id="vazioAmigos">Ninguém ainda. Peça o identificador de alguém.</p>
-        </div>
       </div>
     </div>
 
@@ -365,8 +364,7 @@
     <div class="barra-call oculto" id="barraCall">
       <button id="btnMudo" title="Microfone" aria-label="Microfone">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
-          <path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
         </svg>
       </button>
       <button id="btnCam" title="Câmera" aria-label="Câmera">
@@ -376,8 +374,7 @@
       </button>
       <button id="btnConvidar" title="Chamar um amigo" aria-label="Chamar um amigo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-          <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/>
-          <circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
+          <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
         </svg>
       </button>
       <button class="sair" id="btnSairCall" title="Sair da chamada" aria-label="Sair da chamada">
@@ -392,23 +389,10 @@
       <ul class="lista" id="listaConvidar"></ul>
       <p class="vazio oculto" id="vazioConvidar">Nenhum amigo seu está neste grupo.</p>
     </div>
-
-    <p class="vazio" id="semGrupoCentro" style="padding:18px">Selecione ou crie um grupo para começar.</p>
   </div>
 
-  <!-- coluna 4: perfil + chat -->
-  <div class="painel col-dir">
-    <div class="perfil">
-      <div class="av av-30" id="euAvatar">?</div>
-      <div>
-        <div class="nm" id="euNome">—</div>
-        <div class="hd" id="euTag">—</div>
-      </div>
-      <div class="fim"><button class="btn-txt" id="btnSairConta">sair</button></div>
-    </div>
-    <div class="cab-painel">
-      <span class="rot" id="rotChat">Chat</span>
-    </div>
+  <div class="painel chat col-dir">
+    <div class="cab-painel"><span class="rot" id="rotChat">Chat</span></div>
     <div class="chat-msgs" id="chatMsgs"></div>
     <div class="chat-envio">
       <input id="chatTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
@@ -417,8 +401,7 @@
   </div>
 </div>
 
-<!-- convite recebido -->
-<div id="toastConvite" class="oculto" style="position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:11px;padding:11px 16px;background:var(--acento);color:#0C0C0D">
+<div id="toastConvite" class="oculto" style="position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:11px;padding:10px 16px;background:var(--acento);color:#0C0C0D">
   <div class="av av-30" id="convAvatar" style="background:#0C0C0D;color:var(--acento)">?</div>
   <div style="flex:1;min-width:0">
     <div style="font-size:13px;font-weight:700" id="convTitulo">—</div>
@@ -454,82 +437,75 @@ const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
 const VALIDADE_CONVITE = 120;
 
 const PERMISSOES = [
-  ['gerenciarSalas',  'Criar e apagar salas'],
-  ['gerenciarCargos', 'Criar e editar cargos'],
-  ['atribuirCargos',  'Dar cargos aos membros'],
-  ['expulsar',        'Remover membros'],
-  ['verCodigo',       'Ver o código do grupo']
+  ['gerenciarSalas','Criar e apagar salas'],
+  ['gerenciarCargos','Criar e editar cargos'],
+  ['atribuirCargos','Dar cargos aos membros'],
+  ['expulsar','Remover membros'],
+  ['verCodigo','Ver o código do grupo']
 ];
 
 const CARGOS_BASE = {
-  dono: { nome: 'Dono', nivel: 100, permissoes: {
-    gerenciarSalas: true, gerenciarCargos: true, atribuirCargos: true, expulsar: true, verCodigo: true } },
-  coordenador: { nome: 'Coordenador', nivel: 50, permissoes: {
-    gerenciarSalas: true, gerenciarCargos: false, atribuirCargos: true, expulsar: true, verCodigo: true } },
-  membro: { nome: 'Membro', nivel: 0, permissoes: {
-    gerenciarSalas: false, gerenciarCargos: false, atribuirCargos: false, expulsar: false, verCodigo: true } }
+  dono: { nome:'Dono', nivel:100, permissoes:{ gerenciarSalas:true, gerenciarCargos:true, atribuirCargos:true, expulsar:true, verCodigo:true } },
+  coordenador: { nome:'Coordenador', nivel:50, permissoes:{ gerenciarSalas:true, gerenciarCargos:false, atribuirCargos:true, expulsar:true, verCodigo:true } },
+  membro: { nome:'Membro', nivel:0, permissoes:{ gerenciarSalas:false, gerenciarCargos:false, atribuirCargos:false, expulsar:false, verCodigo:true } }
 };
 
-const fb   = initializeApp(firebaseConfig);
-const auth = getAuth(fb);
-const db   = getFirestore(fb);
-const rtdb = getDatabase(fb);
-const LK   = window.LivekitClient;
+const fb = initializeApp(firebaseConfig);
+const auth = getAuth(fb), db = getFirestore(fb), rtdb = getDatabase(fb);
+const LK = window.LivekitClient;
 const $ = id => document.getElementById(id);
 
 let eu = null, room = null, mudo = false, camLigada = false;
-let modo = 'entrar';
-let grupoAtivo = null, grupoNaCall = null, salaNaCall = null, canalTexto = null;
+let modo = 'entrar', ondeEstou = 'inicio';
+let grupoAtivo = null, grupoNaCall = null, salaNaCall = null, canalTexto = null, dmCom = null;
 let souDono = false, meuCargo = null, migrando = false;
 let relogio = null, inicioCall = 0, convitePendente = null;
 
 const meusGrupos = new Map(), salas = new Map(), cargos = new Map();
 const membrosGrupo = new Map(), amigos = new Map(), presencas = new Map();
 const presencaInscrita = new Map();
-const inscricoes = [], inscricoesGrupo = [], inscricoesChat = [];
+const inscricoes = [], inscricoesGrupo = [], inscricoesChat = [], inscricoesDm = [];
 const jaChamados = new Set();
 
-// ————— utilidades —————
 const aviso = (el, texto, tipo) => {
   $(el).textContent = texto || '';
   $(el).className = 'aviso' + (tipo ? ' ' + tipo : '');
 };
-
-const iniciais = nome =>
-  (nome || '?').trim().split(/[\s_-]+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || '?';
-
-const CORES = ['#B5FF3D', '#3DC8FF', '#FF9F3D', '#FF5BD1', '#7B6BFF', '#3DFFB0'];
+const iniciais = n => (n || '?').trim().split(/[\s_-]+/).slice(0,2).map(p => p[0]).join('').toUpperCase() || '?';
+const CORES = ['#B5FF3D','#3DC8FF','#FF9F3D','#FF5BD1','#7B6BFF','#3DFFB0'];
 function corDe(chave) {
-  let soma = 0;
-  for (let i = 0; i < (chave || '').length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
-  return CORES[soma % CORES.length];
+  let s = 0;
+  for (let i = 0; i < (chave || '').length; i++) s = (s * 31 + chave.charCodeAt(i)) >>> 0;
+  return CORES[s % CORES.length];
 }
-
-const parDe = (a, b) => [a, b].sort().join('_');
-const sorteioLetras = n => {
-  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-  let c = '';
-  for (let i = 0; i < n; i++) c += letras[Math.floor(Math.random() * letras.length)];
-  return c;
-};
-const apelidar = t => (t || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-  .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
+const parDe = (a,b) => [a,b].sort().join('_');
+const sorteioLetras = n => { const L='ABCDEFGHJKLMNPQRSTUVWXYZ'; let c=''; for(let i=0;i<n;i++) c+=L[Math.floor(Math.random()*L.length)]; return c; };
+const apelidar = t => (t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,24);
 const quando = ts => (ts && ts.toMillis ? ts.toMillis() : 0);
-const pode = chave => souDono || !!(meuCargo && meuCargo.permissoes && meuCargo.permissoes[chave]);
+const pode = c => souDono || !!(meuCargo && meuCargo.permissoes && meuCargo.permissoes[c]);
 const meuNivel = () => souDono ? 1000 : (meuCargo ? (meuCargo.nivel || 0) : -1);
 const emCall = () => !!room;
+const horaDe = ts => ts ? new Date(ts.toMillis()).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
 
-function traduzir(codigo) {
-  const mapa = {
-    'auth/invalid-email': 'Esse e-mail não parece válido.',
-    'auth/missing-password': 'Digite sua senha.',
-    'auth/weak-password': 'A senha precisa de pelo menos 6 caracteres.',
-    'auth/email-already-in-use': 'Já existe uma conta com esse e-mail.',
-    'auth/invalid-credential': 'E-mail ou senha incorretos.',
-    'auth/too-many-requests': 'Muitas tentativas. Espere alguns minutos.',
-    'auth/network-request-failed': 'Sem conexão com o servidor.'
+function traduzir(c) {
+  const m = {
+    'auth/invalid-email':'Esse e-mail não parece válido.',
+    'auth/missing-password':'Digite sua senha.',
+    'auth/weak-password':'A senha precisa de pelo menos 6 caracteres.',
+    'auth/email-already-in-use':'Já existe uma conta com esse e-mail.',
+    'auth/invalid-credential':'E-mail ou senha incorretos.',
+    'auth/too-many-requests':'Muitas tentativas. Espere alguns minutos.',
+    'auth/network-request-failed':'Sem conexão com o servidor.'
   };
-  return mapa[codigo] || 'Não foi possível concluir. Tente de novo.';
+  return m[c] || 'Não foi possível concluir. Tente de novo.';
+}
+
+// ————— navegação —————
+// A call sobrevive à troca de tela: sair do grupo pela topbar não desliga o áudio.
+function irPara(destino) {
+  ondeEstou = destino;
+  $('telaInicio').classList.toggle('oculto', destino !== 'inicio');
+  $('telaApp').classList.toggle('oculto', destino !== 'grupo');
 }
 
 // ————— conta —————
@@ -540,32 +516,32 @@ function trocarModo(novo) {
   $('campoNome').classList.toggle('oculto', novo === 'entrar');
   $('btnConta').textContent = novo === 'entrar' ? 'Entrar' : 'Criar conta';
   $('btnEsqueci').classList.toggle('oculto', novo === 'criar');
-  aviso('statusConta', '');
+  aviso('statusConta','');
 }
 
 async function reservarHandle(uid, nome) {
-  const base = apelidar(nome).replace(/_/g, '') || 'user';
+  const base = apelidar(nome).replace(/_/g,'') || 'user';
   for (let i = 0; i < 10; i++) {
-    const handle = base + '#' + String(Math.floor(1000 + Math.random() * 9000));
-    try { await setDoc(doc(db, 'handles', handle), { uid }); return handle; } catch (e) {}
+    const h = base + '#' + String(Math.floor(1000 + Math.random()*9000));
+    try { await setDoc(doc(db,'handles',h), { uid }); return h; } catch (e) {}
   }
   throw new Error('Não consegui reservar um identificador.');
 }
 
 async function garantirPerfil(user, nomeSugerido) {
-  const alvo = doc(db, 'usuarios', user.uid);
+  const alvo = doc(db,'usuarios',user.uid);
   const snap = await getDoc(alvo);
-  if (snap.exists()) return { uid: user.uid, ...snap.data() };
-  const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0, 18);
+  if (snap.exists()) return { uid:user.uid, ...snap.data() };
+  const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0,18);
   const handle = await reservarHandle(user.uid, nome);
   const perfil = { nome, handle, cor: corDe(user.uid), criadoEm: serverTimestamp() };
   await setDoc(alvo, perfil);
-  return { uid: user.uid, ...perfil };
+  return { uid:user.uid, ...perfil };
 }
 
 async function enviarConta() {
   const email = $('email').value.trim(), senha = $('senha').value, nome = $('nome').value.trim();
-  if (modo === 'criar' && !nome) return aviso('statusConta', 'Escolha um nome de exibição.', 'erro');
+  if (modo === 'criar' && !nome) return aviso('statusConta','Escolha um nome de exibição.','erro');
   $('btnConta').disabled = true;
   aviso('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
   try {
@@ -576,53 +552,68 @@ async function enviarConta() {
       await cred.user.getIdToken(true);
       await garantirPerfil(cred.user, nome);
     }
-  } catch (e) {
-    aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro');
-  } finally { $('btnConta').disabled = false; }
+  } catch (e) { aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro'); }
+  finally { $('btnConta').disabled = false; }
 }
 
 async function recuperarSenha() {
   const email = $('email').value.trim();
-  if (!email) return aviso('statusConta', 'Digite seu e-mail primeiro.', 'erro');
-  try {
-    await sendPasswordResetEmail(auth, email);
-    aviso('statusConta', 'Link enviado. Confira seu e-mail.', 'ok');
-  } catch (e) { aviso('statusConta', traduzir(e.code), 'erro'); }
+  if (!email) return aviso('statusConta','Digite seu e-mail primeiro.','erro');
+  try { await sendPasswordResetEmail(auth, email); aviso('statusConta','Link enviado. Confira seu e-mail.','ok'); }
+  catch (e) { aviso('statusConta', traduzir(e.code), 'erro'); }
 }
 
 // ————— presença —————
 function ligarPresenca() {
-  const meuRef = ref(rtdb, 'presenca/' + eu.uid);
-  onValue(ref(rtdb, '.info/connected'), snap => {
+  const meuRef = ref(rtdb,'presenca/'+eu.uid);
+  onValue(ref(rtdb,'.info/connected'), snap => {
     if (!snap.val()) return;
     onDisconnect(meuRef).remove().then(() => atualizarPresenca());
   });
 }
-
 const atualizarPresenca = () => {
   if (!eu) return;
-  rtSet(ref(rtdb, 'presenca/' + eu.uid), {
-    online: true, grupo: grupoNaCall, sala: salaNaCall, em: Date.now()
-  });
+  rtSet(ref(rtdb,'presenca/'+eu.uid), { online:true, grupo:grupoNaCall, sala:salaNaCall, em:Date.now() });
 };
-
 function observarPresencaDe(uid) {
   if (presencaInscrita.has(uid) || !eu || uid === eu.uid) return;
-  presencaInscrita.set(uid, onValue(ref(rtdb, 'presenca/' + uid), snap => {
+  presencaInscrita.set(uid, onValue(ref(rtdb,'presenca/'+uid), snap => {
     presencas.set(uid, snap.val());
-    pintarAmigos(); pintarSalas(); pintarMembros(); pintarConvidar();
+    pintarGradeAmigos(); pintarSalas(); pintarMembros(); pintarConvidar();
   }));
 }
 
 // ————— grupos —————
 function ligarGrupos() {
-  inscricoes.push(onSnapshot(collection(db, 'usuarios', eu.uid, 'grupos'), snap => {
+  inscricoes.push(onSnapshot(collection(db,'usuarios',eu.uid,'grupos'), snap => {
     meusGrupos.clear();
     snap.forEach(d => meusGrupos.set(d.id, d.data()));
-    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) return selecionarGrupo(null);
-    if (!grupoAtivo && meusGrupos.size) return selecionarGrupo([...meusGrupos.keys()][0]);
-    pintarRail();
+    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) { selecionarGrupo(null); irPara('inicio'); }
+    pintarRail(); pintarGradeGrupos();
   }));
+}
+
+function pintarGradeGrupos() {
+  const g = $('gradeGrupos');
+  g.innerHTML = '';
+  for (const [gid, dados] of meusGrupos) {
+    const b = document.createElement('button');
+    b.className = 'cartao-item';
+    b.innerHTML = '<div class="quadro-ini"></div><div class="nm"></div><div class="hd"></div>';
+    const q = b.querySelector('.quadro-ini');
+    q.textContent = iniciais(dados.nome);
+    q.style.background = corDe(gid);
+    b.querySelector('.nm').textContent = dados.nome;
+    b.querySelector('.hd').textContent = dados.handle || '';
+    b.addEventListener('click', () => { selecionarGrupo(gid); irPara('grupo'); });
+    g.appendChild(b);
+  }
+  const novo = document.createElement('button');
+  novo.className = 'cartao-item cartao-novo';
+  novo.textContent = '+';
+  novo.title = 'Criar ou entrar num grupo';
+  novo.addEventListener('click', () => $('nomeGrupo').focus());
+  g.appendChild(novo);
 }
 
 function pintarRail() {
@@ -636,53 +627,39 @@ function pintarRail() {
     b.addEventListener('click', () => selecionarGrupo(gid));
     rail.appendChild(b);
   }
-  const mais = document.createElement('button');
-  mais.className = 'gbtn novo';
-  mais.textContent = '+';
-  mais.title = 'Criar ou entrar num grupo';
-  mais.addEventListener('click', () => selecionarGrupo(null, true));
-  rail.appendChild(mais);
 }
 
-function selecionarGrupo(gid, mostrarNovo) {
+function selecionarGrupo(gid) {
   inscricoesGrupo.splice(0).forEach(f => f());
   salas.clear(); cargos.clear(); membrosGrupo.clear();
   grupoAtivo = gid; souDono = false; meuCargo = null; migrando = false;
   if (!emCall()) { canalTexto = null; ligarChat(null); }
-
-  $('areaNovoGrupo').classList.toggle('oculto', !(mostrarNovo || (!gid && !meusGrupos.size)));
-  $('areaSalas').classList.toggle('oculto', !gid);
-  $('semGrupo').classList.toggle('oculto', !!gid || mostrarNovo || meusGrupos.size > 0);
-  pintarRail();
-  atualizarCentro();
-
+  pintarRail(); atualizarCentro();
   if (!gid) { recalcular(); return; }
 
-  const g = meusGrupos.get(gid) || {};
-  $('rotSalas').textContent = g.nome || 'Salas';
+  $('rotSalas').textContent = (meusGrupos.get(gid) || {}).nome || 'Salas';
 
-  inscricoesGrupo.push(onSnapshot(doc(db, 'grupos', gid), d => {
+  inscricoesGrupo.push(onSnapshot(doc(db,'grupos',gid), d => {
     souDono = d.exists() && d.data().dono === eu.uid;
     recalcular();
   }));
-  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'cargos'), snap => {
+  inscricoesGrupo.push(onSnapshot(collection(db,'grupos',gid,'cargos'), snap => {
     cargos.clear();
     snap.forEach(d => cargos.set(d.id, d.data()));
     if (!cargos.size) migrarCargos(gid);
     recalcular();
   }));
-  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'membros'), snap => {
+  inscricoesGrupo.push(onSnapshot(collection(db,'grupos',gid,'membros'), snap => {
     membrosGrupo.clear();
     snap.forEach(d => { membrosGrupo.set(d.id, d.data()); observarPresencaDe(d.id); });
     recalcular();
   }));
-  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'salas'), snap => {
+  inscricoesGrupo.push(onSnapshot(collection(db,'grupos',gid,'salas'), snap => {
     salas.clear();
     snap.forEach(d => salas.set(d.id, d.data()));
-    // Abre o primeiro canal de texto automaticamente — chat vazio sem motivo confunde.
     if (!canalTexto) {
-      const primeiro = [...salas.entries()].find(([, s]) => s.tipo === 'texto');
-      if (primeiro) abrirCanalTexto(primeiro[0]);
+      const p = [...salas.entries()].find(([,s]) => s.tipo === 'texto');
+      if (p) abrirCanalTexto(p[0]);
     }
     pintarSalas();
   }));
@@ -692,10 +669,8 @@ async function migrarCargos(gid) {
   if (migrando || !souDono) return;
   migrando = true;
   try {
-    for (const [cid, c] of Object.entries(CARGOS_BASE)) {
-      await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
-    }
-    await updateDoc(doc(db, 'grupos', gid, 'membros', eu.uid), { cargo: 'dono' });
+    for (const [cid,c] of Object.entries(CARGOS_BASE)) await setDoc(doc(db,'grupos',gid,'cargos',cid), c);
+    await updateDoc(doc(db,'grupos',gid,'membros',eu.uid), { cargo:'dono' });
   } catch (e) {}
 }
 
@@ -709,18 +684,16 @@ function recalcular() {
   pintarSalas(); pintarCargos(); pintarMembros(); pintarConvidar();
 }
 
-// Alterna o painel central entre a visão do grupo e a chamada.
 function atualizarCentro() {
   const naCall = emCall();
   $('palco').classList.toggle('oculto', !naCall);
   $('barraCall').classList.toggle('oculto', !naCall);
-  $('visaoGrupo').classList.toggle('oculto', naCall || !grupoAtivo);
-  $('semGrupoCentro').classList.toggle('oculto', naCall || !!grupoAtivo);
-  $('relogio').textContent = naCall ? $('relogio').textContent : '';
+  $('visaoGrupo').classList.toggle('oculto', naCall);
   $('btnMicRail').disabled = !naCall;
   $('btnCamRail').disabled = !naCall;
   if (!naCall) {
-    $('rotCentro').textContent = grupoAtivo ? ((meusGrupos.get(grupoAtivo) || {}).nome || 'Grupo') : 'Grupo';
+    $('rotCentro').textContent = grupoAtivo ? ((meusGrupos.get(grupoAtivo)||{}).nome || 'Grupo') : 'Grupo';
+    $('relogio').textContent = '';
     $('gavetaConvidar').classList.add('oculto');
   }
 }
@@ -729,17 +702,15 @@ function pintarSalas() {
   if (!grupoAtivo) return;
   const voz = $('listaVoz'), texto = $('listaTexto');
   voz.innerHTML = ''; texto.innerHTML = '';
-
   for (const [sid, s] of salas) {
     const ehTexto = s.tipo === 'texto';
     const linha = document.createElement('div');
     const ativa = ehTexto ? canalTexto === sid : (grupoNaCall === grupoAtivo && salaNaCall === sid);
     linha.className = 'sala' + (ativa ? ' ativa' : '');
-    linha.innerHTML = '<span class="marca"></span><span class="nome"></span><span class="qtd"></span>';
-    linha.querySelector('.marca').textContent = ehTexto ? '#' : '♪';
+    linha.innerHTML = '<span class="marca2"></span><span class="nome"></span><span class="qtd"></span>';
+    linha.querySelector('.marca2').textContent = ehTexto ? '#' : '♪';
     linha.querySelector('.nome').textContent = s.nome;
-    linha.addEventListener('click', () =>
-      ehTexto ? abrirCanalTexto(sid) : entrarSala(grupoAtivo, sid, s.nome));
+    linha.addEventListener('click', () => ehTexto ? abrirCanalTexto(sid) : entrarSala(grupoAtivo, sid, s.nome));
 
     const bloco = document.createElement('div');
     bloco.appendChild(linha);
@@ -749,7 +720,7 @@ function pintarSalas() {
       dentro.className = 'dentro';
       let n = 0;
       for (const [uid, m] of membrosGrupo) {
-        const p = uid === eu.uid ? { grupo: grupoNaCall, sala: salaNaCall } : presencas.get(uid);
+        const p = uid === eu.uid ? { grupo:grupoNaCall, sala:salaNaCall } : presencas.get(uid);
         if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
         n++;
         const sp = document.createElement('span');
@@ -769,28 +740,37 @@ function pintarSalas() {
       x.className = 'btn btn-mini btn-perigo';
       x.textContent = '✕';
       x.style.marginLeft = '6px';
-      x.title = 'Apagar sala';
       x.addEventListener('click', async e => {
         e.stopPropagation();
-        if (confirm('Apagar a sala ' + s.nome + '?')) {
-          await deleteDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid)).catch(() =>
-            aviso('statusSala', 'Sem permissão.', 'erro'));
-        }
+        if (confirm('Apagar a sala ' + s.nome + '?'))
+          await deleteDoc(doc(db,'grupos',grupoAtivo,'salas',sid)).catch(() => aviso('statusSala','Sem permissão.','erro'));
       });
       linha.appendChild(x);
     }
-
     (ehTexto ? texto : voz).appendChild(bloco);
   }
   if (!voz.children.length) voz.innerHTML = '<p class="vazio">Nenhuma sala de voz.</p>';
   if (!texto.children.length) texto.innerHTML = '<p class="vazio">Nenhum canal de texto.</p>';
 }
 
-// ————— chat —————
-function abrirCanalTexto(sid) {
-  canalTexto = sid;
-  ligarChat(sid);
-  pintarSalas();
+// ————— chat do grupo —————
+function abrirCanalTexto(sid) { canalTexto = sid; ligarChat(sid); pintarSalas(); }
+
+function desenharMsgs(caixa, msgs) {
+  caixa.innerHTML = '';
+  msgs.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg';
+    div.innerHTML = '<div class="av av-26"></div><div class="corpo"><div class="quem"><b></b><span></span></div><div class="texto"></div></div>';
+    const av = div.querySelector('.av');
+    av.textContent = iniciais(m.nome);
+    av.style.background = corDe(m.de);
+    div.querySelector('b').textContent = m.nome;
+    div.querySelector('.quem span').textContent = horaDe(m.em);
+    div.querySelector('.texto').textContent = m.texto;
+    caixa.appendChild(div);
+  });
+  caixa.scrollTop = caixa.scrollHeight;
 }
 
 function ligarChat(sid) {
@@ -799,34 +779,10 @@ function ligarChat(sid) {
   caixa.innerHTML = '';
   $('chatTexto').disabled = !sid;
   $('btnEnviar').disabled = !sid;
-  $('rotChat').textContent = sid ? '# ' + ((salas.get(sid) || {}).nome || sid) : 'Chat';
+  $('rotChat').textContent = sid ? '# ' + ((salas.get(sid)||{}).nome || sid) : 'Chat';
   if (!sid || !grupoAtivo) return;
-
-  const q = query(
-    collection(db, 'grupos', grupoAtivo, 'salas', sid, 'mensagens'),
-    orderBy('em', 'desc'), limit(60)
-  );
-  inscricoesChat.push(onSnapshot(q, snap => {
-    const msgs = snap.docs.map(d => d.data()).reverse();
-    caixa.innerHTML = '';
-    msgs.forEach(m => {
-      const div = document.createElement('div');
-      div.className = 'msg';
-      div.innerHTML =
-        '<div class="av av-26"></div>' +
-        '<div class="corpo"><div class="quem"><b></b><span></span></div><div class="texto"></div></div>';
-      const av = div.querySelector('.av');
-      av.textContent = iniciais(m.nome);
-      av.style.background = corDe(m.de);
-      div.querySelector('b').textContent = m.nome;
-      div.querySelector('.quem span').textContent = m.em
-        ? new Date(m.em.toMillis()).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
-        : '';
-      div.querySelector('.texto').textContent = m.texto;
-      caixa.appendChild(div);
-    });
-    caixa.scrollTop = caixa.scrollHeight;
-  }));
+  const q = query(collection(db,'grupos',grupoAtivo,'salas',sid,'mensagens'), orderBy('em','desc'), limit(60));
+  inscricoesChat.push(onSnapshot(q, snap => desenharMsgs(caixa, snap.docs.map(d => d.data()).reverse())));
 }
 
 async function enviarMensagem() {
@@ -834,11 +790,35 @@ async function enviarMensagem() {
   if (!texto || !canalTexto || !grupoAtivo) return;
   $('chatTexto').value = '';
   try {
-    await addDoc(collection(db, 'grupos', grupoAtivo, 'salas', canalTexto, 'mensagens'),
-      { de: eu.uid, nome: eu.nome, texto, em: serverTimestamp() });
-  } catch (e) {
-    $('chatTexto').value = texto;
-  }
+    await addDoc(collection(db,'grupos',grupoAtivo,'salas',canalTexto,'mensagens'),
+      { de:eu.uid, nome:eu.nome, texto, em:serverTimestamp() });
+  } catch (e) { $('chatTexto').value = texto; }
+}
+
+// ————— conversa direta —————
+function abrirDm(uid) {
+  dmCom = uid;
+  inscricoesDm.splice(0).forEach(f => f());
+  const caixa = $('dmMsgs');
+  caixa.innerHTML = '';
+  const reg = amigos.get(uid);
+  $('rotDm').textContent = reg ? reg.perfil.nome : 'Bate-papo';
+  $('dmTexto').disabled = false;
+  $('btnDmEnviar').disabled = false;
+  pintarGradeAmigos();
+
+  const q = query(collection(db,'dm',parDe(eu.uid,uid),'mensagens'), orderBy('em','desc'), limit(60));
+  inscricoesDm.push(onSnapshot(q, snap => desenharMsgs(caixa, snap.docs.map(d => d.data()).reverse())));
+}
+
+async function enviarDm() {
+  const texto = $('dmTexto').value.trim();
+  if (!texto || !dmCom) return;
+  $('dmTexto').value = '';
+  try {
+    await addDoc(collection(db,'dm',parDe(eu.uid,dmCom),'mensagens'),
+      { de:eu.uid, nome:eu.nome, membros:[eu.uid,dmCom].sort(), texto, em:serverTimestamp() });
+  } catch (e) { $('dmTexto').value = texto; }
 }
 
 // ————— cargos —————
@@ -846,22 +826,19 @@ function pintarCargos() {
   const alvo = $('listaCargos');
   if (!alvo || !grupoAtivo) return;
   alvo.innerHTML = '';
-  const ordenados = [...cargos.entries()].sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0));
-  for (const [cid, c] of ordenados) {
-    const editavel = pode('gerenciarCargos') && (c.nivel || 0) < meuNivel();
+  const ord = [...cargos.entries()].sort((a,b) => (b[1].nivel||0) - (a[1].nivel||0));
+  for (const [cid,c] of ord) {
+    const editavel = pode('gerenciarCargos') && (c.nivel||0) < meuNivel();
     const bloco = document.createElement('div');
     bloco.className = 'cargo-bloco';
-    bloco.innerHTML =
-      '<div class="cargo-cab"><span class="tag"></span><span class="cn"></span>' +
-      '<span class="cnv"></span><span class="acoes"></span></div><div class="perms"></div>';
+    bloco.innerHTML = '<div class="cargo-cab"><span class="tag"></span><span class="cn"></span><span class="cnv"></span><span class="acoes"></span></div><div class="perms"></div>';
     const tag = bloco.querySelector('.tag');
     tag.textContent = cid;
     tag.style.background = corDe(cid);
     bloco.querySelector('.cn').textContent = c.nome;
-    bloco.querySelector('.cnv').textContent = 'nv ' + (c.nivel || 0);
-
+    bloco.querySelector('.cnv').textContent = 'nv ' + (c.nivel||0);
     const perms = bloco.querySelector('.perms');
-    PERMISSOES.forEach(([chave, rotulo]) => {
+    PERMISSOES.forEach(([chave,rotulo]) => {
       const lab = document.createElement('label');
       if (!editavel) lab.className = 'travado';
       const cb = document.createElement('input');
@@ -869,19 +846,13 @@ function pintarCargos() {
       cb.checked = !!(c.permissoes && c.permissoes[chave]);
       cb.disabled = !editavel;
       cb.addEventListener('change', async () => {
-        try {
-          await updateDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), { ['permissoes.' + chave]: cb.checked });
-          aviso('statusCargo', '');
-        } catch (e) {
-          cb.checked = !cb.checked;
-          aviso('statusCargo', 'O banco recusou essa mudança.', 'erro');
-        }
+        try { await updateDoc(doc(db,'grupos',grupoAtivo,'cargos',cid), { ['permissoes.'+chave]: cb.checked }); aviso('statusCargo',''); }
+        catch (e) { cb.checked = !cb.checked; aviso('statusCargo','O banco recusou.','erro'); }
       });
       lab.appendChild(cb);
       lab.appendChild(document.createTextNode(rotulo));
       perms.appendChild(lab);
     });
-
     if (editavel && !CARGOS_BASE[cid]) {
       const x = document.createElement('button');
       x.className = 'btn btn-mini btn-perigo';
@@ -896,31 +867,26 @@ function pintarCargos() {
 async function criarCargo() {
   const nome = $('nomeCargo').value.trim();
   const nivel = parseInt($('nivelCargo').value, 10);
-  if (!nome) return aviso('statusCargo', 'Dê um nome ao cargo.', 'erro');
-  if (!(nivel > 0 && nivel < meuNivel()))
-    return aviso('statusCargo', 'O nível precisa ficar entre 1 e ' + (meuNivel() - 1) + '.', 'erro');
-  const cid = apelidar(nome) || ('cargo' + Date.now());
-  if (cargos.has(cid)) return aviso('statusCargo', 'Já existe um cargo com esse nome.', 'erro');
+  if (!nome) return aviso('statusCargo','Dê um nome ao cargo.','erro');
+  if (!(nivel > 0 && nivel < meuNivel())) return aviso('statusCargo','Nível entre 1 e '+(meuNivel()-1)+'.','erro');
+  const cid = apelidar(nome) || ('cargo'+Date.now());
+  if (cargos.has(cid)) return aviso('statusCargo','Já existe um cargo com esse nome.','erro');
   try {
     const permissoes = {};
-    PERMISSOES.forEach(([chave]) => { permissoes[chave] = false; });
-    await setDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid), { nome, nivel, permissoes });
+    PERMISSOES.forEach(([c]) => { permissoes[c] = false; });
+    await setDoc(doc(db,'grupos',grupoAtivo,'cargos',cid), { nome, nivel, permissoes });
     $('nomeCargo').value = '';
-    aviso('statusCargo', 'Cargo criado. Marque as permissões acima.', 'ok');
-  } catch (e) { aviso('statusCargo', 'O banco recusou.', 'erro'); }
+    aviso('statusCargo','Cargo criado. Marque as permissões acima.','ok');
+  } catch (e) { aviso('statusCargo','O banco recusou.','erro'); }
 }
 
 async function apagarCargo(cid, c) {
-  const usando = [...membrosGrupo.entries()].filter(([, m]) => m.cargo === cid);
-  if (!confirm(usando.length
-    ? 'Apagar ' + c.nome + '? ' + usando.length + ' pessoa(s) voltam a ser Membro.'
-    : 'Apagar o cargo ' + c.nome + '?')) return;
+  const usando = [...membrosGrupo.entries()].filter(([,m]) => m.cargo === cid);
+  if (!confirm(usando.length ? 'Apagar '+c.nome+'? '+usando.length+' pessoa(s) voltam a ser Membro.' : 'Apagar o cargo '+c.nome+'?')) return;
   try {
-    for (const [uid] of usando) {
-      await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: 'membro' });
-    }
-    await deleteDoc(doc(db, 'grupos', grupoAtivo, 'cargos', cid));
-  } catch (e) { aviso('statusCargo', 'Sem permissão.', 'erro'); }
+    for (const [uid] of usando) await updateDoc(doc(db,'grupos',grupoAtivo,'membros',uid), { cargo:'membro' });
+    await deleteDoc(doc(db,'grupos',grupoAtivo,'cargos',cid));
+  } catch (e) { aviso('statusCargo','Sem permissão.','erro'); }
 }
 
 // ————— membros —————
@@ -928,19 +894,15 @@ function pintarMembros() {
   const lista = $('listaMembros');
   if (!lista || !grupoAtivo) return;
   lista.innerHTML = '';
-  const ordenados = [...membrosGrupo.entries()].sort((a, b) => {
+  const ord = [...membrosGrupo.entries()].sort((a,b) => {
     const ca = cargos.get(a[1].cargo), cb = cargos.get(b[1].cargo);
-    return ((cb && cb.nivel) || 0) - ((ca && ca.nivel) || 0);
+    return ((cb&&cb.nivel)||0) - ((ca&&ca.nivel)||0);
   });
-
-  for (const [uid, m] of ordenados) {
-    const c = cargos.get(m.cargo) || { nome: '—', nivel: 0 };
-    const pres = uid === eu.uid ? { online: true, sala: salaNaCall } : presencas.get(uid);
+  for (const [uid,m] of ord) {
+    const c = cargos.get(m.cargo) || { nome:'—', nivel:0 };
+    const pres = uid === eu.uid ? { online:true, sala:salaNaCall } : presencas.get(uid);
     const li = document.createElement('li');
-    li.innerHTML =
-      '<span class="pt"></span><div class="av av-26"></div>' +
-      '<div class="txt"><div class="t1"><span class="n"></span><span class="tag"></span></div>' +
-      '<div class="t2"></div></div><div class="acoes"></div>';
+    li.innerHTML = '<span class="pt"></span><div class="av av-26"></div><div class="txt"><div class="t1"><span class="n"></span><span class="tag"></span></div><div class="t2"></div></div><div class="acoes"></div>';
     const av = li.querySelector('.av');
     av.textContent = iniciais(m.nome);
     av.style.background = corDe(uid);
@@ -950,22 +912,20 @@ function pintarMembros() {
     tag.style.background = corDe(m.cargo);
     li.querySelector('.pt').className = 'pt' + (pres && pres.sala ? ' call' : pres && pres.online ? ' on' : '');
     li.querySelector('.t2').textContent = pres && pres.sala ? 'em call' : pres && pres.online ? 'online' : 'offline';
-
     const acoes = li.querySelector('.acoes');
-    const abaixo = (c.nivel || 0) < meuNivel() && uid !== eu.uid;
-
+    const abaixo = (c.nivel||0) < meuNivel() && uid !== eu.uid;
     if (pode('atribuirCargos') && abaixo) {
       const sel = document.createElement('select');
-      [...cargos.entries()].filter(([, cc]) => (cc.nivel || 0) < meuNivel())
-        .sort((a, b) => (b[1].nivel || 0) - (a[1].nivel || 0))
-        .forEach(([cid, cc]) => {
+      [...cargos.entries()].filter(([,cc]) => (cc.nivel||0) < meuNivel())
+        .sort((a,b) => (b[1].nivel||0)-(a[1].nivel||0))
+        .forEach(([cid,cc]) => {
           const o = document.createElement('option');
           o.value = cid; o.textContent = cc.nome; o.selected = cid === m.cargo;
           sel.appendChild(o);
         });
       sel.addEventListener('change', async () => {
-        try { await updateDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid), { cargo: sel.value }); }
-        catch (e) { aviso('statusCargo', 'O banco recusou a troca.', 'erro'); }
+        try { await updateDoc(doc(db,'grupos',grupoAtivo,'membros',uid), { cargo: sel.value }); }
+        catch (e) { aviso('statusCargo','O banco recusou a troca.','erro'); }
       });
       acoes.appendChild(sel);
     }
@@ -973,11 +933,10 @@ function pintarMembros() {
       const b = document.createElement('button');
       b.className = 'btn btn-mini btn-perigo';
       b.textContent = '✕';
-      b.title = 'Remover do grupo';
       b.addEventListener('click', async () => {
-        if (!confirm('Remover ' + m.nome + ' do grupo?')) return;
-        try { await deleteDoc(doc(db, 'grupos', grupoAtivo, 'membros', uid)); }
-        catch (e) { aviso('statusCargo', 'Sem permissão.', 'erro'); }
+        if (!confirm('Remover '+m.nome+' do grupo?')) return;
+        try { await deleteDoc(doc(db,'grupos',grupoAtivo,'membros',uid)); }
+        catch (e) { aviso('statusCargo','Sem permissão.','erro'); }
       });
       acoes.appendChild(b);
     }
@@ -988,108 +947,95 @@ function pintarMembros() {
 // ————— criar / entrar em grupo —————
 async function criarGrupo() {
   const nome = $('nomeGrupo').value.trim();
-  if (!nome) return aviso('statusGrupo', 'Dê um nome ao grupo.', 'erro');
+  if (!nome) return aviso('statusGrupo','Dê um nome ao grupo.','erro');
   $('btnCriarGrupo').disabled = true;
-  aviso('statusGrupo', 'Criando…');
+  aviso('statusGrupo','Criando…');
   try {
-    const gid = doc(collection(db, 'grupos')).id;
-    await setDoc(doc(db, 'grupos', gid), { nome, dono: eu.uid, criadoEm: serverTimestamp() });
-    for (const [cid, c] of Object.entries(CARGOS_BASE)) {
-      await setDoc(doc(db, 'grupos', gid, 'cargos', cid), c);
-    }
+    const gid = doc(collection(db,'grupos')).id;
+    await setDoc(doc(db,'grupos',gid), { nome, dono:eu.uid, criadoEm:serverTimestamp() });
+    for (const [cid,c] of Object.entries(CARGOS_BASE)) await setDoc(doc(db,'grupos',gid,'cargos',cid), c);
     const base = apelidar(nome) || 'grupo';
     let handle = null;
     for (let i = 0; i < 10 && !handle; i++) {
       const t = base + '#' + sorteioLetras(4);
-      try { await setDoc(doc(db, 'handlesGrupo', t), { grupo: gid }); handle = t; } catch (e) {}
+      try { await setDoc(doc(db,'handlesGrupo',t), { grupo:gid }); handle = t; } catch (e) {}
     }
     if (!handle) throw new Error('Não consegui gerar um código.');
-    await updateDoc(doc(db, 'grupos', gid), { handle });
-    await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
-      { uid: eu.uid, nome: eu.nome, cargo: 'dono', entrouEm: serverTimestamp() });
-    await setDoc(doc(db, 'grupos', gid, 'salas', 'geral'),
-      { nome: 'Geral', tipo: 'voz', criadoEm: serverTimestamp() });
-    await setDoc(doc(db, 'grupos', gid, 'salas', 'bate_papo'),
-      { nome: 'bate-papo', tipo: 'texto', criadoEm: serverTimestamp() });
-    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome, handle });
+    await updateDoc(doc(db,'grupos',gid), { handle });
+    await setDoc(doc(db,'grupos',gid,'membros',eu.uid), { uid:eu.uid, nome:eu.nome, cargo:'dono', entrouEm:serverTimestamp() });
+    await setDoc(doc(db,'grupos',gid,'salas','geral'), { nome:'Geral', tipo:'voz', criadoEm:serverTimestamp() });
+    await setDoc(doc(db,'grupos',gid,'salas','bate_papo'), { nome:'bate-papo', tipo:'texto', criadoEm:serverTimestamp() });
+    await setDoc(doc(db,'usuarios',eu.uid,'grupos',gid), { nome, handle });
     $('nomeGrupo').value = '';
-    aviso('statusGrupo', 'Código: ' + handle, 'ok');
-    selecionarGrupo(gid);
-  } catch (e) {
-    aviso('statusGrupo', e.message, 'erro');
-  } finally { $('btnCriarGrupo').disabled = false; }
+    aviso('statusGrupo','Código: '+handle,'ok');
+  } catch (e) { aviso('statusGrupo', e.message, 'erro'); }
+  finally { $('btnCriarGrupo').disabled = false; }
 }
 
 async function entrarGrupo() {
   const bruto = $('codigoGrupo').value.trim();
-  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(bruto))
-    return aviso('statusGrupo', 'Use o formato nome_do_grupo#ABCD.', 'erro');
+  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(bruto)) return aviso('statusGrupo','Use o formato nome#ABCD.','erro');
   const p = bruto.split('#');
   const chave = p[0].toLowerCase() + '#' + p[1].toUpperCase();
   $('btnEntrarGrupo').disabled = true;
-  aviso('statusGrupo', 'Procurando…');
+  aviso('statusGrupo','Procurando…');
   try {
-    const h = await getDoc(doc(db, 'handlesGrupo', chave));
+    const h = await getDoc(doc(db,'handlesGrupo',chave));
     if (!h.exists()) throw new Error('Nenhum grupo com esse código.');
     const gid = h.data().grupo;
-    await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
-      { uid: eu.uid, nome: eu.nome, cargo: 'membro', entrouEm: serverTimestamp() });
-    const g = await getDoc(doc(db, 'grupos', gid));
-    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome: g.data().nome, handle: chave });
+    await setDoc(doc(db,'grupos',gid,'membros',eu.uid), { uid:eu.uid, nome:eu.nome, cargo:'membro', entrouEm:serverTimestamp() });
+    const g = await getDoc(doc(db,'grupos',gid));
+    await setDoc(doc(db,'usuarios',eu.uid,'grupos',gid), { nome:g.data().nome, handle:chave });
     $('codigoGrupo').value = '';
-    aviso('statusGrupo', 'Bem-vindo ao ' + g.data().nome + '.', 'ok');
-    selecionarGrupo(gid);
-  } catch (e) {
-    aviso('statusGrupo', e.message, 'erro');
-  } finally { $('btnEntrarGrupo').disabled = false; }
+    aviso('statusGrupo','Bem-vindo ao '+g.data().nome+'.','ok');
+  } catch (e) { aviso('statusGrupo', e.message, 'erro'); }
+  finally { $('btnEntrarGrupo').disabled = false; }
 }
 
 async function criarSala() {
   const nome = $('nomeSala').value.trim();
   if (!nome || !grupoAtivo) return;
-  const sid = apelidar(nome) || ('sala' + Date.now());
+  const sid = apelidar(nome) || ('sala'+Date.now());
   try {
-    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid),
-      { nome, tipo: $('tipoSala').value, criadoEm: serverTimestamp() });
+    await setDoc(doc(db,'grupos',grupoAtivo,'salas',sid), { nome, tipo:$('tipoSala').value, criadoEm:serverTimestamp() });
     $('nomeSala').value = '';
-    aviso('statusSala', '');
-  } catch (e) { aviso('statusSala', 'Sem permissão para criar salas.', 'erro'); }
+    aviso('statusSala','');
+  } catch (e) { aviso('statusSala','Sem permissão para criar salas.','erro'); }
 }
 
 async function sairDoGrupo() {
   if (!grupoAtivo) return;
   const gid = grupoAtivo, g = meusGrupos.get(gid) || {};
   const outros = [...membrosGrupo.entries()].filter(([u]) => u !== eu.uid)
-    .sort((a, b) => quando(a[1].entrouEm) - quando(b[1].entrouEm));
+    .sort((a,b) => quando(a[1].entrouEm) - quando(b[1].entrouEm));
   const sucessor = outros.length ? outros[0] : null;
-
   const pergunta = !sucessor
-    ? 'Você é a última pessoa em ' + g.nome + '. Sair vai desfazer o grupo. Continuar?'
-    : souDono
-      ? 'Sair de ' + g.nome + '? O grupo passa para ' + sucessor[1].nome + '.'
-      : 'Sair de ' + g.nome + '? Você vai precisar do código para voltar.';
+    ? 'Você é a última pessoa em '+g.nome+'. Sair vai desfazer o grupo. Continuar?'
+    : souDono ? 'Sair de '+g.nome+'? O grupo passa para '+sucessor[1].nome+'.'
+              : 'Sair de '+g.nome+'? Você vai precisar do código para voltar.';
   if (!confirm(pergunta)) return;
-
   try {
     if (!sucessor) {
       if (!souDono) throw new Error('só o dono pode desfazer o grupo');
-      for (const sid of [...salas.keys()]) await deleteDoc(doc(db, 'grupos', gid, 'salas', sid));
-      for (const cid of [...cargos.keys()]) await deleteDoc(doc(db, 'grupos', gid, 'cargos', cid)).catch(() => {});
-      if (g.handle) await deleteDoc(doc(db, 'handlesGrupo', g.handle)).catch(() => {});
-      await deleteDoc(doc(db, 'grupos', gid));
+      for (const sid of [...salas.keys()]) await deleteDoc(doc(db,'grupos',gid,'salas',sid));
+      for (const cid of [...cargos.keys()]) await deleteDoc(doc(db,'grupos',gid,'cargos',cid)).catch(() => {});
+      if (g.handle) await deleteDoc(doc(db,'handlesGrupo',g.handle)).catch(() => {});
+      await deleteDoc(doc(db,'grupos',gid));
     } else if (souDono) {
-      await updateDoc(doc(db, 'grupos', gid, 'membros', sucessor[0]), { cargo: 'dono' });
-      await updateDoc(doc(db, 'grupos', gid), { dono: sucessor[0] });
+      await updateDoc(doc(db,'grupos',gid,'membros',sucessor[0]), { cargo:'dono' });
+      await updateDoc(doc(db,'grupos',gid), { dono:sucessor[0] });
     }
-    await deleteDoc(doc(db, 'grupos', gid, 'membros', eu.uid));
-    await deleteDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid));
+    await deleteDoc(doc(db,'grupos',gid,'membros',eu.uid));
+    await deleteDoc(doc(db,'usuarios',eu.uid,'grupos',gid));
+    if (grupoNaCall === gid) await sairSala();
     selecionarGrupo(null);
-  } catch (e) { aviso('statusSala', 'Não consegui sair: ' + e.message, 'erro'); }
+    irPara('inicio');
+  } catch (e) { aviso('statusSala','Não consegui sair: '+e.message,'erro'); }
 }
 
 // ————— amigos —————
 function ligarAmizades() {
-  const q = query(collection(db, 'amizades'), where('membros', 'array-contains', eu.uid));
+  const q = query(collection(db,'amizades'), where('membros','array-contains',eu.uid));
   inscricoes.push(onSnapshot(q, async snap => {
     const vistos = new Set();
     for (const d of snap.docs) {
@@ -1098,26 +1044,114 @@ function ligarAmizades() {
       vistos.add(outro);
       let reg = amigos.get(outro);
       if (!reg) {
-        const p = await getDoc(doc(db, 'usuarios', outro));
-        reg = { perfil: p.exists() ? p.data() : { nome: 'Usuário', handle: '—' } };
+        const p = await getDoc(doc(db,'usuarios',outro));
+        reg = { perfil: p.exists() ? p.data() : { nome:'Usuário', handle:'—' } };
         amigos.set(outro, reg);
       }
       reg.parId = d.id; reg.status = dados.status; reg.euPedi = dados.de === eu.uid;
       if (dados.status === 'aceita') observarPresencaDe(outro);
     }
     for (const uid of [...amigos.keys()]) if (!vistos.has(uid)) amigos.delete(uid);
-    pintarAmigos(); pintarConvidar();
+    pintarGradeAmigos(); pintarConvidar();
   }));
+}
+
+function cartaoAmigo(uid, reg) {
+  const pres = presencas.get(uid);
+  const b = document.createElement('button');
+  b.className = 'cartao-item' + (dmCom === uid ? ' ativo' : '');
+  if (dmCom === uid) b.style.borderColor = 'var(--acento)';
+  b.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd"></div>' +
+                '<div class="rodape"><span class="pt"></span><span class="hd est"></span></div>' +
+                '<button class="btn btn-mini btn-perigo x">✕</button>';
+  const av = b.querySelector('.av');
+  av.textContent = iniciais(reg.perfil.nome);
+  av.style.background = corDe(uid);
+  b.querySelector('.nm').textContent = reg.perfil.nome;
+  b.querySelector('.hd').textContent = reg.perfil.handle;
+  const estado = pres && pres.sala ? 'call' : pres && pres.online ? 'on' : '';
+  b.querySelector('.pt').className = 'pt' + (estado ? ' ' + estado : '');
+  b.querySelector('.est').textContent = pres && pres.sala ? 'em call' : pres && pres.online ? 'online' : 'offline';
+  b.addEventListener('click', () => abrirDm(uid));
+  b.querySelector('.x').addEventListener('click', async e => {
+    e.stopPropagation();
+    if (!confirm('Remover ' + reg.perfil.nome + '?')) return;
+    await deleteDoc(doc(db,'amizades',reg.parId));
+    await deleteDoc(doc(db,'convites', uid+'_'+eu.uid)).catch(() => {});
+    await deleteDoc(doc(db,'convites', eu.uid+'_'+uid)).catch(() => {});
+    if (dmCom === uid) { dmCom = null; ligarDmVazio(); }
+  });
+  return b;
+}
+
+function ligarDmVazio() {
+  inscricoesDm.splice(0).forEach(f => f());
+  $('dmMsgs').innerHTML = '<p class="vazio">Escolha um amigo para conversar.</p>';
+  $('rotDm').textContent = 'Bate-papo';
+  $('dmTexto').disabled = true;
+  $('btnDmEnviar').disabled = true;
+}
+
+function pintarGradeAmigos() {
+  const grade = $('gradeAmigos'), ped = $('gradePedidos');
+  grade.innerHTML = ''; ped.innerHTML = '';
+  let pedidos = 0;
+
+  for (const [uid, reg] of amigos) {
+    if (reg.status === 'pendente' && !reg.euPedi) {
+      pedidos++;
+      const c = document.createElement('div');
+      c.className = 'cartao-item';
+      c.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd"></div><div class="rodape"></div>';
+      const av = c.querySelector('.av');
+      av.textContent = iniciais(reg.perfil.nome);
+      av.style.background = corDe(uid);
+      c.querySelector('.nm').textContent = reg.perfil.nome;
+      c.querySelector('.hd').textContent = reg.perfil.handle;
+      const ok = document.createElement('button');
+      ok.className = 'btn btn-mini btn-acento';
+      ok.textContent = 'aceitar';
+      ok.addEventListener('click', () => updateDoc(doc(db,'amizades',reg.parId), { status:'aceita' }));
+      const no = document.createElement('button');
+      no.className = 'btn btn-mini';
+      no.textContent = '✕';
+      no.addEventListener('click', () => deleteDoc(doc(db,'amizades',reg.parId)));
+      c.querySelector('.rodape').append(ok, no);
+      ped.appendChild(c);
+      continue;
+    }
+    if (reg.status === 'pendente') {
+      const c = document.createElement('div');
+      c.className = 'cartao-item';
+      c.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd">convite enviado</div>';
+      const av = c.querySelector('.av');
+      av.textContent = iniciais(reg.perfil.nome);
+      av.style.background = corDe(uid);
+      c.querySelector('.nm').textContent = reg.perfil.nome;
+      grade.appendChild(c);
+      continue;
+    }
+    grade.appendChild(cartaoAmigo(uid, reg));
+  }
+
+  const novo = document.createElement('button');
+  novo.className = 'cartao-item cartao-novo';
+  novo.textContent = '+';
+  novo.title = 'Adicionar amigo';
+  novo.addEventListener('click', () => $('buscaAmigo').focus());
+  grade.appendChild(novo);
+
+  $('secaoPedidos').classList.toggle('oculto', pedidos === 0);
 }
 
 async function adicionarAmigo() {
   const alvo = $('buscaAmigo').value.trim().toLowerCase();
-  if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) return aviso('statusAmigo', 'Use o formato nome#0000.', 'erro');
-  if (alvo === eu.handle) return aviso('statusAmigo', 'Esse é você.', 'erro');
+  if (!/^[a-z0-9]+#\d{4}$/.test(alvo)) return aviso('statusAmigo','Use o formato nome#0000.','erro');
+  if (alvo === eu.handle) return aviso('statusAmigo','Esse é você.','erro');
   $('btnAdicionar').disabled = true;
-  aviso('statusAmigo', 'Procurando…');
+  aviso('statusAmigo','Procurando…');
   try {
-    const h = await getDoc(doc(db, 'handles', alvo));
+    const h = await getDoc(doc(db,'handles',alvo));
     if (!h.exists()) throw new Error('Ninguém com esse identificador.');
     const outro = h.data().uid;
     const existente = amigos.get(outro);
@@ -1125,110 +1159,38 @@ async function adicionarAmigo() {
       existente.status === 'aceita' ? 'Vocês já são amigos.'
       : existente.euPedi ? 'Convite já enviado.'
       : 'Essa pessoa já te convidou — aceite acima.');
-    await setDoc(doc(db, 'amizades', parDe(eu.uid, outro)), {
-      membros: [eu.uid, outro].sort(), de: eu.uid, para: outro,
-      status: 'pendente', criadoEm: serverTimestamp()
+    await setDoc(doc(db,'amizades',parDe(eu.uid,outro)), {
+      membros:[eu.uid,outro].sort(), de:eu.uid, para:outro, status:'pendente', criadoEm:serverTimestamp()
     });
     $('buscaAmigo').value = '';
-    aviso('statusAmigo', 'Convite enviado.', 'ok');
-  } catch (e) {
-    aviso('statusAmigo', e.code === 'permission-denied' ? 'O banco recusou.' : e.message, 'erro');
-  } finally { $('btnAdicionar').disabled = false; }
-}
-
-const aceitar = parId => updateDoc(doc(db, 'amizades', parId), { status: 'aceita' });
-const recusar = parId => deleteDoc(doc(db, 'amizades', parId));
-
-async function removerAmigo(uid, reg) {
-  if (!confirm('Remover ' + reg.perfil.nome + '?')) return;
-  await deleteDoc(doc(db, 'amizades', reg.parId));
-  await deleteDoc(doc(db, 'convites', uid + '_' + eu.uid)).catch(() => {});
-  await deleteDoc(doc(db, 'convites', eu.uid + '_' + uid)).catch(() => {});
-}
-
-function itemPessoa(uid, nome, legenda, estado, acoes) {
-  const li = document.createElement('li');
-  li.innerHTML =
-    '<span class="pt"></span><div class="av av-26"></div>' +
-    '<div class="txt"><div class="t1"></div><div class="t2"></div></div><div class="acoes"></div>';
-  const av = li.querySelector('.av');
-  av.textContent = iniciais(nome);
-  av.style.background = corDe(uid);
-  li.querySelector('.t1').textContent = nome;
-  li.querySelector('.t2').textContent = legenda;
-  li.querySelector('.pt').className = 'pt' + (estado ? ' ' + estado : '');
-  const caixa = li.querySelector('.acoes');
-  (acoes || []).forEach(a => {
-    const b = document.createElement('button');
-    b.className = 'btn btn-mini' + (a.acento ? ' btn-acento' : '') + (a.perigo ? ' btn-perigo' : '');
-    b.textContent = a.rotulo;
-    b.disabled = !!a.travado;
-    b.addEventListener('click', a.acao);
-    caixa.appendChild(b);
-  });
-  return li;
-}
-
-function pintarAmigos() {
-  const listaA = $('listaAmigos'), listaP = $('listaPedidos');
-  listaA.innerHTML = ''; listaP.innerHTML = '';
-  let pedidos = 0, aceitos = 0;
-
-  for (const [uid, reg] of amigos) {
-    const p = reg.perfil;
-    if (reg.status === 'pendente' && !reg.euPedi) {
-      pedidos++;
-      listaP.appendChild(itemPessoa(uid, p.nome, p.handle, null, [
-        { rotulo: 'ok', acento: true, acao: () => aceitar(reg.parId) },
-        { rotulo: '✕', acao: () => recusar(reg.parId) }
-      ]));
-      continue;
-    }
-    aceitos++;
-    if (reg.status === 'pendente') {
-      listaA.appendChild(itemPessoa(uid, p.nome, 'convite enviado', null, [
-        { rotulo: '✕', acao: () => recusar(reg.parId) }
-      ]));
-      continue;
-    }
-    const pres = presencas.get(uid);
-    let legenda = 'offline', estado = '';
-    if (pres && pres.sala) { legenda = 'em call'; estado = 'call'; }
-    else if (pres && pres.online) { legenda = 'online'; estado = 'on'; }
-    const acoes = [];
-    if (pres && pres.sala && meusGrupos.has(pres.grupo)) {
-      acoes.push({ rotulo: 'entrar', acento: true, acao: () => entrarSala(pres.grupo, pres.sala) });
-    }
-    acoes.push({ rotulo: '✕', perigo: true, acao: () => removerAmigo(uid, reg) });
-    listaA.appendChild(itemPessoa(uid, p.nome, legenda, estado, acoes));
-  }
-  $('blocoPedidos').classList.toggle('oculto', pedidos === 0);
-  $('vazioAmigos').classList.toggle('oculto', aceitos > 0);
+    aviso('statusAmigo','Convite enviado.','ok');
+  } catch (e) { aviso('statusAmigo', e.code === 'permission-denied' ? 'O banco recusou.' : e.message, 'erro'); }
+  finally { $('btnAdicionar').disabled = false; }
 }
 
 // ————— convites para call —————
 async function chamarParaCall(uid) {
   if (!salaNaCall) return;
-  await setDoc(doc(db, 'convites', uid + '_' + eu.uid), {
-    de: eu.uid, para: uid, nome: eu.nome, cor: eu.cor,
-    grupo: grupoNaCall, sala: salaNaCall,
-    nomeSala: (salas.get(salaNaCall) || {}).nome || salaNaCall,
-    criadoEm: serverTimestamp()
+  await setDoc(doc(db,'convites', uid+'_'+eu.uid), {
+    de:eu.uid, para:uid, nome:eu.nome, cor:eu.cor,
+    grupo:grupoNaCall, sala:salaNaCall,
+    nomeSala:(salas.get(salaNaCall)||{}).nome || salaNaCall,
+    criadoEm:serverTimestamp()
   });
   jaChamados.add(uid);
   pintarConvidar();
 }
 
 function ligarConvites() {
-  const q = query(collection(db, 'convites'), where('para', '==', eu.uid));
+  const q = query(collection(db,'convites'), where('para','==',eu.uid));
   inscricoes.push(onSnapshot(q, snap => {
     let melhor = null;
     snap.forEach(d => {
       const c = d.data();
-      const idade = c.criadoEm ? (Date.now() - c.criadoEm.toMillis()) / 1000 : 0;
+      const idade = c.criadoEm ? (Date.now() - c.criadoEm.toMillis())/1000 : 0;
       if (idade > VALIDADE_CONVITE) return deleteDoc(d.ref).catch(() => {});
       if (c.grupo === grupoNaCall && c.sala === salaNaCall) return deleteDoc(d.ref).catch(() => {});
-      if (!melhor) melhor = { id: d.id, ...c };
+      if (!melhor) melhor = { id:d.id, ...c };
     });
     mostrarConvite(melhor);
   }));
@@ -1247,8 +1209,12 @@ async function responderConvite(entrar) {
   const c = convitePendente;
   mostrarConvite(null);
   if (!c) return;
-  await deleteDoc(doc(db, 'convites', c.id)).catch(() => {});
-  if (entrar) { if (room) await sairSala(); entrarSala(c.grupo, c.sala, c.nomeSala); }
+  await deleteDoc(doc(db,'convites',c.id)).catch(() => {});
+  if (entrar) {
+    selecionarGrupo(c.grupo);
+    irPara('grupo');
+    entrarSala(c.grupo, c.sala, c.nomeSala);
+  }
 }
 
 function pintarConvidar() {
@@ -1262,13 +1228,21 @@ function pintarConvidar() {
     const pres = presencas.get(uid);
     const naSala = pres && pres.grupo === grupoNaCall && pres.sala === salaNaCall;
     const online = pres && pres.online;
-    lista.appendChild(itemPessoa(uid, reg.perfil.nome,
-      naSala ? 'já está aqui' : online ? 'online' : 'offline',
-      naSala ? 'call' : online ? 'on' : '',
-      [ naSala ? { rotulo: 'aqui', travado: true, acao: () => {} }
-      : !online ? { rotulo: 'offline', travado: true, acao: () => {} }
-      : jaChamados.has(uid) ? { rotulo: 'chamado', travado: true, acao: () => {} }
-      : { rotulo: 'chamar', acento: true, acao: () => chamarParaCall(uid) } ]));
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="pt"></span><div class="av av-26"></div><div class="txt"><div class="t1"></div><div class="t2"></div></div><div class="acoes"></div>';
+    const av = li.querySelector('.av');
+    av.textContent = iniciais(reg.perfil.nome);
+    av.style.background = corDe(uid);
+    li.querySelector('.t1').textContent = reg.perfil.nome;
+    li.querySelector('.t2').textContent = naSala ? 'já está aqui' : online ? 'online' : 'offline';
+    li.querySelector('.pt').className = 'pt' + (naSala ? ' call' : online ? ' on' : '');
+    const b = document.createElement('button');
+    b.className = 'btn btn-mini' + (!naSala && online && !jaChamados.has(uid) ? ' btn-acento' : '');
+    b.textContent = naSala ? 'aqui' : !online ? 'offline' : jaChamados.has(uid) ? 'chamado' : 'chamar';
+    b.disabled = naSala || !online || jaChamados.has(uid);
+    b.addEventListener('click', () => chamarParaCall(uid));
+    li.querySelector('.acoes').appendChild(b);
+    lista.appendChild(li);
   }
   $('vazioConvidar').classList.toggle('oculto', n > 0);
 }
@@ -1279,14 +1253,17 @@ onAuthStateChanged(auth, async user => {
     inscricoes.splice(0).forEach(f => f());
     inscricoesGrupo.splice(0).forEach(f => f());
     inscricoesChat.splice(0).forEach(f => f());
+    inscricoesDm.splice(0).forEach(f => f());
     presencaInscrita.forEach(f => f());
     presencaInscrita.clear(); presencas.clear();
     amigos.clear(); meusGrupos.clear(); salas.clear(); cargos.clear(); membrosGrupo.clear();
     jaChamados.clear();
-    grupoAtivo = null; souDono = false; meuCargo = null; canalTexto = null;
-    if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
+    grupoAtivo = null; souDono = false; meuCargo = null; canalTexto = null; dmCom = null;
+    if (eu) rtRemove(ref(rtdb,'presenca/'+eu.uid));
     eu = null;
     $('telaConta').classList.remove('oculto');
+    $('topbar').classList.add('oculto');
+    $('telaInicio').classList.add('oculto');
     $('telaApp').classList.add('oculto');
     return;
   }
@@ -1299,14 +1276,13 @@ onAuthStateChanged(auth, async user => {
   $('euAvatar').style.background = eu.cor || corDe(eu.uid);
   $('senha').value = '';
   $('telaConta').classList.add('oculto');
-  $('telaApp').classList.remove('oculto');
+  $('topbar').classList.remove('oculto');
+  irPara('inicio');
 
   ligarPresenca(); ligarGrupos(); ligarAmizades(); ligarConvites();
 });
 
 // ————— call —————
-// A publicação de câmera é opcional: só existe se a pessoa ligar. Vídeo consome
-// muito mais banda que voz, então nada de ligar sozinho ao entrar.
 function pubCamera(p) {
   if (p.getTrackPublication) return p.getTrackPublication(LK.Track.Source.Camera);
   if (p.getTrack) return p.getTrack(LK.Track.Source.Camera);
@@ -1318,14 +1294,12 @@ function pintarPalco() {
   const palco = $('palco');
   palco.innerHTML = '';
   const todos = [room.localParticipant, ...room.remoteParticipants.values()];
-
   todos.forEach(p => {
     const souEu = p === room.localParticipant;
     const silenciado = souEu ? mudo : !p.isMicrophoneEnabled;
     const nome = p.name || p.identity;
     const tile = document.createElement('div');
     tile.className = 'tile' + (p.isSpeaking && !silenciado ? ' falando' : '') + (silenciado ? ' mudo' : '');
-
     const pub = pubCamera(p);
     if (pub && pub.track && (souEu || pub.isSubscribed)) {
       const v = document.createElement('video');
@@ -1339,7 +1313,6 @@ function pintarPalco() {
       av.style.background = corDe(p.identity);
       tile.appendChild(av);
     }
-
     const marca = document.createElement('div');
     marca.className = 'marca-nome';
     marca.innerHTML = '<i>' + (silenciado ? '✕' : '♪') + '</i><span></span>';
@@ -1347,10 +1320,9 @@ function pintarPalco() {
     tile.appendChild(marca);
     palco.appendChild(tile);
   });
-
   $('rotCentro').textContent =
-    ((meusGrupos.get(grupoNaCall) || {}).nome || 'Grupo') + ' · ' +
-    ((salas.get(salaNaCall) || {}).nome || salaNaCall) + ' · ' + todos.length + ' na chamada';
+    ((meusGrupos.get(grupoNaCall)||{}).nome || 'Grupo') + ' · ' +
+    ((salas.get(salaNaCall)||{}).nome || salaNaCall) + ' · ' + todos.length + ' na chamada';
   pintarConvidar();
 }
 
@@ -1358,35 +1330,31 @@ function iniciarRelogio() {
   inicioCall = Date.now();
   clearInterval(relogio);
   relogio = setInterval(() => {
-    const s = Math.floor((Date.now() - inicioCall) / 1000);
-    $('relogio').textContent =
-      String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0');
+    const s = Math.floor((Date.now()-inicioCall)/1000);
+    $('relogio').textContent = String(Math.floor(s/60)).padStart(2,'0') + ':' + String(s%60).padStart(2,'0');
   }, 1000);
 }
 
 async function entrarSala(gid, sid, nomeSala) {
   if (!gid || !sid) return;
   if (room) await sairSala();
-  aviso('statusSala', 'Pedindo autorização…');
-
+  aviso('statusSala','Pedindo autorização…');
   let dados;
   try {
     const idToken = await auth.currentUser.getIdToken();
-    const resp = await fetch(
-      TOKEN_ENDPOINT + '?grupo=' + encodeURIComponent(gid) + '&sala=' + encodeURIComponent(sid),
-      { headers: { Authorization: 'Bearer ' + idToken } }
-    );
+    const resp = await fetch(TOKEN_ENDPOINT+'?grupo='+encodeURIComponent(gid)+'&sala='+encodeURIComponent(sid),
+      { headers: { Authorization: 'Bearer ' + idToken } });
     if (!resp.ok) {
       const corpo = await resp.json().catch(() => ({}));
       throw new Error(corpo.erro || ('erro ' + resp.status));
     }
     dados = await resp.json();
   } catch (e) { return aviso('statusSala', e.message, 'erro'); }
-  aviso('statusSala', '');
+  aviso('statusSala','');
 
   room = new LK.Room({
-    adaptiveStream: true, dynacast: true,
-    audioCaptureDefaults: { echoCancellation: true, noiseSuppression: true, autoGainControl: true }
+    adaptiveStream:true, dynacast:true,
+    audioCaptureDefaults:{ echoCancellation:true, noiseSuppression:true, autoGainControl:true }
   });
   atualizarCentro();
   $('rotCentro').textContent = 'Conectando…';
@@ -1411,21 +1379,16 @@ async function entrarSala(gid, sid, nomeSala) {
       track.detach().forEach(el => { if (el.dataset.lk) el.remove(); });
       pintarPalco();
     })
-    .on(LK.RoomEvent.Disconnected, () => { $('rotCentro').textContent = 'Chamada encerrada'; clearInterval(relogio); });
+    .on(LK.RoomEvent.Disconnected, () => { clearInterval(relogio); });
 
   try {
     await room.connect(dados.url, dados.token);
     await room.localParticipant.setMicrophoneEnabled(true);
     grupoNaCall = gid; salaNaCall = sid;
     mudo = false; camLigada = false;
-    atualizarBotoes();
-    atualizarPresenca();
-    iniciarRelogio();
-    pintarPalco();
-    pintarSalas();
-  } catch (e) {
-    $('rotCentro').textContent = 'Falha ao conectar: ' + e.message;
-  }
+    atualizarBotoes(); atualizarPresenca(); iniciarRelogio();
+    pintarPalco(); pintarSalas();
+  } catch (e) { $('rotCentro').textContent = 'Falha ao conectar: ' + e.message; }
 }
 
 async function sairSala() {
@@ -1435,12 +1398,9 @@ async function sairSala() {
   room = null; mudo = false; camLigada = false;
   grupoNaCall = null; salaNaCall = null;
   jaChamados.clear();
-  atualizarPresenca();
-  atualizarBotoes();
+  atualizarPresenca(); atualizarBotoes();
   $('palco').innerHTML = '';
-  $('relogio').textContent = '';
-  atualizarCentro();
-  pintarSalas();
+  atualizarCentro(); pintarSalas();
 }
 
 function atualizarBotoes() {
@@ -1454,20 +1414,15 @@ async function alternarMic() {
   if (!room) return;
   mudo = !mudo;
   await room.localParticipant.setMicrophoneEnabled(!mudo);
-  atualizarBotoes();
-  pintarPalco();
+  atualizarBotoes(); pintarPalco();
 }
 
 async function alternarCam() {
   if (!room) return;
   camLigada = !camLigada;
-  try {
-    await room.localParticipant.setCameraEnabled(camLigada);
-  } catch (e) {
-    camLigada = false;
-  }
-  atualizarBotoes();
-  pintarPalco();
+  try { await room.localParticipant.setCameraEnabled(camLigada); }
+  catch (e) { camLigada = false; }
+  atualizarBotoes(); pintarPalco();
 }
 
 // ————— eventos —————
@@ -1477,12 +1432,14 @@ $('btnConta').addEventListener('click', enviarConta);
 $('btnEsqueci').addEventListener('click', recuperarSenha);
 $('senha').addEventListener('keydown', e => { if (e.key === 'Enter') enviarConta(); });
 
+$('btnInicio').addEventListener('click', () => irPara('inicio'));
+
 function trocarModoGrupo(novo) {
   $('abaCriarG').setAttribute('aria-selected', novo === 'criar');
   $('abaEntrarG').setAttribute('aria-selected', novo === 'entrar');
   $('formCriarG').classList.toggle('oculto', novo !== 'criar');
   $('formEntrarG').classList.toggle('oculto', novo !== 'entrar');
-  aviso('statusGrupo', '');
+  aviso('statusGrupo','');
 }
 $('abaCriarG').addEventListener('click', () => trocarModoGrupo('criar'));
 $('abaEntrarG').addEventListener('click', () => trocarModoGrupo('entrar'));
@@ -1496,7 +1453,7 @@ $('btnCriarCargo').addEventListener('click', criarCargo);
 $('nomeCargo').addEventListener('keydown', e => { if (e.key === 'Enter') criarCargo(); });
 $('btnSairGrupo').addEventListener('click', sairDoGrupo);
 $('btnCopiarCodigo').addEventListener('click', () => {
-  const h = (meusGrupos.get(grupoAtivo) || {}).handle;
+  const h = (meusGrupos.get(grupoAtivo)||{}).handle;
   if (h) navigator.clipboard.writeText(h).then(() => {
     $('btnCopiarCodigo').textContent = 'copiado';
     setTimeout(() => { $('btnCopiarCodigo').textContent = 'código'; }, 1500);
@@ -1509,6 +1466,8 @@ $('btnSairConta').addEventListener('click', () => signOut(auth));
 
 $('btnEnviar').addEventListener('click', enviarMensagem);
 $('chatTexto').addEventListener('keydown', e => { if (e.key === 'Enter') enviarMensagem(); });
+$('btnDmEnviar').addEventListener('click', enviarDm);
+$('dmTexto').addEventListener('keydown', e => { if (e.key === 'Enter') enviarDm(); });
 
 $('btnAceitarConvite').addEventListener('click', () => responderConvite(true));
 $('btnDispensarConvite').addEventListener('click', () => responderConvite(false));
@@ -1517,7 +1476,6 @@ $('btnConvidar').addEventListener('click', () => {
   const aberta = !$('gavetaConvidar').classList.toggle('oculto');
   if (aberta) pintarConvidar();
 });
-
 $('btnSairCall').addEventListener('click', sairSala);
 $('btnMudo').addEventListener('click', alternarMic);
 $('btnMicRail').addEventListener('click', alternarMic);
