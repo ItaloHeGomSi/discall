@@ -13,6 +13,7 @@
     --sup:       #2A2A2E;
     --sup-2:     #37373C;
     --sup-3:     #45454B;
+    --rail:      #161619;
     --texto:     #FFFFFF;
     --texto-dim: #ADADB2;
     --linha:     #3A3A40;
@@ -33,7 +34,7 @@
     box-shadow: 0 12px 40px rgba(0,0,0,0.45);
     transition: max-width 220ms ease;
   }
-  .app.largo { max-width: 720px; }
+  .app.largo { max-width: 860px; }
   .app.emCall { max-width: 680px; }
 
   .topo { padding: 20px 24px 16px; }
@@ -52,7 +53,6 @@
   .campo { margin-bottom: 14px; }
   .linha-dupla { display: flex; gap: 8px; }
   .linha-dupla input { flex: 1; }
-  .cod { text-transform: uppercase; letter-spacing: 0.18em; font-weight: 600; }
 
   button { font-family: inherit; cursor: pointer; border: none; }
   .btn { background: var(--sup-2); color: var(--texto); border-radius: 6px; font-size: 14px; font-weight: 600; padding: 11px 16px; }
@@ -83,6 +83,7 @@
 
   /* ——— avatar ——— */
   .av { border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 600; color: #fff; flex: none; }
+  .av-24 { width: 24px; height: 24px; font-size: 10px; }
   .av-32 { width: 32px; height: 32px; font-size: 13px; }
   .av-40 { width: 40px; height: 40px; font-size: 15px; }
   .av-64 { width: 64px; height: 64px; font-size: 22px; }
@@ -94,7 +95,7 @@
   .ponto.on { background: var(--verde); }
   .ponto.call { background: var(--azul); }
 
-  /* ——— convite recebido ——— */
+  /* ——— convite ——— */
   .convite { display: flex; align-items: center; gap: 12px; padding: 14px 20px; background: var(--azul-esc); }
   .convite .txt { flex: 1; min-width: 0; }
   .convite .t1 { font-size: 14px; font-weight: 600; }
@@ -109,12 +110,45 @@
   .painel-topo .eu-tag { font-size: 12px; color: var(--texto-dim); font-variant-numeric: tabular-nums; }
   .painel-topo .fim { margin-left: auto; }
 
-  .colunas { display: grid; grid-template-columns: 1fr 300px; }
+  .colunas { display: grid; grid-template-columns: 72px 1fr 280px; min-height: 340px; }
   .coluna { padding: 20px; }
   .coluna + .coluna { border-left: 1px solid var(--linha); }
 
+  /* barra de grupos */
+  .rail {
+    background: var(--rail); padding: 14px 0; display: flex; flex-direction: column;
+    align-items: center; gap: 10px;
+  }
+  .rail button {
+    width: 44px; height: 44px; border-radius: 14px; background: var(--sup-2);
+    color: var(--texto); font-size: 15px; font-weight: 700; display: flex;
+    align-items: center; justify-content: center; transition: border-radius 140ms ease, background 140ms ease;
+  }
+  .rail button:hover { border-radius: 12px; }
+  .rail button.ativo { border-radius: 12px; box-shadow: 0 0 0 2px var(--azul); }
+  .rail .novo { background: transparent; border: 1.5px dashed var(--sup-3); color: var(--texto-dim); font-size: 20px; }
+  .rail .novo:hover { border-color: var(--azul); color: var(--azul); }
+
   h2 { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--texto-dim); margin: 0 0 12px; }
   .bloco + .bloco { margin-top: 26px; }
+
+  .grupo-topo { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 18px; }
+  .grupo-topo .g-nome { font-size: 17px; font-weight: 600; }
+  .grupo-topo .g-handle {
+    font-size: 12px; color: var(--texto-dim); margin-top: 2px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .grupo-topo .fim { margin-left: auto; }
+
+  .sala {
+    border-radius: 8px; padding: 8px 10px; margin: 0 -10px;
+  }
+  .sala:hover { background: var(--sup-2); }
+  .sala-cab { display: flex; align-items: center; gap: 8px; }
+  .sala-cab .hash { color: var(--texto-dim); font-size: 16px; font-weight: 600; }
+  .sala-cab .s-nome { font-size: 14px; font-weight: 600; flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .dentro { display: flex; flex-wrap: wrap; gap: 8px; padding: 8px 0 2px 24px; }
+  .dentro .quem { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--texto-dim); }
 
   .lista { list-style: none; margin: 0; padding: 0; }
   .lista li { display: flex; align-items: center; gap: 11px; padding: 9px 10px; border-radius: 8px; margin: 0 -10px; }
@@ -162,10 +196,10 @@
   .banner button { background: #fff; color: var(--azul-esc); border-radius: 6px; padding: 7px 14px; font-size: 13px; font-weight: 600; }
 
   .oculto { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { .av, .app, .ctrl { transition: none; } }
-  @media (max-width: 700px) {
-    .colunas { grid-template-columns: 1fr; }
-    .coluna + .coluna { border-left: none; border-top: 1px solid var(--linha); }
+  @media (prefers-reduced-motion: reduce) { .av, .app, .ctrl, .rail button { transition: none; } }
+  @media (max-width: 760px) {
+    .colunas { grid-template-columns: 60px 1fr; }
+    .coluna.amigos { grid-column: 1 / -1; border-left: none; border-top: 1px solid var(--linha); }
     .palco { grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); padding: 18px; }
   }
 </style>
@@ -174,7 +208,6 @@
 
 <main class="app" id="app">
 
-  <!-- convite recebido: aparece em qualquer tela -->
   <div class="convite oculto" id="toastConvite">
     <div class="av av-40" id="convAvatar">?</div>
     <div class="txt">
@@ -229,20 +262,59 @@
     </div>
 
     <div class="colunas">
-      <div class="coluna">
-        <div class="bloco">
-          <h2>Nova call</h2>
-          <div class="linha-dupla">
-            <input id="sala" class="cod" maxlength="4" placeholder="XKPT" autocomplete="off">
-            <button class="btn" id="btnSortear">Sortear</button>
-            <button class="btn btn-azul" id="btnEntrarSala">Entrar</button>
-          </div>
-          <p class="aviso" id="statusLobby" style="margin-top:12px"></p>
-          <p class="dica">Quem digitar o mesmo código cai na mesma conversa.</p>
-        </div>
-      </div>
+      <div class="rail" id="rail"></div>
 
       <div class="coluna">
+        <!-- criar / entrar em grupo -->
+        <div id="areaNovoGrupo" class="oculto">
+          <div class="abas" role="tablist">
+            <button role="tab" id="abaCriarG" aria-selected="true">Criar grupo</button>
+            <button role="tab" id="abaEntrarG" aria-selected="false">Entrar com código</button>
+          </div>
+          <div id="formCriarG">
+            <div class="campo">
+              <label for="nomeGrupo">Nome do grupo</label>
+              <input id="nomeGrupo" maxlength="24" placeholder="Time do trampo" autocomplete="off">
+            </div>
+            <button class="btn btn-azul btn-bloco" id="btnCriarGrupo">Criar</button>
+          </div>
+          <div id="formEntrarG" class="oculto">
+            <div class="campo">
+              <label for="codigoGrupo">Código do grupo</label>
+              <input id="codigoGrupo" placeholder="time_do_trampo#ETFQ" autocomplete="off">
+            </div>
+            <button class="btn btn-azul btn-bloco" id="btnEntrarGrupo">Entrar</button>
+          </div>
+          <p class="aviso" id="statusGrupo" style="margin-top:14px"></p>
+        </div>
+
+        <!-- grupo selecionado -->
+        <div id="areaGrupo" class="oculto">
+          <div class="grupo-topo">
+            <div>
+              <div class="g-nome" id="gNome">—</div>
+              <div class="g-handle">
+                <span id="gHandle">—</span>
+                <button class="btn-texto" id="btnCopiarCodigo">copiar</button>
+              </div>
+            </div>
+            <div class="fim"><button class="btn-texto btn-perigo" id="btnSairGrupo" style="background:none">Sair do grupo</button></div>
+          </div>
+
+          <h2>Salas de voz</h2>
+          <div id="listaSalas"></div>
+
+          <div class="linha-dupla oculto" id="areaNovaSala" style="margin-top:14px">
+            <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
+            <button class="btn" id="btnCriarSala">Criar</button>
+          </div>
+          <p class="aviso" id="statusSala" style="margin-top:12px"></p>
+        </div>
+
+        <p class="vazio" id="semGrupo">Você ainda não faz parte de nenhum grupo. Use o + ao lado para criar um ou entrar com um código.</p>
+      </div>
+
+      <div class="coluna amigos">
         <div class="bloco">
           <h2>Adicionar amigo</h2>
           <div class="linha-dupla">
@@ -283,7 +355,7 @@
       <div class="caixa">
         <h2>Chamar um amigo</h2>
         <ul class="lista" id="listaConvidar"></ul>
-        <p class="vazio oculto" id="vazioConvidar">Você ainda não tem amigos para chamar.</p>
+        <p class="vazio oculto" id="vazioConvidar">Nenhum amigo seu está neste grupo.</p>
       </div>
     </div>
 
@@ -333,7 +405,7 @@ const firebaseConfig = {
 };
 
 const TOKEN_ENDPOINT = 'https://token.italohegomsi.workers.dev';
-const VALIDADE_CONVITE = 120; // segundos
+const VALIDADE_CONVITE = 120;
 
 const fb   = initializeApp(firebaseConfig);
 const auth = getAuth(fb);
@@ -346,14 +418,22 @@ let eu = null;
 let room = null;
 let mudo = false;
 let modo = 'entrar';
-let salaAtual = null;
+let modoGrupo = 'criar';
+let grupoAtivo = null;        // grupo selecionado no painel
+let grupoNaCall = null;       // grupo da call em andamento
+let salaNaCall = null;
 let relogio = null;
 let inicioCall = 0;
 let convitePendente = null;
 
-const amigos = new Map();
-const inscricoes = [];
+const meusGrupos = new Map();    // gid -> { nome, handle }
+const salas = new Map();         // sid -> { nome }
+const membrosGrupo = new Map();  // uid -> { nome }
+const amigos = new Map();        // uid -> { perfil, status, parId, euPedi }
+const presencas = new Map();     // uid -> { online, grupo, sala }
 const presencaInscrita = new Map();
+const inscricoes = [];           // inscrições da sessão
+const inscricoesGrupo = [];      // inscrições do grupo selecionado
 const jaChamados = new Set();
 
 // ————— utilidades —————
@@ -368,24 +448,28 @@ function tela(qual) {
   $('app').classList.toggle('emCall', qual === 'telaSala');
 }
 
-function sortear() {
-  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
-  let c = '';
-  for (let i = 0; i < 4; i++) c += letras[Math.floor(Math.random() * letras.length)];
-  return c;
-}
-
 const iniciais = nome =>
-  nome.trim().split(/\s+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || '?';
+  (nome || '?').trim().split(/[\s_-]+/).slice(0, 2).map(p => p[0]).join('').toUpperCase() || '?';
 
 const CORES = ['#0078D4', '#8764B8', '#C239B3', '#CA5010', '#0B6A0B', '#00838F'];
 function corDe(chave) {
   let soma = 0;
-  for (let i = 0; i < chave.length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
+  for (let i = 0; i < (chave || '').length; i++) soma = (soma * 31 + chave.charCodeAt(i)) >>> 0;
   return CORES[soma % CORES.length];
 }
 
 const parDe = (a, b) => [a, b].sort().join('_');
+
+const sorteioLetras = n => {
+  const letras = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  let c = '';
+  for (let i = 0; i < n; i++) c += letras[Math.floor(Math.random() * letras.length)];
+  return c;
+};
+
+const apelidar = texto =>
+  texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+       .replace(/[^a-z0-9]+/g, '_').replace(/^_+|_+$/g, '').slice(0, 24);
 
 function traduzir(codigo) {
   const mapa = {
@@ -413,13 +497,13 @@ function trocarModo(novo) {
 }
 
 async function reservarHandle(uid, nome) {
-  const base = nome.toLowerCase().normalize('NFD').replace(/[^a-z0-9]/g, '') || 'user';
+  const base = apelidar(nome).replace(/_/g, '') || 'user';
   for (let i = 0; i < 10; i++) {
     const handle = base + '#' + String(Math.floor(1000 + Math.random() * 9000));
     try {
       await setDoc(doc(db, 'handles', handle), { uid });
       return handle;
-    } catch (e) { /* colidiu, sorteia outra etiqueta */ }
+    } catch (e) { /* colidiu */ }
   }
   throw new Error('Não consegui reservar um identificador. Tente outro nome.');
 }
@@ -471,28 +555,249 @@ async function recuperarSenha() {
 }
 
 // ————— presença —————
-// O Firestore não percebe quando alguém fecha a aba. O Realtime Database percebe:
-// onDisconnect deixa a instrução pronta no servidor antes de a conexão cair.
 function ligarPresenca() {
   const meuRef = ref(rtdb, 'presenca/' + eu.uid);
   onValue(ref(rtdb, '.info/connected'), snap => {
     if (!snap.val()) return;
-    onDisconnect(meuRef).remove().then(() =>
-      rtSet(meuRef, { online: true, sala: salaAtual, em: Date.now() })
-    );
+    onDisconnect(meuRef).remove().then(() => atualizarPresenca());
   });
 }
 
 const atualizarPresenca = () => {
-  if (eu) rtSet(ref(rtdb, 'presenca/' + eu.uid), { online: true, sala: salaAtual, em: Date.now() });
+  if (!eu) return;
+  rtSet(ref(rtdb, 'presenca/' + eu.uid), {
+    online: true, grupo: grupoNaCall, sala: salaNaCall, em: Date.now()
+  });
 };
 
 function observarPresencaDe(uid) {
-  if (presencaInscrita.has(uid)) return;
+  if (presencaInscrita.has(uid) || uid === eu.uid) return;
   presencaInscrita.set(uid, onValue(ref(rtdb, 'presenca/' + uid), snap => {
-    const reg = amigos.get(uid);
-    if (reg) { reg.presenca = snap.val(); pintarAmigos(); pintarConvidar(); }
+    presencas.set(uid, snap.val());
+    pintarAmigos();
+    pintarSalas();
+    pintarConvidar();
   }));
+}
+
+// ————— grupos —————
+function ligarGrupos() {
+  inscricoes.push(onSnapshot(collection(db, 'usuarios', eu.uid, 'grupos'), snap => {
+    meusGrupos.clear();
+    snap.forEach(d => meusGrupos.set(d.id, d.data()));
+    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) selecionarGrupo(null);
+    if (!grupoAtivo && meusGrupos.size) selecionarGrupo([...meusGrupos.keys()][0]);
+    pintarRail();
+    pintarGrupo();
+  }));
+}
+
+function pintarRail() {
+  const rail = $('rail');
+  rail.innerHTML = '';
+  for (const [gid, g] of meusGrupos) {
+    const b = document.createElement('button');
+    b.textContent = iniciais(g.nome);
+    b.title = g.nome;
+    b.style.background = corDe(gid);
+    b.className = gid === grupoAtivo ? 'ativo' : '';
+    b.addEventListener('click', () => selecionarGrupo(gid));
+    rail.appendChild(b);
+  }
+  const mais = document.createElement('button');
+  mais.className = 'novo';
+  mais.textContent = '+';
+  mais.title = 'Criar ou entrar num grupo';
+  mais.addEventListener('click', () => selecionarGrupo(null, true));
+  rail.appendChild(mais);
+}
+
+function selecionarGrupo(gid, mostrarNovo) {
+  inscricoesGrupo.splice(0).forEach(f => f());
+  salas.clear();
+  membrosGrupo.clear();
+  grupoAtivo = gid;
+
+  $('areaNovoGrupo').classList.toggle('oculto', !(mostrarNovo || (!gid && !meusGrupos.size)));
+  $('areaGrupo').classList.toggle('oculto', !gid);
+  $('semGrupo').classList.toggle('oculto', !!gid || mostrarNovo || meusGrupos.size > 0);
+
+  pintarRail();
+  if (!gid) return;
+
+  const g = meusGrupos.get(gid);
+  $('gNome').textContent = g.nome;
+  $('gHandle').textContent = g.handle;
+
+  // dono? só ele cria salas
+  getDoc(doc(db, 'grupos', gid)).then(d => {
+    const dono = d.exists() && d.data().dono === eu.uid;
+    $('areaNovaSala').classList.toggle('oculto', !dono);
+  }).catch(() => {});
+
+  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'salas'), snap => {
+    salas.clear();
+    snap.forEach(d => salas.set(d.id, d.data()));
+    pintarSalas();
+  }));
+
+  inscricoesGrupo.push(onSnapshot(collection(db, 'grupos', gid, 'membros'), snap => {
+    membrosGrupo.clear();
+    snap.forEach(d => {
+      membrosGrupo.set(d.id, d.data());
+      observarPresencaDe(d.id);
+    });
+    pintarSalas();
+    pintarConvidar();
+  }));
+
+  pintarGrupo();
+}
+
+const pintarGrupo = () => { if (!meusGrupos.size && !grupoAtivo) $('semGrupo').classList.remove('oculto'); };
+
+function pintarSalas() {
+  const alvo = $('listaSalas');
+  if (!alvo || !grupoAtivo) return;
+  alvo.innerHTML = '';
+
+  if (!salas.size) {
+    alvo.innerHTML = '<p class="vazio">Nenhuma sala ainda.</p>';
+    return;
+  }
+
+  for (const [sid, s] of salas) {
+    const div = document.createElement('div');
+    div.className = 'sala';
+    div.innerHTML =
+      '<div class="sala-cab"><span class="hash">#</span><span class="s-nome"></span>' +
+      '<div class="acoes"></div></div><div class="dentro"></div>';
+    div.querySelector('.s-nome').textContent = s.nome;
+
+    const entrar = document.createElement('button');
+    entrar.className = 'btn btn-mini btn-azul';
+    entrar.textContent = (grupoNaCall === grupoAtivo && salaNaCall === sid) ? 'Aqui' : 'Entrar';
+    entrar.disabled = (grupoNaCall === grupoAtivo && salaNaCall === sid);
+    entrar.addEventListener('click', () => entrarSala(grupoAtivo, sid, s.nome));
+    div.querySelector('.acoes').appendChild(entrar);
+
+    // Quem já está dentro — o motivo de existir uma sala de voz permanente.
+    const dentro = div.querySelector('.dentro');
+    let n = 0;
+    for (const [uid, m] of membrosGrupo) {
+      const p = uid === eu.uid
+        ? { grupo: grupoNaCall, sala: salaNaCall }
+        : presencas.get(uid);
+      if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
+      n++;
+      const span = document.createElement('span');
+      span.className = 'quem';
+      span.innerHTML = '<span class="av av-24"></span><span></span>';
+      const av = span.querySelector('.av');
+      av.textContent = iniciais(m.nome);
+      av.style.background = corDe(uid);
+      span.lastElementChild.textContent = m.nome;
+      dentro.appendChild(span);
+    }
+    if (!n) dentro.remove();
+
+    alvo.appendChild(div);
+  }
+}
+
+async function criarGrupo() {
+  const nome = $('nomeGrupo').value.trim();
+  if (!nome) return aviso('statusGrupo', 'Dê um nome ao grupo.', 'erro');
+
+  $('btnCriarGrupo').disabled = true;
+  aviso('statusGrupo', 'Criando…');
+  try {
+    const gid = doc(collection(db, 'grupos')).id;
+    await setDoc(doc(db, 'grupos', gid), { nome, dono: eu.uid, criadoEm: serverTimestamp() });
+
+    // Reserva o código. A regra só deixa criar se o grupo já existir e for seu.
+    const base = apelidar(nome) || 'grupo';
+    let handle = null;
+    for (let i = 0; i < 10 && !handle; i++) {
+      const tentativa = base + '#' + sorteioLetras(4);
+      try {
+        await setDoc(doc(db, 'handlesGrupo', tentativa), { grupo: gid });
+        handle = tentativa;
+      } catch (e) { /* colidiu */ }
+    }
+    if (!handle) throw new Error('Não consegui gerar um código. Tente outro nome.');
+
+    await updateDoc(doc(db, 'grupos', gid), { handle });
+    await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
+      { uid: eu.uid, nome: eu.nome, entrouEm: serverTimestamp() });
+    await setDoc(doc(db, 'grupos', gid, 'salas', 'geral'),
+      { nome: 'Geral', criadoEm: serverTimestamp() });
+    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid), { nome, handle });
+
+    $('nomeGrupo').value = '';
+    aviso('statusGrupo', 'Grupo criado. O código é ' + handle, 'ok');
+    selecionarGrupo(gid);
+  } catch (e) {
+    aviso('statusGrupo', e.message, 'erro');
+  } finally {
+    $('btnCriarGrupo').disabled = false;
+  }
+}
+
+async function entrarGrupo() {
+  const codigo = $('codigoGrupo').value.trim().toLowerCase();
+  if (!/^[a-z0-9_]+#[a-z]{4}$/i.test(codigo)) {
+    return aviso('statusGrupo', 'Use o formato nome_do_grupo#ABCD.', 'erro');
+  }
+  const chave = codigo.split('#')[0] + '#' + codigo.split('#')[1].toUpperCase();
+
+  $('btnEntrarGrupo').disabled = true;
+  aviso('statusGrupo', 'Procurando…');
+  try {
+    const h = await getDoc(doc(db, 'handlesGrupo', chave));
+    if (!h.exists()) throw new Error('Nenhum grupo com esse código.');
+    const gid = h.data().grupo;
+
+    await setDoc(doc(db, 'grupos', gid, 'membros', eu.uid),
+      { uid: eu.uid, nome: eu.nome, entrouEm: serverTimestamp() });
+
+    // Só agora conseguimos ler o grupo: a regra exige ser membro.
+    const g = await getDoc(doc(db, 'grupos', gid));
+    await setDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid),
+      { nome: g.data().nome, handle: chave });
+
+    $('codigoGrupo').value = '';
+    aviso('statusGrupo', 'Bem-vindo ao ' + g.data().nome + '.', 'ok');
+    selecionarGrupo(gid);
+  } catch (e) {
+    aviso('statusGrupo', e.message, 'erro');
+  } finally {
+    $('btnEntrarGrupo').disabled = false;
+  }
+}
+
+async function criarSala() {
+  const nome = $('nomeSala').value.trim();
+  if (!nome || !grupoAtivo) return;
+  const sid = apelidar(nome) || ('sala' + Date.now());
+  try {
+    await setDoc(doc(db, 'grupos', grupoAtivo, 'salas', sid),
+      { nome, criadoEm: serverTimestamp() });
+    $('nomeSala').value = '';
+    aviso('statusSala', '');
+  } catch (e) {
+    aviso('statusSala', 'Só o dono do grupo pode criar salas.', 'erro');
+  }
+}
+
+async function sairDoGrupo() {
+  if (!grupoAtivo) return;
+  const g = meusGrupos.get(grupoAtivo);
+  if (!confirm('Sair de ' + g.nome + '? Você vai precisar do código para voltar.')) return;
+  const gid = grupoAtivo;
+  await deleteDoc(doc(db, 'grupos', gid, 'membros', eu.uid));
+  await deleteDoc(doc(db, 'usuarios', eu.uid, 'grupos', gid));
+  selecionarGrupo(null);
 }
 
 // ————— amigos —————
@@ -507,7 +812,7 @@ function ligarAmizades() {
       let reg = amigos.get(outro);
       if (!reg) {
         const p = await getDoc(doc(db, 'usuarios', outro));
-        reg = { perfil: p.exists() ? p.data() : { nome: 'Usuário', handle: '—' }, presenca: null };
+        reg = { perfil: p.exists() ? p.data() : { nome: 'Usuário', handle: '—' } };
         amigos.set(outro, reg);
       }
       reg.parId = d.id;
@@ -533,8 +838,6 @@ async function adicionarAmigo() {
     if (!h.exists()) throw new Error('Ninguém encontrado com esse identificador.');
     const outro = h.data().uid;
 
-    // A lista já está em memória pela inscrição ao vivo — consultar ela evita
-    // um getDoc que as regras negam quando o documento ainda não existe.
     const existente = amigos.get(outro);
     if (existente) {
       throw new Error(
@@ -563,8 +866,6 @@ async function adicionarAmigo() {
 const aceitar = parId => updateDoc(doc(db, 'amizades', parId), { status: 'aceita' });
 const recusar = parId => deleteDoc(doc(db, 'amizades', parId));
 
-// Desfazer amizade apaga o documento da relação — some dos dois lados de uma vez,
-// já que existe um documento só. Também limpa convites de call em aberto.
 async function removerAmigo(uid, reg) {
   if (!confirm('Remover ' + reg.perfil.nome + ' dos seus amigos?')) return;
   await deleteDoc(doc(db, 'amizades', reg.parId));
@@ -572,31 +873,21 @@ async function removerAmigo(uid, reg) {
   await deleteDoc(doc(db, 'convites', eu.uid + '_' + uid)).catch(() => {});
 }
 
-function itemAmigo(uid, reg, acoes) {
-  const p = reg.perfil;
-  const pres = reg.presenca;
+function itemPessoa(uid, nome, handle, legenda, estado, acoes) {
   const li = document.createElement('li');
   li.innerHTML =
     '<div class="av-wrap"><div class="av av-32"></div><span class="ponto"></span></div>' +
     '<div class="txt"><div class="t1"></div><div class="t2"></div></div>' +
     '<div class="acoes"></div>';
-
   const av = li.querySelector('.av');
-  av.textContent = iniciais(p.nome);
-  av.style.background = p.cor || corDe(uid);
-  li.querySelector('.t1').textContent = p.nome;
-
-  const ponto = li.querySelector('.ponto');
-  let legenda = p.handle;
-  if (reg.status === 'aceita') {
-    if (pres && pres.sala) { ponto.className = 'ponto call'; legenda = 'Em call · sala ' + pres.sala; }
-    else if (pres && pres.online) { ponto.className = 'ponto on'; legenda = 'Online'; }
-    else legenda = 'Offline';
-  }
-  li.querySelector('.t2').textContent = legenda;
+  av.textContent = iniciais(nome);
+  av.style.background = corDe(uid);
+  li.querySelector('.t1').textContent = nome;
+  li.querySelector('.t2').textContent = legenda || handle;
+  li.querySelector('.ponto').className = 'ponto' + (estado ? ' ' + estado : '');
 
   const caixa = li.querySelector('.acoes');
-  acoes.forEach(a => {
+  (acoes || []).forEach(a => {
     const b = document.createElement('button');
     b.className = 'btn btn-mini' + (a.azul ? ' btn-azul' : '') + (a.perigo ? ' btn-perigo' : '');
     b.textContent = a.rotulo;
@@ -616,26 +907,34 @@ function pintarAmigos() {
   let pedidos = 0, aceitos = 0;
 
   for (const [uid, reg] of amigos) {
+    const p = reg.perfil;
     if (reg.status === 'pendente' && !reg.euPedi) {
       pedidos++;
-      listaP.appendChild(itemAmigo(uid, reg, [
+      listaP.appendChild(itemPessoa(uid, p.nome, p.handle, null, null, [
         { rotulo: 'Aceitar', azul: true, acao: () => aceitar(reg.parId) },
         { rotulo: 'Recusar', acao: () => recusar(reg.parId) }
       ]));
-    } else if (reg.status === 'pendente') {
-      aceitos++;
-      listaA.appendChild(itemAmigo(uid, reg, [
+      continue;
+    }
+    aceitos++;
+    if (reg.status === 'pendente') {
+      listaA.appendChild(itemPessoa(uid, p.nome, p.handle, 'Convite enviado', null, [
         { rotulo: 'Cancelar', acao: () => recusar(reg.parId) }
       ]));
-    } else {
-      aceitos++;
-      const acoes = [];
-      if (reg.presenca && reg.presenca.sala) {
-        acoes.push({ rotulo: 'Entrar', azul: true, acao: () => entrarSala(reg.presenca.sala) });
-      }
-      acoes.push({ rotulo: '✕', perigo: true, titulo: 'Remover amigo', acao: () => removerAmigo(uid, reg) });
-      listaA.appendChild(itemAmigo(uid, reg, acoes));
+      continue;
     }
+
+    const pres = presencas.get(uid);
+    let legenda = 'Offline', estado = '';
+    if (pres && pres.sala) { legenda = 'Em uma call'; estado = 'call'; }
+    else if (pres && pres.online) { legenda = 'Online'; estado = 'on'; }
+
+    const acoes = [];
+    if (pres && pres.sala && meusGrupos.has(pres.grupo)) {
+      acoes.push({ rotulo: 'Entrar', azul: true, acao: () => entrarSala(pres.grupo, pres.sala) });
+    }
+    acoes.push({ rotulo: '✕', perigo: true, titulo: 'Remover amigo', acao: () => removerAmigo(uid, reg) });
+    listaA.appendChild(itemPessoa(uid, p.nome, p.handle, legenda, estado, acoes));
   }
 
   $('blocoPedidos').classList.toggle('oculto', pedidos === 0);
@@ -643,14 +942,13 @@ function pintarAmigos() {
 }
 
 // ————— convites para a call —————
-// O convite é um documento efêmero. Quem recebe escuta em tempo real; quem
-// entra ou dispensa apaga. As regras só deixam criar entre amigos aceitos.
 async function chamarParaCall(uid) {
-  if (!salaAtual) return;
+  if (!salaNaCall) return;
   await setDoc(doc(db, 'convites', uid + '_' + eu.uid), {
-    de: eu.uid, para: uid,
-    nome: eu.nome, cor: eu.cor,
-    sala: salaAtual, criadoEm: serverTimestamp()
+    de: eu.uid, para: uid, nome: eu.nome, cor: eu.cor,
+    grupo: grupoNaCall, sala: salaNaCall,
+    nomeSala: (salas.get(salaNaCall) || {}).nome || salaNaCall,
+    criadoEm: serverTimestamp()
   });
   jaChamados.add(uid);
   pintarConvidar();
@@ -663,9 +961,8 @@ function ligarConvites() {
     snap.forEach(d => {
       const c = d.data();
       const idade = c.criadoEm ? (Date.now() - c.criadoEm.toMillis()) / 1000 : 0;
-      // Convite velho não deve tocar a campainha: apaga em silêncio.
       if (idade > VALIDADE_CONVITE) return deleteDoc(d.ref).catch(() => {});
-      if (c.sala === salaAtual) return deleteDoc(d.ref).catch(() => {});
+      if (c.grupo === grupoNaCall && c.sala === salaNaCall) return deleteDoc(d.ref).catch(() => {});
       if (!melhor) melhor = { id: d.id, ...c };
     });
     mostrarConvite(melhor);
@@ -679,7 +976,7 @@ function mostrarConvite(c) {
   $('convAvatar').textContent = iniciais(c.nome);
   $('convAvatar').style.background = c.cor || corDe(c.de);
   $('convTitulo').textContent = c.nome + ' está te chamando';
-  $('convSub').textContent = 'Sala ' + c.sala;
+  $('convSub').textContent = '# ' + (c.nomeSala || c.sala);
 }
 
 async function responderConvite(entrar) {
@@ -689,10 +986,11 @@ async function responderConvite(entrar) {
   await deleteDoc(doc(db, 'convites', c.id)).catch(() => {});
   if (entrar) {
     if (room) sairSala();
-    entrarSala(c.sala);
+    entrarSala(c.grupo, c.sala, c.nomeSala);
   }
 }
 
+// Só faz sentido chamar quem pode entrar: amigo E membro do grupo da call.
 function pintarConvidar() {
   const lista = $('listaConvidar');
   if (!lista) return;
@@ -700,17 +998,18 @@ function pintarConvidar() {
   let n = 0;
 
   for (const [uid, reg] of amigos) {
-    if (reg.status !== 'aceita') continue;
+    if (reg.status !== 'aceita' || !membrosGrupo.has(uid)) continue;
     n++;
-    const pres = reg.presenca;
-    const naSala = pres && pres.sala === salaAtual;
+    const pres = presencas.get(uid);
+    const naSala = pres && pres.grupo === grupoNaCall && pres.sala === salaNaCall;
     const online = pres && pres.online;
-    lista.appendChild(itemAmigo(uid, reg, [
-      naSala    ? { rotulo: 'Já está aqui', travado: true, acao: () => {} }
-      : !online ? { rotulo: 'Offline', travado: true, acao: () => {} }
+    lista.appendChild(itemPessoa(uid, reg.perfil.nome, reg.perfil.handle,
+      naSala ? 'Já está aqui' : online ? 'Online' : 'Offline',
+      naSala ? 'call' : online ? 'on' : '',
+      [ naSala    ? { rotulo: 'Aqui', travado: true, acao: () => {} }
+      : !online   ? { rotulo: 'Offline', travado: true, acao: () => {} }
       : jaChamados.has(uid) ? { rotulo: 'Chamado', travado: true, acao: () => {} }
-      : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) }
-    ]));
+      : { rotulo: 'Chamar', azul: true, acao: () => chamarParaCall(uid) } ]));
   }
   $('vazioConvidar').classList.toggle('oculto', n > 0);
 }
@@ -719,10 +1018,13 @@ function pintarConvidar() {
 onAuthStateChanged(auth, async user => {
   if (!user) {
     inscricoes.splice(0).forEach(f => f());
+    inscricoesGrupo.splice(0).forEach(f => f());
     presencaInscrita.forEach(f => f());
     presencaInscrita.clear();
-    amigos.clear();
+    presencas.clear();
+    amigos.clear(); meusGrupos.clear(); salas.clear(); membrosGrupo.clear();
     jaChamados.clear();
+    grupoAtivo = null;
     if (eu) rtRemove(ref(rtdb, 'presenca/' + eu.uid));
     eu = null;
     return tela('telaConta');
@@ -741,6 +1043,7 @@ onAuthStateChanged(auth, async user => {
   $('senha').value = '';
 
   ligarPresenca();
+  ligarGrupos();
   ligarAmizades();
   ligarConvites();
   if (!room) tela('telaPainel');
@@ -788,31 +1091,31 @@ function iniciarRelogio() {
   }, 1000);
 }
 
-async function entrarSala(codigo) {
-  const sala = (codigo || $('sala').value.trim() || sortear()).toUpperCase();
-  if (!/^[A-Z]{4}$/.test(sala)) return aviso('statusLobby', 'O código tem 4 letras.', 'erro');
-
-  $('btnEntrarSala').disabled = true;
-  aviso('statusLobby', 'Pedindo autorização…');
+async function entrarSala(gid, sid, nomeSala) {
+  if (!gid || !sid) return;
+  aviso('statusSala', 'Pedindo autorização…');
 
   let dados;
   try {
     const idToken = await auth.currentUser.getIdToken();
-    const resp = await fetch(TOKEN_ENDPOINT + '?sala=' + encodeURIComponent(sala), {
-      headers: { Authorization: 'Bearer ' + idToken }
-    });
+    const resp = await fetch(
+      TOKEN_ENDPOINT + '?grupo=' + encodeURIComponent(gid) + '&sala=' + encodeURIComponent(sid),
+      { headers: { Authorization: 'Bearer ' + idToken } }
+    );
     if (!resp.ok) {
       const corpo = await resp.json().catch(() => ({}));
       throw new Error(corpo.erro || ('erro ' + resp.status));
     }
     dados = await resp.json();
   } catch (e) {
-    $('btnEntrarSala').disabled = false;
-    return aviso('statusLobby', 'Não consegui autorização: ' + e.message, 'erro');
+    return aviso('statusSala', e.message, 'erro');
   }
+  aviso('statusSala', '');
 
   tela('telaSala');
-  $('callTitulo').textContent = 'Sala ' + sala;
+  const rotulo = nomeSala || (salas.get(sid) || {}).nome || sid;
+  const nomeGrupo = (meusGrupos.get(gid) || {}).nome || 'Grupo';
+  $('callTitulo').textContent = '# ' + rotulo;
   $('callSub').textContent = 'Conectando…';
   $('cronometro').textContent = '00:00';
   $('gavetaConvidar').classList.add('oculto');
@@ -846,14 +1149,16 @@ async function entrarSala(codigo) {
   try {
     await room.connect(dados.url, dados.token);
     await room.localParticipant.setMicrophoneEnabled(true);
-    salaAtual = sala;
+    grupoNaCall = gid;
+    salaNaCall = sid;
+    $('callTitulo').textContent = nomeGrupo + ' · # ' + rotulo;
     atualizarPresenca();
     iniciarRelogio();
     pintarPalco();
+    pintarSalas();
   } catch (e) {
     $('callSub').textContent = 'Falha ao conectar: ' + e.message;
   }
-  $('btnEntrarSala').disabled = false;
 }
 
 function sairSala() {
@@ -862,7 +1167,8 @@ function sairSala() {
   clearInterval(relogio);
   room = null;
   mudo = false;
-  salaAtual = null;
+  grupoNaCall = null;
+  salaNaCall = null;
   jaChamados.clear();
   atualizarPresenca();
   $('btnMudo').classList.remove('ativo');
@@ -870,8 +1176,8 @@ function sairSala() {
   $('bannerAudio').classList.add('oculto');
   $('gavetaConvidar').classList.add('oculto');
   $('btnConvidar').classList.remove('ativo');
-  aviso('statusLobby', '');
   tela('telaPainel');
+  pintarSalas();
 }
 
 // ————— eventos —————
@@ -881,9 +1187,30 @@ $('btnConta').addEventListener('click', enviarConta);
 $('btnEsqueci').addEventListener('click', recuperarSenha);
 $('senha').addEventListener('keydown', e => { if (e.key === 'Enter') enviarConta(); });
 
-$('btnSortear').addEventListener('click', () => { $('sala').value = sortear(); });
-$('btnEntrarSala').addEventListener('click', () => entrarSala());
-$('sala').addEventListener('keydown', e => { if (e.key === 'Enter') entrarSala(); });
+function trocarModoGrupo(novo) {
+  modoGrupo = novo;
+  $('abaCriarG').setAttribute('aria-selected', novo === 'criar');
+  $('abaEntrarG').setAttribute('aria-selected', novo === 'entrar');
+  $('formCriarG').classList.toggle('oculto', novo !== 'criar');
+  $('formEntrarG').classList.toggle('oculto', novo !== 'entrar');
+  aviso('statusGrupo', '');
+}
+$('abaCriarG').addEventListener('click', () => trocarModoGrupo('criar'));
+$('abaEntrarG').addEventListener('click', () => trocarModoGrupo('entrar'));
+$('btnCriarGrupo').addEventListener('click', criarGrupo);
+$('btnEntrarGrupo').addEventListener('click', entrarGrupo);
+$('nomeGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') criarGrupo(); });
+$('codigoGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') entrarGrupo(); });
+$('btnCriarSala').addEventListener('click', criarSala);
+$('nomeSala').addEventListener('keydown', e => { if (e.key === 'Enter') criarSala(); });
+$('btnSairGrupo').addEventListener('click', sairDoGrupo);
+$('btnCopiarCodigo').addEventListener('click', () => {
+  navigator.clipboard.writeText($('gHandle').textContent).then(() => {
+    $('btnCopiarCodigo').textContent = 'copiado';
+    setTimeout(() => { $('btnCopiarCodigo').textContent = 'copiar'; }, 1500);
+  });
+});
+
 $('btnAdicionar').addEventListener('click', adicionarAmigo);
 $('buscaAmigo').addEventListener('keydown', e => { if (e.key === 'Enter') adicionarAmigo(); });
 $('btnSairConta').addEventListener('click', () => signOut(auth));
@@ -909,8 +1236,6 @@ $('btnMudo').addEventListener('click', async () => {
   $('btnMudo').title = mudo ? 'Reativar' : 'Silenciar';
   pintarPalco();
 });
-
-$('sala').value = sortear();
 </script>
 </body>
 </html>
