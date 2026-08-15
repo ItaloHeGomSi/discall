@@ -3,15 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>discall</title>
+<title>Concord</title>
 <script src="https://cdn.jsdelivr.net/npm/livekit-client/dist/livekit-client.umd.js"></script>
 <style>
   :root {
     --fundo:#0F1012; --bloco:#191A1E; --bloco-2:#212228; --bloco-3:#2B2C33;
-    --texto:#E8E6E1; --dim:#8A8A90; --linha:#2A2B31;
+    --texto:#E8E6E1; --dim:#8A8A90; --linha:#2A2B31; --linha-2:#2A2B31;
     --acento:#FFB454; --acento-fraco:#3A2A12;
     --perigo:#FF6B6B; --perigo-fraco:#3A1A1A; --ok:#7BE08A; --azul:#6BB6FF;
-    --r:16px;
+    --topo:50px; --r:16px;
     --mono: ui-monospace,"SF Mono","Cascadia Mono",Consolas,monospace;
     --sans: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
   }
@@ -24,19 +24,30 @@
 
   .rot { font-family:var(--mono); font-size:10px; letter-spacing:0.13em; text-transform:uppercase; color:var(--dim); }
 
+  /* ——— barra superior ——— */
+  .topbar { height:var(--topo); display:flex; align-items:center; gap:10px; padding:0 18px; background:transparent; border:none; }
+  .marca { font-family:var(--sans); font-size:15px; font-weight:700; letter-spacing:-0.01em; cursor:pointer; background:none; border:none; color:var(--texto); padding:0; }
+  .marca b { color:var(--acento); font-weight:700; }
+  .topbar .fim { margin-left:auto; display:flex; align-items:center; gap:10px; }
+  .topbar .nm { font-size:13px; font-weight:600; }
+  .topbar .hd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+
   /* ——— login ——— */
   #telaConta { height:100vh; display:flex; align-items:center; justify-content:center; padding:24px; }
-  .cartao { width:100%; max-width:360px; background:var(--bloco); border-radius:var(--r); padding:24px; }
-  .cartao h1 { font-size:24px; font-weight:600; margin:0; letter-spacing:-0.02em; }
-  .cartao h1 b { color:var(--acento); }
-  .cartao .sub { margin:7px 0 20px; font-size:13px; color:var(--dim); line-height:1.5; }
+  .cartao { width:100%; max-width:370px; background:var(--bloco); border:none; border-radius:var(--r); }
+  .cartao .cab { padding:24px 24px 4px; border:none; }
+  .cartao .cab h1 { font-family:var(--sans); font-size:26px; font-weight:700; letter-spacing:-0.02em; margin:0; text-transform:none; }
+  .cartao .cab h1 b { color:var(--acento); font-weight:700; }
+  .cartao .cab p { margin:8px 0 0; font-size:13px; color:var(--dim); line-height:1.5; }
+  .cartao .corpo { padding:18px 24px 24px; }
 
-  label { display:block; font-size:12px; font-weight:600; color:var(--dim); margin-bottom:6px; }
+  /* ——— formulários ——— */
+  label { display:block; font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0; text-transform:none; color:var(--dim); margin-bottom:6px; }
   input, select {
     width:100%; background:var(--bloco-2); border:1px solid transparent; border-radius:10px;
     color:var(--texto); font-family:inherit; font-size:14px; padding:10px 12px;
   }
-  select { padding:7px 9px; font-size:12px; width:auto; }
+  select { padding:7px 9px; font-size:12px; width:auto; font-family:var(--sans); font-weight:600; }
   input::placeholder { color:#5C5C63; }
   input:focus, select:focus { border-color:var(--acento); outline:none; }
   input:focus-visible, select:focus-visible, button:focus-visible { outline:2px solid var(--acento); outline-offset:2px; }
@@ -46,20 +57,20 @@
   .curto { width:62px; flex:none !important; text-align:center; }
 
   button { font-family:inherit; cursor:pointer; border:none; border-radius:10px; }
-  .btn { background:var(--bloco-2); color:var(--texto); font-size:13px; font-weight:600; padding:9px 14px; }
-  .btn:hover:not(:disabled) { background:var(--bloco-3); }
+  .btn { background:var(--bloco-2); color:var(--texto); border:none; font-family:var(--sans); font-size:13px; font-weight:600; letter-spacing:0; text-transform:none; padding:9px 14px; }
+  .btn:hover:not(:disabled) { background:var(--bloco-3); color:var(--texto); }
   .btn-acento { background:var(--acento); color:#20160A; }
-  .btn-acento:hover:not(:disabled) { background:#FFC578; }
+  .btn-acento:hover:not(:disabled) { background:#FFC578; color:#20160A; }
   .btn-full { width:100%; padding:12px; }
-  .btn-mini { font-size:11px; padding:5px 9px; border-radius:7px; }
-  .btn-perigo { color:var(--perigo); }
+  .btn-mini { font-size:11px; padding:5px 10px; border-radius:8px; }
+  .btn-perigo { color:var(--perigo); background:var(--bloco-2); }
   .btn-perigo:hover:not(:disabled) { background:var(--perigo); color:#20160A; }
-  button:disabled { opacity:0.4; cursor:not-allowed; }
-  .btn-txt { background:none; color:var(--acento); font-size:12px; font-weight:600; padding:0; }
+  .btn-txt { background:none; border:none; color:var(--acento); font-family:var(--sans); font-size:12px; font-weight:600; padding:0; letter-spacing:0; }
   .btn-txt:hover:not(:disabled) { text-decoration:underline; }
+  button:disabled { opacity:0.4; cursor:not-allowed; }
 
-  .abas { display:flex; gap:5px; }
-  .abas button { background:none; color:var(--dim); font-size:12px; font-weight:600; padding:5px 10px; border-radius:999px; }
+  .abas { display:flex; gap:5px; border:none; margin-bottom:14px; }
+  .abas button { flex:none; background:none; color:var(--dim); font-family:var(--sans); font-size:12px; font-weight:600; letter-spacing:0; text-transform:none; padding:6px 12px; border:none; border-radius:999px; margin:0; }
   .abas button[aria-selected="true"] { background:var(--acento-fraco); color:var(--acento); }
   .abas button:hover { color:var(--texto); }
 
@@ -67,113 +78,131 @@
   .aviso.erro { color:var(--perigo); }
   .aviso.ok { color:var(--ok); }
   .aviso:empty { display:none; }
+  .dica { font-size:12px; color:var(--dim); margin:12px 0 0; line-height:1.5; }
   .vazio { font-size:12px; color:var(--dim); line-height:1.6; margin:0; }
 
-  .av { border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:#20160A; flex:none; font-size:11px; }
+  .av { border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:700; color:#20160A; flex:none; font-family:var(--sans); }
   .av-20 { width:20px; height:20px; font-size:9px; }
-  .av-26 { width:26px; height:26px; }
+  .av-26 { width:26px; height:26px; font-size:11px; }
   .av-30 { width:30px; height:30px; font-size:12px; }
-  .av-56 { width:56px; height:56px; font-size:19px; }
-  .pt { width:7px; height:7px; border-radius:50%; flex:none; background:#4A4B52; }
+  .av-64 { width:60px; height:60px; font-size:20px; }
+  .pt { width:8px; height:8px; border-radius:50%; flex:none; background:#4A4B52; }
   .pt.on { background:var(--ok); }
   .pt.call { background:var(--azul); }
-  .tag { font-size:9px; font-weight:700; letter-spacing:0.05em; text-transform:uppercase; padding:2px 6px; border-radius:999px; color:#20160A; flex:none; }
+  .tag { font-family:var(--sans); font-size:9px; font-weight:700; letter-spacing:0.04em; text-transform:uppercase; padding:2px 7px; border-radius:999px; color:#20160A; flex:none; }
 
-  /* ——— topo ——— */
-  .topo { height:46px; display:flex; align-items:center; gap:10px; padding:0 18px; flex:none; }
-  .topo .marca { font-size:15px; font-weight:700; letter-spacing:-0.01em; }
-  .topo .marca b { color:var(--acento); }
-  .topo .fim { margin-left:auto; display:flex; align-items:center; gap:9px; }
-  .topo .nm { font-size:13px; font-weight:600; }
-  .topo .hd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  /* ——— tela inicial ——— */
+  #telaInicio { height:calc(100vh - var(--topo)); display:grid; grid-template-columns:1fr 300px; gap:12px; padding:0 12px 12px; }
+  .inicio-esq { display:flex; flex-direction:column; gap:12px; min-height:0; }
+  .faixa { display:grid; grid-template-columns:290px 1fr; gap:12px; border:none; flex:none; }
+  .faixa > div { background:var(--bloco); border-radius:var(--r); padding:15px 16px; }
+  .faixa > div + div { border-left:none; }
+  .inicio-corpo { flex:1; min-height:0; overflow-y:auto; background:var(--bloco); border-radius:var(--r); padding:18px; }
+  .secao + .secao { margin-top:24px; }
+  .secao > .rot { display:block; margin-bottom:11px; }
+  .grade { display:grid; gap:11px; grid-template-columns:repeat(auto-fill, minmax(180px, 1fr)); }
 
-  /* ——— bento ——— */
-  #app { height:100vh; display:flex; flex-direction:column; }
-  .bento {
-    flex:1; min-height:0; display:grid; gap:14px; padding:0 14px 14px;
-    grid-template-columns:1.7fr 300px 300px;
-    grid-template-rows:1fr 1fr;
-    grid-template-areas:"palco grupos lateral" "palco chat lateral";
+  .cartao-item {
+    background:var(--bloco-2); border:none; border-radius:14px; padding:14px;
+    display:flex; flex-direction:column; gap:8px; align-items:flex-start;
+    text-align:left; color:var(--texto); min-height:108px; position:relative;
   }
-  .bloco { background:var(--bloco); border-radius:var(--r); padding:15px 16px; display:flex; flex-direction:column; min-height:0; }
-  .bloco > .cab { display:flex; align-items:center; gap:9px; margin-bottom:12px; flex:none; }
-  .bloco > .cab .fim { margin-left:auto; display:flex; align-items:center; gap:8px; }
-  .conteudo { flex:1; min-height:0; overflow-y:auto; margin:0 -4px; padding:0 4px; }
+  .cartao-item:hover { background:var(--bloco-3); }
+  .cartao-item .nm { font-size:14px; font-weight:600; }
+  .cartao-item .hd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .cartao-item .rodape { display:flex; align-items:center; gap:7px; margin-top:auto; }
+  .cartao-item .est { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .cartao-item .x { position:absolute; top:8px; right:8px; }
+  .cartao-novo { background:none; box-shadow:inset 0 0 0 1px var(--linha); color:var(--dim); align-items:center; justify-content:center; font-size:26px; font-weight:300; }
+  .cartao-novo:hover { background:none; color:var(--acento); box-shadow:inset 0 0 0 1px var(--acento); }
+  .quadro-ini { width:38px; height:38px; border-radius:12px; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:700; color:#20160A; }
 
-  .b-palco { grid-area:palco; }
-  .b-grupos { grid-area:grupos; }
-  .b-chat { grid-area:chat; }
-  .b-lateral { grid-area:lateral; }
+  /* ——— tela de grupo ——— */
+  #telaApp { height:calc(100vh - var(--topo)); display:grid; grid-template-columns:66px 224px 1fr 300px; gap:12px; padding:0 12px 12px; }
+  .painel { background:var(--bloco); border:none; border-radius:var(--r); min-height:0; display:flex; flex-direction:column; padding:14px; }
+  .painel:last-child { border:none; }
+  .cab-painel { height:auto; flex:none; display:flex; align-items:center; gap:8px; padding:0 0 12px; border:none; }
+  .rolagem { flex:1; min-height:0; overflow-y:auto; padding:0; margin:0 -4px; padding:0 4px; }
 
-  /* palco */
-  .grade-tiles { display:grid; gap:11px; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); align-content:center; min-height:100%; }
-  .tile { position:relative; background:var(--bloco-2); border-radius:12px; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+  .rail { align-items:center; padding:14px 0; gap:9px; }
+  .rail .grupos { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; align-items:center; gap:9px; width:100%; }
+  .gbtn { width:38px; height:38px; flex:none; background:var(--bloco-2); border:none; border-radius:13px; color:var(--texto); font-family:var(--sans); font-size:13px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+  .gbtn:hover { background:var(--bloco-3); }
+  .gbtn.ativo { box-shadow:inset 0 0 0 2px var(--acento); color:var(--acento); }
+  .rail .disp { flex:none; display:flex; flex-direction:column; gap:7px; padding-top:10px; border-top:1px solid var(--linha); width:38px; }
+  .disp button { width:38px; height:34px; background:var(--bloco-2); border:none; border-radius:11px; color:var(--texto); display:flex; align-items:center; justify-content:center; }
+  .disp button:hover:not(:disabled) { background:var(--bloco-3); }
+  .disp button svg { width:16px; height:16px; }
+  .disp button.off, .barra-call button.off { background:var(--perigo-fraco); color:var(--perigo); }
+
+  .sala { display:flex; align-items:center; gap:8px; padding:8px 10px; margin:0; border-radius:11px; cursor:pointer; font-size:13px; }
+  .sala:hover { background:var(--bloco-2); }
+  .sala.ativa { background:var(--acento-fraco); color:var(--acento); }
+  .sala .marca2 { font-family:var(--mono); font-size:13px; color:var(--dim); flex:none; width:13px; text-align:center; }
+  .sala.ativa .marca2 { color:var(--acento); }
+  .sala .nome { flex:1; min-width:0; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .sala .qtd { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .dentro { padding:2px 0 8px 30px; display:flex; flex-direction:column; gap:5px; }
+  .dentro span { font-size:12px; color:var(--dim); display:flex; align-items:center; gap:7px; }
+
+  .palco { flex:1; min-height:0; overflow-y:auto; padding:4px; display:grid; gap:12px; align-content:center; grid-template-columns:repeat(auto-fit, minmax(200px, 1fr)); }
+  .tile { position:relative; background:var(--bloco-2); border:none; border-radius:13px; aspect-ratio:16/10; display:flex; align-items:center; justify-content:center; overflow:hidden; }
   .tile.falando { box-shadow:inset 0 0 0 2px var(--acento); }
   .tile video { width:100%; height:100%; object-fit:cover; background:#000; }
-  .tile .rodape { position:absolute; left:9px; bottom:8px; display:flex; align-items:center; gap:6px; font-size:12px; font-weight:600; text-shadow:0 1px 3px rgba(0,0,0,0.8); }
-  .tile.mudo .rodape i { color:var(--perigo); font-style:normal; }
+  .tile .marca-nome { position:absolute; left:10px; bottom:9px; display:flex; align-items:center; gap:6px; padding:0; background:none; font-family:var(--sans); font-size:12px; font-weight:600; text-shadow:0 1px 4px rgba(0,0,0,0.85); }
+  .tile .marca-nome i { font-style:normal; }
+  .tile.mudo .marca-nome i { color:var(--perigo); }
 
-  .barra-call { display:flex; justify-content:center; gap:9px; padding-top:13px; flex:none; }
-  .barra-call button { width:44px; height:40px; background:var(--bloco-2); color:var(--texto); display:flex; align-items:center; justify-content:center; }
+  .barra-call { flex:none; display:flex; align-items:center; justify-content:center; gap:10px; padding:14px 0 4px; border:none; background:none; }
+  .barra-call button { width:46px; height:42px; background:var(--bloco-2); border:none; border-radius:12px; color:var(--texto); display:flex; align-items:center; justify-content:center; }
   .barra-call button:hover { background:var(--bloco-3); }
-  .barra-call button.off { background:var(--perigo-fraco); color:var(--perigo); }
   .barra-call button svg { width:18px; height:18px; }
-  .barra-call .sair { width:62px; background:var(--perigo); color:#20160A; }
+  .barra-call .sair { width:64px; background:var(--perigo); border:none; color:#20160A; }
+  .barra-call .sair:hover { background:#FF8A8A; }
 
-  .sala { display:flex; align-items:center; gap:9px; padding:9px 11px; border-radius:11px; cursor:pointer; }
-  .sala:hover { background:var(--bloco-2); }
-  .sala.ativa { background:var(--acento-fraco); }
-  .sala .ic { font-family:var(--mono); font-size:13px; color:var(--dim); flex:none; width:14px; text-align:center; }
-  .sala.ativa .ic, .sala.ativa .nome { color:var(--acento); }
-  .sala .nome { flex:1; min-width:0; font-size:14px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
-  .dentro { display:flex; flex-wrap:wrap; gap:7px; padding:2px 0 8px 34px; }
-  .dentro span { display:flex; align-items:center; gap:6px; font-size:12px; color:var(--dim); }
+  .cards { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); align-items:start; }
+  .card { background:var(--bloco-2); border:none; border-radius:13px; padding:14px 15px; }
+  .card > .rot { display:block; margin-bottom:11px; }
 
-  /* grupos */
-  .grade-g { display:grid; gap:9px; grid-template-columns:repeat(auto-fill,minmax(64px,1fr)); }
-  .qg { aspect-ratio:1; border-radius:14px; background:var(--bloco-2); color:var(--texto); font-size:14px; font-weight:700; display:flex; align-items:center; justify-content:center; }
-  .qg:hover { background:var(--bloco-3); }
-  .qg.ativo { box-shadow:inset 0 0 0 2px var(--acento); }
-  .qg.novo { background:none; box-shadow:inset 0 0 0 1px var(--linha); color:var(--dim); font-size:20px; }
-  .qg.novo:hover { color:var(--acento); box-shadow:inset 0 0 0 1px var(--acento); }
-
-  /* listas */
   .lista { list-style:none; margin:0; padding:0; }
-  .lista li { display:flex; align-items:center; gap:9px; padding:7px 8px; border-radius:10px; }
-  .lista li:hover { background:var(--bloco-2); }
-  .lista li.sel { background:var(--acento-fraco); }
+  .lista li { display:flex; align-items:center; gap:9px; padding:7px 8px; margin:0; border-radius:10px; }
+  .lista li:hover { background:var(--bloco-3); }
   .lista .txt { min-width:0; flex:1; }
   .lista .t1 { font-size:13px; font-weight:600; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; display:flex; align-items:center; gap:6px; }
-  .lista .t2 { font-size:11px; color:var(--dim); margin-top:1px; }
+  .lista .t2 { font-family:var(--sans); font-size:11px; color:var(--dim); margin-top:1px; }
   .lista .acoes { display:flex; gap:5px; flex:none; align-items:center; }
 
-  /* cargos */
-  .cargo { background:var(--bloco-2); border-radius:12px; padding:11px 12px; margin-bottom:9px; }
-  .cargo .cab-c { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
-  .cargo .cn { font-size:13px; font-weight:600; flex:1; }
-  .cargo .cnv { font-family:var(--mono); font-size:10px; color:var(--dim); }
+  .cargo-bloco { background:var(--bloco-3); border:none; border-radius:12px; padding:11px 12px; margin-bottom:9px; }
+  .cargo-cab { display:flex; align-items:center; gap:8px; margin-bottom:9px; }
+  .cargo-cab .cn { font-size:13px; font-weight:600; flex:1; }
+  .cargo-cab .cnv { font-family:var(--mono); font-size:10px; color:var(--dim); }
   .perms { display:flex; flex-direction:column; gap:6px; }
-  .perms label { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:400; color:var(--texto); margin:0; }
+  .perms label { display:flex; align-items:center; gap:8px; font-family:var(--sans); font-size:12px; font-weight:400; letter-spacing:0; text-transform:none; color:var(--texto); margin:0; }
   .perms input[type=checkbox] { width:14px; height:14px; accent-color:var(--acento); flex:none; padding:0; }
   .perms label.travado { color:var(--dim); }
 
-  /* chat */
-  .msgs { flex:1; min-height:0; overflow-y:auto; display:flex; flex-direction:column; gap:12px; padding-right:4px; }
+  /* ——— chat ——— */
+  .chat { display:flex; flex-direction:column; min-height:0; }
+  .chat-msgs { flex:1; min-height:0; overflow-y:auto; padding:0 4px 0 0; display:flex; flex-direction:column; gap:12px; }
   .msg { display:flex; gap:9px; }
-  .msg .c { min-width:0; flex:1; }
+  .msg .corpo { min-width:0; flex:1; padding:0; }
   .msg .quem { display:flex; gap:7px; align-items:baseline; }
-  .msg .quem b { font-size:12px; font-weight:600; }
+  .msg .quem b { font-family:var(--sans); font-size:12px; font-weight:600; color:var(--texto); }
   .msg .quem span { font-family:var(--mono); font-size:10px; color:var(--dim); }
-  .msg .texto { font-size:13px; line-height:1.5; margin-top:2px; word-wrap:break-word; white-space:pre-wrap; }
-  .envio { display:flex; gap:7px; padding-top:11px; flex:none; }
+  .msg .texto { font-size:13px; line-height:1.5; word-wrap:break-word; margin-top:2px; white-space:pre-wrap; }
+  .chat-envio { flex:none; border:none; padding:12px 0 0; display:flex; gap:7px; }
+  .chat-envio input { font-size:13px; padding:9px 11px; }
 
   .oculto { display:none !important; }
-  @media (max-width:1180px) {
-    .bento { grid-template-columns:1fr 1fr; grid-template-rows:1.5fr auto auto; grid-template-areas:"palco palco" "grupos lateral" "chat chat"; overflow-y:auto; }
-    .bloco { min-height:200px; }
+  @media (max-width:1050px) {
+    #telaInicio { grid-template-columns:1fr; }
+    #telaApp { grid-template-columns:58px 200px 1fr; }
+    .painel.col-dir, .col-dm { display:none; }
+    .faixa { grid-template-columns:1fr; }
   }
-  @media (max-width:760px) {
-    .bento { grid-template-columns:1fr; grid-template-areas:"palco" "grupos" "chat" "lateral"; }
+  @media (max-width:720px) {
+    #telaApp { grid-template-columns:52px 1fr; }
+    .grade { grid-template-columns:repeat(auto-fill, minmax(150px, 1fr)); }
   }
 </style>
 </head>
@@ -182,183 +211,218 @@
 <!-- ——— conta ——— -->
 <div id="telaConta">
   <div class="cartao">
-    <h1>dis<b>call</b></h1>
-    <p class="sub">Entre para conversar por voz com seus grupos.</p>
-    <div class="abas" style="margin-bottom:16px" role="tablist">
-      <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
-      <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
+    <div class="cab">
+      <h1>CON<b>CORD</b></h1>
+      <p>Entre para conversar por voz com seus grupos.</p>
     </div>
-    <div class="campo oculto" id="campoNome">
-      <label for="nome">Nome de exibição</label>
-      <input id="nome" maxlength="18" placeholder="Como quer aparecer" autocomplete="nickname">
+    <div class="corpo">
+      <div class="abas" role="tablist">
+        <button role="tab" id="abaEntrar" aria-selected="true">Entrar</button>
+        <button role="tab" id="abaCriar" aria-selected="false">Criar conta</button>
+      </div>
+      <div class="campo oculto" id="campoNome">
+        <label for="nome">Nome de exibição</label>
+        <input id="nome" maxlength="18" placeholder="Como quer aparecer" autocomplete="nickname">
+      </div>
+      <div class="campo">
+        <label for="email">E-mail</label>
+        <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
+      </div>
+      <div class="campo">
+        <label for="senha">Senha</label>
+        <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
+      </div>
+      <p class="aviso" id="statusConta"></p>
+      <button class="btn btn-acento btn-full" id="btnConta">Entrar</button>
+      <p class="dica"><button class="btn-txt" id="btnEsqueci">Esqueci minha senha</button></p>
     </div>
-    <div class="campo">
-      <label for="email">E-mail</label>
-      <input id="email" type="email" placeholder="voce@exemplo.com" autocomplete="email">
-    </div>
-    <div class="campo">
-      <label for="senha">Senha</label>
-      <input id="senha" type="password" placeholder="Mínimo 6 caracteres" autocomplete="current-password">
-    </div>
-    <p class="aviso" id="statusConta"></p>
-    <button class="btn btn-acento btn-full" id="btnConta">Entrar</button>
-    <p style="margin:12px 0 0"><button class="btn-txt" id="btnEsqueci">Esqueci minha senha</button></p>
   </div>
 </div>
 
-<!-- ——— app ——— -->
-<div id="app" class="oculto">
-  <div class="topo">
-    <span class="marca">dis<b>call</b></span>
-    <div class="fim">
-      <div class="av av-30" id="euAvatar">?</div>
-      <div>
-        <div class="nm" id="euNome">—</div>
-        <div class="hd" id="euTag">—</div>
-      </div>
-      <button class="btn-txt" id="btnSairConta">sair</button>
+<!-- ——— topbar ——— -->
+<div class="topbar oculto" id="topbar">
+  <button class="marca" id="btnInicio" title="Voltar ao início">CON<b>CORD</b></button>
+  <div class="fim">
+    <div class="av av-26" id="euAvatar">?</div>
+    <div>
+      <div class="nm" id="euNome">—</div>
+      <div class="hd" id="euTag">—</div>
     </div>
+    <button class="btn-txt" id="btnSairConta">sair</button>
   </div>
+</div>
 
-  <div class="bento">
-
-    <!-- palco -->
-    <section class="bloco b-palco">
-      <div class="cab">
-        <span class="rot" id="rotPalco">Salas</span>
-        <div class="fim">
-          <span class="rot" id="relogio"></span>
-          <button class="btn-txt oculto" id="btnCodigo">código</button>
-        </div>
-      </div>
-
-      <div class="conteudo" id="areaSalas">
-        <div id="listaSalas"></div>
-        <div class="par oculto" id="areaNovaSala" style="margin-top:12px">
-          <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
-          <select id="tipoSala"><option value="voz">voz</option><option value="texto">texto</option></select>
-          <button class="btn" id="btnCriarSala">+</button>
-        </div>
-        <p class="aviso" id="statusSala" style="margin-top:10px"></p>
-        <p class="vazio oculto" id="semGrupo">Escolha um grupo ao lado, ou crie o primeiro.</p>
-      </div>
-
-      <div class="conteudo oculto" id="palcoCall">
-        <div class="grade-tiles" id="palco"></div>
-      </div>
-
-      <div class="barra-call oculto" id="barraCall">
-        <button id="btnMudo" title="Microfone" aria-label="Microfone">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
-          </svg>
-        </button>
-        <button id="btnCam" title="Câmera" aria-label="Câmera">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
-          </svg>
-        </button>
-        <button id="btnConvidar" title="Chamar um amigo" aria-label="Chamar um amigo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-            <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
-          </svg>
-        </button>
-        <button class="sair" id="btnSairCall" title="Sair da chamada" aria-label="Sair da chamada">
-          <svg viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 9c-1.6 0-3.15.25-4.6.7v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.98.98 0 0 1-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .27-.11.52-.29.7l-2.48 2.46c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28a11.27 11.27 0 0 0-2.67-1.85.996.996 0 0 1-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
-          </svg>
-        </button>
-      </div>
-    </section>
-
-    <!-- grupos -->
-    <section class="bloco b-grupos">
-      <div class="cab">
-        <span class="rot">Grupos</span>
-        <div class="fim"><button class="btn-txt" id="btnNovoGrupo">+ novo</button></div>
-      </div>
-      <div class="conteudo">
-        <div class="grade-g" id="gradeGrupos"></div>
-        <div class="oculto" id="formGrupo" style="margin-top:12px">
-          <div class="abas" style="margin-bottom:10px" role="tablist">
-            <button role="tab" id="abaCriarG" aria-selected="true">Criar</button>
-            <button role="tab" id="abaEntrarG" aria-selected="false">Entrar</button>
-          </div>
-          <div class="par" id="formCriarG">
-            <input id="nomeGrupo" maxlength="24" placeholder="Nome do grupo" autocomplete="off">
-            <button class="btn btn-acento" id="btnCriarGrupo">+</button>
-          </div>
-          <div class="par oculto" id="formEntrarG">
-            <input id="codigoGrupo" placeholder="grupo#ETFQ" autocomplete="off">
-            <button class="btn btn-acento" id="btnEntrarGrupo">→</button>
-          </div>
-          <p class="aviso" id="statusGrupo" style="margin-top:10px"></p>
-        </div>
-        <button class="btn-txt oculto" id="btnSairGrupo" style="color:var(--perigo);margin-top:14px">Sair do grupo</button>
-      </div>
-    </section>
-
-    <!-- chat -->
-    <section class="bloco b-chat">
-      <div class="cab"><span class="rot" id="rotChat">Chat</span></div>
-      <div class="msgs" id="msgs"><p class="vazio">Escolha um canal de texto ou um amigo.</p></div>
-      <div class="envio">
-        <input id="chatTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
-        <button class="btn" id="btnEnviar" disabled>→</button>
-      </div>
-    </section>
-
-    <!-- lateral -->
-    <section class="bloco b-lateral">
-      <div class="cab">
+<!-- ——— tela inicial ——— -->
+<div id="telaInicio" class="oculto">
+  <div class="inicio-esq">
+    <div class="faixa">
+      <div>
         <div class="abas" role="tablist">
-          <button role="tab" id="tabAmigos" aria-selected="true">Amigos</button>
-          <button role="tab" id="tabMembros" aria-selected="false">Membros</button>
-          <button role="tab" id="tabCargos" aria-selected="false">Cargos</button>
+          <button role="tab" id="abaCriarG" aria-selected="true">Criar</button>
+          <button role="tab" id="abaEntrarG" aria-selected="false">Entrar</button>
         </div>
+        <div id="formCriarG" class="par">
+          <input id="nomeGrupo" maxlength="24" placeholder="Nome do grupo" autocomplete="off">
+          <button class="btn btn-acento" id="btnCriarGrupo">+</button>
+        </div>
+        <div id="formEntrarG" class="par oculto">
+          <input id="codigoGrupo" placeholder="grupo#ETFQ" autocomplete="off">
+          <button class="btn btn-acento" id="btnEntrarGrupo">→</button>
+        </div>
+        <p class="aviso" id="statusGrupo" style="margin:10px 0 0"></p>
       </div>
-
-      <div class="conteudo" id="painelAmigos">
-        <div class="par" style="margin-bottom:12px">
+      <div>
+        <span class="rot" style="display:block;margin-bottom:9px">Adicionar amigo</span>
+        <div class="par" style="max-width:420px">
           <input id="buscaAmigo" placeholder="itin#4821" autocomplete="off">
           <button class="btn btn-acento" id="btnAdicionar">+</button>
         </div>
-        <p class="aviso" id="statusAmigo"></p>
-        <div class="oculto" id="blocoPedidos" style="margin-bottom:12px">
-          <span class="rot" style="display:block;margin-bottom:8px">Pedidos</span>
-          <ul class="lista" id="listaPedidos"></ul>
-        </div>
-        <ul class="lista" id="listaAmigos"></ul>
-        <p class="vazio oculto" id="vazioAmigos">Ninguém ainda. Peça o identificador de alguém.</p>
+        <p class="aviso" id="statusAmigo" style="margin:10px 0 0"></p>
+      </div>
+    </div>
+
+    <div class="inicio-corpo">
+      <div class="secao">
+        <span class="rot">Grupos</span>
+        <div class="grade" id="gradeGrupos"></div>
       </div>
 
-      <div class="conteudo oculto" id="painelMembros">
-        <ul class="lista" id="listaMembros"></ul>
-        <p class="vazio oculto" id="semGrupoMembros">Escolha um grupo primeiro.</p>
+      <div class="secao oculto" id="secaoPedidos">
+        <span class="rot">Pedidos de amizade</span>
+        <div class="grade" id="gradePedidos"></div>
       </div>
 
-      <div class="conteudo oculto" id="painelCargos">
-        <div id="listaCargos"></div>
-        <div class="par oculto" id="areaNovoCargo" style="margin-top:10px">
-          <input id="nomeCargo" maxlength="18" placeholder="Novo cargo" autocomplete="off">
-          <input id="nivelCargo" class="curto" type="number" min="1" max="99" value="10" title="Nível">
-          <button class="btn" id="btnCriarCargo">+</button>
-        </div>
-        <p class="aviso" id="statusCargo" style="margin-top:10px"></p>
-        <p class="vazio oculto" id="semCargos">Você não tem permissão para gerenciar cargos aqui.</p>
+      <div class="secao">
+        <span class="rot">Amigos</span>
+        <div class="grade" id="gradeAmigos"></div>
       </div>
-    </section>
+    </div>
+  </div>
+
+  <div class="painel chat col-dm">
+    <div class="cab-painel"><span class="rot" id="rotDm">Bate-papo</span></div>
+    <div class="chat-msgs" id="dmMsgs">
+      <p class="vazio">Escolha um amigo para conversar.</p>
+    </div>
+    <div class="chat-envio">
+      <input id="dmTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
+      <button class="btn" id="btnDmEnviar" disabled>→</button>
+    </div>
   </div>
 </div>
 
-<div id="toastConvite" class="oculto" style="position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:11px;padding:12px 18px;background:var(--acento);color:#20160A">
-  <div class="av av-30" id="convAvatar" style="background:#20160A;color:var(--acento)">?</div>
+<!-- ——— tela de grupo ——— -->
+<div id="telaApp" class="oculto">
+  <div class="painel rail">
+    <div class="grupos" id="rail"></div>
+    <div class="disp">
+      <button id="btnMicRail" title="Microfone" aria-label="Microfone" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+        </svg>
+      </button>
+      <button id="btnCamRail" title="Câmera" aria-label="Câmera" disabled>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="painel">
+    <div class="cab-painel">
+      <span class="rot" id="rotSalas">Salas</span>
+      <button class="btn-txt oculto" id="btnCopiarCodigo" style="margin-left:auto">código</button>
+    </div>
+    <div class="rolagem">
+      <div id="listaVoz"></div>
+      <div class="rot" style="margin:16px 0 8px">Texto</div>
+      <div id="listaTexto"></div>
+      <div class="par oculto" id="areaNovaSala" style="margin-top:14px">
+        <input id="nomeSala" maxlength="20" placeholder="nova-sala" autocomplete="off">
+        <select id="tipoSala"><option value="voz">voz</option><option value="texto">texto</option></select>
+        <button class="btn" id="btnCriarSala">+</button>
+      </div>
+      <p class="aviso" id="statusSala" style="margin-top:10px"></p>
+      <button class="btn-txt" id="btnSairGrupo" style="color:var(--perigo);margin-top:14px">Sair do grupo</button>
+    </div>
+  </div>
+
+  <div class="painel">
+    <div class="cab-painel">
+      <span class="rot" id="rotCentro">Grupo</span>
+      <span class="rot" id="relogio" style="margin-left:auto"></span>
+    </div>
+
+    <div class="rolagem" id="visaoGrupo">
+      <div class="cards">
+        <div class="card oculto" id="blocoMembros">
+          <span class="rot">Membros</span>
+          <ul class="lista" id="listaMembros"></ul>
+        </div>
+        <div class="card oculto" id="blocoCargos">
+          <span class="rot">Cargos</span>
+          <div id="listaCargos"></div>
+          <div class="par" style="margin-top:10px">
+            <input id="nomeCargo" maxlength="18" placeholder="Novo cargo" autocomplete="off">
+            <input id="nivelCargo" class="curto" type="number" min="1" max="99" value="10" title="Nível">
+            <button class="btn" id="btnCriarCargo">+</button>
+          </div>
+          <p class="aviso" id="statusCargo" style="margin-top:10px"></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="palco oculto" id="palco"></div>
+
+    <div class="barra-call oculto" id="barraCall">
+      <button id="btnMudo" title="Microfone" aria-label="Microfone">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><path d="M12 19v3"/>
+        </svg>
+      </button>
+      <button id="btnCam" title="Câmera" aria-label="Câmera">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M23 7l-7 5 7 5V7z"/><rect x="1" y="5" width="15" height="14" rx="2"/>
+        </svg>
+      </button>
+      <button id="btnConvidar" title="Chamar um amigo" aria-label="Chamar um amigo">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+          <path d="M15 20v-1a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v1"/><circle cx="8.5" cy="7" r="3.5"/><path d="M19 8v6M22 11h-6"/>
+        </svg>
+      </button>
+      <button class="sair" id="btnSairCall" title="Sair da chamada" aria-label="Sair da chamada">
+        <svg viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 9c-1.6 0-3.15.25-4.6.7v3.1c0 .39-.23.74-.56.9-.98.49-1.87 1.12-2.66 1.85-.18.18-.43.28-.7.28-.28 0-.53-.11-.71-.29L.29 13.08a.98.98 0 0 1-.29-.7c0-.28.11-.53.29-.71C3.34 8.78 7.46 7 12 7s8.66 1.78 11.71 4.67c.18.18.29.43.29.71 0 .27-.11.52-.29.7l-2.48 2.46c-.18.18-.43.29-.71.29-.27 0-.52-.1-.7-.28a11.27 11.27 0 0 0-2.67-1.85.996.996 0 0 1-.56-.9v-3.1C15.15 9.25 13.6 9 12 9z"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="oculto" id="gavetaConvidar" style="flex:none;border-top:1px solid var(--linha-2);padding:11px;max-height:26vh;overflow-y:auto">
+      <span class="rot" style="display:block;margin-bottom:8px">Chamar um amigo</span>
+      <ul class="lista" id="listaConvidar"></ul>
+      <p class="vazio oculto" id="vazioConvidar">Nenhum amigo seu está neste grupo.</p>
+    </div>
+  </div>
+
+  <div class="painel chat col-dir">
+    <div class="cab-painel"><span class="rot" id="rotChat">Chat</span></div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-envio">
+      <input id="chatTexto" maxlength="1000" placeholder="Mensagem" autocomplete="off" disabled>
+      <button class="btn" id="btnEnviar" disabled>→</button>
+    </div>
+  </div>
+</div>
+
+<div id="toastConvite" class="oculto" style="position:absolute;top:0;left:0;right:0;z-index:20;display:flex;align-items:center;gap:11px;padding:10px 16px;background:var(--acento);color:#0C0C0D">
+  <div class="av av-30" id="convAvatar" style="background:#0C0C0D;color:var(--acento)">?</div>
   <div style="flex:1;min-width:0">
     <div style="font-size:13px;font-weight:700" id="convTitulo">—</div>
-    <div style="font-size:12px" id="convSub">—</div>
+    <div style="font-family:var(--mono);font-size:11px" id="convSub">—</div>
   </div>
-  <button class="btn" id="btnAceitarConvite" style="background:#20160A;color:var(--acento)">Entrar</button>
-  <button class="btn" id="btnDispensarConvite" style="background:rgba(0,0,0,0.12);color:#20160A">Agora não</button>
+  <button class="btn" id="btnAceitarConvite" style="background:#0C0C0D;border-color:#0C0C0D;color:var(--acento)">Entrar</button>
+  <button class="btn" id="btnDispensarConvite" style="border-color:#0C0C0D;color:#0C0C0D">Agora não</button>
 </div>
 
 <script type="module">
@@ -396,9 +460,9 @@ const PERMISSOES = [
 ];
 
 const CARGOS_BASE = {
-  dono:{ nome:'Dono', nivel:100, permissoes:{ gerenciarSalas:true, gerenciarCargos:true, atribuirCargos:true, expulsar:true, verCodigo:true } },
-  coordenador:{ nome:'Coordenador', nivel:50, permissoes:{ gerenciarSalas:true, gerenciarCargos:false, atribuirCargos:true, expulsar:true, verCodigo:true } },
-  membro:{ nome:'Membro', nivel:0, permissoes:{ gerenciarSalas:false, gerenciarCargos:false, atribuirCargos:false, expulsar:false, verCodigo:true } }
+  dono: { nome:'Dono', nivel:100, permissoes:{ gerenciarSalas:true, gerenciarCargos:true, atribuirCargos:true, expulsar:true, verCodigo:true } },
+  coordenador: { nome:'Coordenador', nivel:50, permissoes:{ gerenciarSalas:true, gerenciarCargos:false, atribuirCargos:true, expulsar:true, verCodigo:true } },
+  membro: { nome:'Membro', nivel:0, permissoes:{ gerenciarSalas:false, gerenciarCargos:false, atribuirCargos:false, expulsar:false, verCodigo:true } }
 };
 
 const fb = initializeApp(firebaseConfig);
@@ -411,24 +475,26 @@ const LK = window.LivekitClient;
 const $ = id => document.getElementById(id);
 
 let eu = null, room = null, mudo = false, camLigada = false;
-let modo = 'entrar', abaLateral = 'amigos';
-let grupoAtivo = null, grupoNaCall = null, salaNaCall = null;
-let chatAlvo = null;            // { tipo:'canal'|'dm', id, nome }
+let modo = 'entrar', ondeEstou = 'inicio';
+let grupoAtivo = null, grupoNaCall = null, salaNaCall = null, canalTexto = null, dmCom = null;
 let souDono = false, meuCargo = null, migrando = false;
 let relogio = null, inicioCall = 0, convitePendente = null;
 
 const meusGrupos = new Map(), salas = new Map(), cargos = new Map();
 const membrosGrupo = new Map(), amigos = new Map(), presencas = new Map();
 const presencaInscrita = new Map();
-const inscricoes = [], inscricoesGrupo = [], inscricoesChat = [];
+const inscricoes = [], inscricoesGrupo = [], inscricoesChat = [], inscricoesDm = [];
 const jaChamados = new Set();
 
-const aviso = (el, t, tipo) => { $(el).textContent = t || ''; $(el).className = 'aviso' + (tipo ? ' '+tipo : ''); };
-const iniciais = n => (n||'?').trim().split(/[\s_-]+/).slice(0,2).map(p=>p[0]).join('').toUpperCase() || '?';
-const CORES = ['#FFB454','#6BB6FF','#7BE08A','#FF8FA3','#C29BFF','#5FD8D0'];
+const aviso = (el, texto, tipo) => {
+  $(el).textContent = texto || '';
+  $(el).className = 'aviso' + (tipo ? ' ' + tipo : '');
+};
+const iniciais = n => (n || '?').trim().split(/[\s_-]+/).slice(0,2).map(p => p[0]).join('').toUpperCase() || '?';
+const CORES = ['#B5FF3D','#3DC8FF','#FF9F3D','#FF5BD1','#7B6BFF','#3DFFB0'];
 function corDe(chave) {
   let s = 0;
-  for (let i=0;i<(chave||'').length;i++) s = (s*31 + chave.charCodeAt(i)) >>> 0;
+  for (let i = 0; i < (chave || '').length; i++) s = (s * 31 + chave.charCodeAt(i)) >>> 0;
   return CORES[s % CORES.length];
 }
 const parDe = (a,b) => [a,b].sort().join('_');
@@ -436,7 +502,7 @@ const sorteioLetras = n => { const L='ABCDEFGHJKLMNPQRSTUVWXYZ'; let c=''; for(l
 const apelidar = t => (t||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9]+/g,'_').replace(/^_+|_+$/g,'').slice(0,24);
 const quando = ts => (ts && ts.toMillis ? ts.toMillis() : 0);
 const pode = c => souDono || !!(meuCargo && meuCargo.permissoes && meuCargo.permissoes[c]);
-const meuNivel = () => souDono ? 1000 : (meuCargo ? (meuCargo.nivel||0) : -1);
+const meuNivel = () => souDono ? 1000 : (meuCargo ? (meuCargo.nivel || 0) : -1);
 const emCall = () => !!room;
 const horaDe = ts => ts ? new Date(ts.toMillis()).toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}) : '';
 
@@ -453,22 +519,30 @@ function traduzir(c) {
   return m[c] || 'Não foi possível concluir. Tente de novo.';
 }
 
+// ————— navegação —————
+// A call sobrevive à troca de tela: sair do grupo pela topbar não desliga o áudio.
+function irPara(destino) {
+  ondeEstou = destino;
+  $('telaInicio').classList.toggle('oculto', destino !== 'inicio');
+  $('telaApp').classList.toggle('oculto', destino !== 'grupo');
+}
+
 // ————— conta —————
 function trocarModo(novo) {
   modo = novo;
-  $('abaEntrar').setAttribute('aria-selected', novo==='entrar');
-  $('abaCriar').setAttribute('aria-selected', novo==='criar');
-  $('campoNome').classList.toggle('oculto', novo==='entrar');
-  $('btnConta').textContent = novo==='entrar' ? 'Entrar' : 'Criar conta';
-  $('btnEsqueci').classList.toggle('oculto', novo==='criar');
+  $('abaEntrar').setAttribute('aria-selected', novo === 'entrar');
+  $('abaCriar').setAttribute('aria-selected', novo === 'criar');
+  $('campoNome').classList.toggle('oculto', novo === 'entrar');
+  $('btnConta').textContent = novo === 'entrar' ? 'Entrar' : 'Criar conta';
+  $('btnEsqueci').classList.toggle('oculto', novo === 'criar');
   aviso('statusConta','');
 }
 
 async function reservarHandle(uid, nome) {
   const base = apelidar(nome).replace(/_/g,'') || 'user';
-  for (let i=0;i<10;i++) {
-    const h = base + '#' + String(Math.floor(1000+Math.random()*9000));
-    try { await setDoc(doc(db,'handles',h), { uid }); return h; } catch(e) {}
+  for (let i = 0; i < 10; i++) {
+    const h = base + '#' + String(Math.floor(1000 + Math.random()*9000));
+    try { await setDoc(doc(db,'handles',h), { uid }); return h; } catch (e) {}
   }
   throw new Error('Não consegui reservar um identificador.');
 }
@@ -479,34 +553,36 @@ async function garantirPerfil(user, nomeSugerido) {
   if (snap.exists()) return { uid:user.uid, ...snap.data() };
   const nome = (nomeSugerido || user.displayName || user.email.split('@')[0]).slice(0,18);
   const handle = await reservarHandle(user.uid, nome);
-  const perfil = { nome, handle, cor:corDe(user.uid), criadoEm:serverTimestamp() };
+  const perfil = { nome, handle, cor: corDe(user.uid), criadoEm: serverTimestamp() };
   await setDoc(alvo, perfil);
   return { uid:user.uid, ...perfil };
 }
 
 async function enviarConta() {
   const email = $('email').value.trim(), senha = $('senha').value, nome = $('nome').value.trim();
-  if (modo==='criar' && !nome) return aviso('statusConta','Escolha um nome de exibição.','erro');
+  if (modo === 'criar' && !nome) return aviso('statusConta','Escolha um nome de exibição.','erro');
   $('btnConta').disabled = true;
-  aviso('statusConta', modo==='entrar' ? 'Entrando…' : 'Criando conta…');
+  aviso('statusConta', modo === 'entrar' ? 'Entrando…' : 'Criando conta…');
   try {
+    // setPersistence é assíncrono — sem este await, um login rápido pode
+    // acontecer antes de a troca de persistência valer.
     await setPersistence(auth, browserSessionPersistence);
-    if (modo==='entrar') await signInWithEmailAndPassword(auth, email, senha);
+    if (modo === 'entrar') await signInWithEmailAndPassword(auth, email, senha);
     else {
       const cred = await createUserWithEmailAndPassword(auth, email, senha);
       await updateProfile(cred.user, { displayName: nome });
       await cred.user.getIdToken(true);
       await garantirPerfil(cred.user, nome);
     }
-  } catch(e) { aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro'); }
+  } catch (e) { aviso('statusConta', e.code ? traduzir(e.code) : e.message, 'erro'); }
   finally { $('btnConta').disabled = false; }
 }
 
 async function recuperarSenha() {
   const email = $('email').value.trim();
   if (!email) return aviso('statusConta','Digite seu e-mail primeiro.','erro');
-  try { await sendPasswordResetEmail(auth,email); aviso('statusConta','Link enviado. Confira seu e-mail.','ok'); }
-  catch(e) { aviso('statusConta', traduzir(e.code), 'erro'); }
+  try { await sendPasswordResetEmail(auth, email); aviso('statusConta','Link enviado. Confira seu e-mail.','ok'); }
+  catch (e) { aviso('statusConta', traduzir(e.code), 'erro'); }
 }
 
 // ————— presença —————
@@ -522,10 +598,10 @@ const atualizarPresenca = () => {
   rtSet(ref(rtdb,'presenca/'+eu.uid), { online:true, grupo:grupoNaCall, sala:salaNaCall, em:Date.now() });
 };
 function observarPresencaDe(uid) {
-  if (presencaInscrita.has(uid) || !eu || uid===eu.uid) return;
+  if (presencaInscrita.has(uid) || !eu || uid === eu.uid) return;
   presencaInscrita.set(uid, onValue(ref(rtdb,'presenca/'+uid), snap => {
     presencas.set(uid, snap.val());
-    pintarAmigos(); pintarSalas(); pintarMembros(); 
+    pintarGradeAmigos(); pintarSalas(); pintarMembros(); pintarConvidar();
   }));
 }
 
@@ -534,50 +610,56 @@ function ligarGrupos() {
   inscricoes.push(onSnapshot(collection(db,'usuarios',eu.uid,'grupos'), snap => {
     meusGrupos.clear();
     snap.forEach(d => meusGrupos.set(d.id, d.data()));
-    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) selecionarGrupo(null);
-    else if (!grupoAtivo && meusGrupos.size) selecionarGrupo([...meusGrupos.keys()][0]);
-    else pintarGrupos();
+    if (grupoAtivo && !meusGrupos.has(grupoAtivo)) { selecionarGrupo(null); irPara('inicio'); }
+    pintarRail(); pintarGradeGrupos();
   }));
 }
 
-function pintarGrupos() {
+function pintarGradeGrupos() {
   const g = $('gradeGrupos');
   g.innerHTML = '';
   for (const [gid, dados] of meusGrupos) {
     const b = document.createElement('button');
-    b.className = 'qg' + (gid===grupoAtivo ? ' ativo' : '');
-    b.textContent = iniciais(dados.nome);
-    b.title = dados.nome;
-    b.style.background = corDe(gid);
-    b.style.color = '#20160A';
-    b.addEventListener('click', () => selecionarGrupo(gid));
+    b.className = 'cartao-item';
+    b.innerHTML = '<div class="quadro-ini"></div><div class="nm"></div><div class="hd"></div>';
+    const q = b.querySelector('.quadro-ini');
+    q.textContent = iniciais(dados.nome);
+    q.style.background = corDe(gid);
+    b.querySelector('.nm').textContent = dados.nome;
+    b.querySelector('.hd').textContent = dados.handle || '';
+    b.addEventListener('click', () => { selecionarGrupo(gid); irPara('grupo'); });
     g.appendChild(b);
   }
   const novo = document.createElement('button');
-  novo.className = 'qg novo';
+  novo.className = 'cartao-item cartao-novo';
   novo.textContent = '+';
   novo.title = 'Criar ou entrar num grupo';
-  novo.addEventListener('click', abrirFormGrupo);
+  novo.addEventListener('click', () => $('nomeGrupo').focus());
   g.appendChild(novo);
-  $('btnSairGrupo').classList.toggle('oculto', !grupoAtivo);
 }
 
-function abrirFormGrupo() {
-  $('formGrupo').classList.remove('oculto');
-  $('nomeGrupo').focus();
+function pintarRail() {
+  const rail = $('rail');
+  rail.innerHTML = '';
+  for (const [gid, g] of meusGrupos) {
+    const b = document.createElement('button');
+    b.className = 'gbtn' + (gid === grupoAtivo ? ' ativo' : '');
+    b.textContent = iniciais(g.nome);
+    b.title = g.nome;
+    b.addEventListener('click', () => selecionarGrupo(gid));
+    rail.appendChild(b);
+  }
 }
 
 function selecionarGrupo(gid) {
   inscricoesGrupo.splice(0).forEach(f => f());
   salas.clear(); cargos.clear(); membrosGrupo.clear();
   grupoAtivo = gid; souDono = false; meuCargo = null; migrando = false;
-  if (chatAlvo && chatAlvo.tipo === 'canal') abrirChat(null);
-
-  pintarGrupos();
-  $('semGrupo').classList.toggle('oculto', !!gid);
-  $('semGrupoMembros').classList.toggle('oculto', !!gid);
-  atualizarPalco();
+  if (!emCall()) { canalTexto = null; ligarChat(null); }
+  pintarRail(); atualizarCentro();
   if (!gid) { recalcular(); return; }
+
+  $('rotSalas').textContent = (meusGrupos.get(gid) || {}).nome || 'Salas';
 
   inscricoesGrupo.push(onSnapshot(doc(db,'grupos',gid), d => {
     souDono = d.exists() && d.data().dono === eu.uid;
@@ -597,9 +679,9 @@ function selecionarGrupo(gid) {
   inscricoesGrupo.push(onSnapshot(collection(db,'grupos',gid,'salas'), snap => {
     salas.clear();
     snap.forEach(d => salas.set(d.id, d.data()));
-    if (!chatAlvo) {
+    if (!canalTexto) {
       const p = [...salas.entries()].find(([,s]) => s.tipo === 'texto');
-      if (p) abrirChat({ tipo:'canal', id:p[0], nome:p[1].nome });
+      if (p) abrirCanalTexto(p[0]);
     }
     pintarSalas();
   }));
@@ -611,63 +693,46 @@ async function migrarCargos(gid) {
   try {
     for (const [cid,c] of Object.entries(CARGOS_BASE)) await setDoc(doc(db,'grupos',gid,'cargos',cid), c);
     await updateDoc(doc(db,'grupos',gid,'membros',eu.uid), { cargo:'dono' });
-  } catch(e) {}
+  } catch (e) {}
 }
 
 function recalcular() {
   const meu = membrosGrupo.get(eu.uid);
   meuCargo = meu && cargos.get(meu.cargo) ? cargos.get(meu.cargo) : null;
   $('areaNovaSala').classList.toggle('oculto', !pode('gerenciarSalas'));
-  $('areaNovoCargo').classList.toggle('oculto', !pode('gerenciarCargos'));
-  $('semCargos').classList.toggle('oculto', pode('gerenciarCargos'));
-  $('btnCodigo').classList.toggle('oculto', !grupoAtivo || !pode('verCodigo'));
-  pintarSalas(); pintarCargos(); pintarMembros();
+  $('blocoCargos').classList.toggle('oculto', !grupoAtivo || !pode('gerenciarCargos'));
+  $('blocoMembros').classList.toggle('oculto', !grupoAtivo);
+  $('btnCopiarCodigo').classList.toggle('oculto', !grupoAtivo || !pode('verCodigo'));
+  pintarSalas(); pintarCargos(); pintarMembros(); pintarConvidar();
 }
 
-// O bloco grande troca de conteúdo: salas quando parado, chamada quando em call.
-function atualizarPalco() {
+function atualizarCentro() {
   const naCall = emCall();
-  $('areaSalas').classList.toggle('oculto', naCall);
-  $('palcoCall').classList.toggle('oculto', !naCall);
+  $('palco').classList.toggle('oculto', !naCall);
   $('barraCall').classList.toggle('oculto', !naCall);
+  $('visaoGrupo').classList.toggle('oculto', naCall);
+  $('btnMicRail').disabled = !naCall;
+  $('btnCamRail').disabled = !naCall;
   if (!naCall) {
-    $('rotPalco').textContent = grupoAtivo ? ((meusGrupos.get(grupoAtivo)||{}).nome || 'Salas') : 'Salas';
+    $('rotCentro').textContent = grupoAtivo ? ((meusGrupos.get(grupoAtivo)||{}).nome || 'Grupo') : 'Grupo';
     $('relogio').textContent = '';
+    $('gavetaConvidar').classList.add('oculto');
   }
 }
 
 function pintarSalas() {
-  const alvo = $('listaSalas');
-  if (!alvo) return;
-  alvo.innerHTML = '';
   if (!grupoAtivo) return;
-
+  const voz = $('listaVoz'), texto = $('listaTexto');
+  voz.innerHTML = ''; texto.innerHTML = '';
   for (const [sid, s] of salas) {
     const ehTexto = s.tipo === 'texto';
-    const ativa = ehTexto
-      ? (chatAlvo && chatAlvo.tipo==='canal' && chatAlvo.id===sid)
-      : (grupoNaCall===grupoAtivo && salaNaCall===sid);
-
     const linha = document.createElement('div');
+    const ativa = ehTexto ? canalTexto === sid : (grupoNaCall === grupoAtivo && salaNaCall === sid);
     linha.className = 'sala' + (ativa ? ' ativa' : '');
-    linha.innerHTML = '<span class="ic"></span><span class="nome"></span><span class="acoes"></span>';
-    linha.querySelector('.ic').textContent = ehTexto ? '#' : '♪';
+    linha.innerHTML = '<span class="marca2"></span><span class="nome"></span><span class="qtd"></span>';
+    linha.querySelector('.marca2').textContent = ehTexto ? '#' : '♪';
     linha.querySelector('.nome').textContent = s.nome;
-    linha.addEventListener('click', () => ehTexto
-      ? abrirChat({ tipo:'canal', id:sid, nome:s.nome })
-      : entrarSala(grupoAtivo, sid, s.nome));
-
-    if (pode('gerenciarSalas')) {
-      const x = document.createElement('button');
-      x.className = 'btn btn-mini btn-perigo';
-      x.textContent = '✕';
-      x.addEventListener('click', async e => {
-        e.stopPropagation();
-        if (confirm('Apagar a sala '+s.nome+'?'))
-          await deleteDoc(doc(db,'grupos',grupoAtivo,'salas',sid)).catch(() => aviso('statusSala','Sem permissão.','erro'));
-      });
-      linha.querySelector('.acoes').appendChild(x);
-    }
+    linha.addEventListener('click', () => ehTexto ? abrirCanalTexto(sid) : entrarSala(grupoAtivo, sid, s.nome));
 
     const bloco = document.createElement('div');
     bloco.appendChild(linha);
@@ -677,8 +742,8 @@ function pintarSalas() {
       dentro.className = 'dentro';
       let n = 0;
       for (const [uid, m] of membrosGrupo) {
-        const p = uid===eu.uid ? { grupo:grupoNaCall, sala:salaNaCall } : presencas.get(uid);
-        if (!p || p.grupo!==grupoAtivo || p.sala!==sid) continue;
+        const p = uid === eu.uid ? { grupo:grupoNaCall, sala:salaNaCall } : presencas.get(uid);
+        if (!p || p.grupo !== grupoAtivo || p.sala !== sid) continue;
         n++;
         const sp = document.createElement('span');
         sp.innerHTML = '<span class="av av-20"></span><span></span>';
@@ -688,85 +753,112 @@ function pintarSalas() {
         sp.lastElementChild.textContent = m.nome;
         dentro.appendChild(sp);
       }
+      linha.querySelector('.qtd').textContent = n ? String(n) : '';
       if (n) bloco.appendChild(dentro);
     }
-    alvo.appendChild(bloco);
+
+    if (pode('gerenciarSalas')) {
+      const x = document.createElement('button');
+      x.className = 'btn btn-mini btn-perigo';
+      x.textContent = '✕';
+      x.style.marginLeft = '6px';
+      x.addEventListener('click', async e => {
+        e.stopPropagation();
+        if (confirm('Apagar a sala ' + s.nome + '?'))
+          await deleteDoc(doc(db,'grupos',grupoAtivo,'salas',sid)).catch(() => aviso('statusSala','Sem permissão.','erro'));
+      });
+      linha.appendChild(x);
+    }
+    (ehTexto ? texto : voz).appendChild(bloco);
   }
-  if (!salas.size) alvo.innerHTML = '<p class="vazio">Nenhuma sala ainda.</p>';
+  if (!voz.children.length) voz.innerHTML = '<p class="vazio">Nenhuma sala de voz.</p>';
+  if (!texto.children.length) texto.innerHTML = '<p class="vazio">Nenhum canal de texto.</p>';
 }
 
-// ————— chat unificado (canal do grupo ou conversa direta) —————
-function abrirChat(alvo) {
-  inscricoesChat.splice(0).forEach(f => f());
-  chatAlvo = alvo;
-  const caixa = $('msgs');
+// ————— chat do grupo —————
+function abrirCanalTexto(sid) { canalTexto = sid; ligarChat(sid); pintarSalas(); }
+
+function desenharMsgs(caixa, msgs) {
   caixa.innerHTML = '';
-  $('chatTexto').disabled = !alvo;
-  $('btnEnviar').disabled = !alvo;
-  pintarSalas(); pintarAmigos();
-
-  if (!alvo) {
-    $('rotChat').textContent = 'Chat';
-    caixa.innerHTML = '<p class="vazio">Escolha um canal de texto ou um amigo.</p>';
-    return;
-  }
-  $('rotChat').textContent = (alvo.tipo === 'canal' ? '# ' : '') + alvo.nome;
-
-  const caminho = alvo.tipo === 'canal'
-    ? collection(db,'grupos',grupoAtivo,'salas',alvo.id,'mensagens')
-    : collection(db,'dm',parDe(eu.uid,alvo.id),'mensagens');
-
-  inscricoesChat.push(onSnapshot(query(caminho, orderBy('em','desc'), limit(60)), snap => {
-    const msgs = snap.docs.map(d => d.data()).reverse();
-    caixa.innerHTML = '';
-    msgs.forEach(m => {
-      const div = document.createElement('div');
-      div.className = 'msg';
-      div.innerHTML = '<div class="av av-26"></div><div class="c"><div class="quem"><b></b><span></span></div><div class="texto"></div></div>';
-      const av = div.querySelector('.av');
-      av.textContent = iniciais(m.nome);
-      av.style.background = corDe(m.de);
-      div.querySelector('b').textContent = m.nome;
-      div.querySelector('.quem span').textContent = horaDe(m.em);
-      div.querySelector('.texto').textContent = m.texto;
-      caixa.appendChild(div);
-    });
-    caixa.scrollTop = caixa.scrollHeight;
-  }));
+  msgs.forEach(m => {
+    const div = document.createElement('div');
+    div.className = 'msg';
+    div.innerHTML = '<div class="av av-26"></div><div class="corpo"><div class="quem"><b></b><span></span></div><div class="texto"></div></div>';
+    const av = div.querySelector('.av');
+    av.textContent = iniciais(m.nome);
+    av.style.background = corDe(m.de);
+    div.querySelector('b').textContent = m.nome;
+    div.querySelector('.quem span').textContent = horaDe(m.em);
+    div.querySelector('.texto').textContent = m.texto;
+    caixa.appendChild(div);
+  });
+  caixa.scrollTop = caixa.scrollHeight;
 }
 
-async function enviarChat() {
+function ligarChat(sid) {
+  inscricoesChat.splice(0).forEach(f => f());
+  const caixa = $('chatMsgs');
+  caixa.innerHTML = '';
+  $('chatTexto').disabled = !sid;
+  $('btnEnviar').disabled = !sid;
+  $('rotChat').textContent = sid ? '# ' + ((salas.get(sid)||{}).nome || sid) : 'Chat';
+  if (!sid || !grupoAtivo) return;
+  const q = query(collection(db,'grupos',grupoAtivo,'salas',sid,'mensagens'), orderBy('em','desc'), limit(60));
+  inscricoesChat.push(onSnapshot(q, snap => desenharMsgs(caixa, snap.docs.map(d => d.data()).reverse())));
+}
+
+async function enviarMensagem() {
   const texto = $('chatTexto').value.trim();
-  if (!texto || !chatAlvo) return;
+  if (!texto || !canalTexto || !grupoAtivo) return;
   $('chatTexto').value = '';
   try {
-    if (chatAlvo.tipo === 'canal') {
-      await addDoc(collection(db,'grupos',grupoAtivo,'salas',chatAlvo.id,'mensagens'),
-        { de:eu.uid, nome:eu.nome, texto, em:serverTimestamp() });
-    } else {
-      await addDoc(collection(db,'dm',parDe(eu.uid,chatAlvo.id),'mensagens'),
-        { de:eu.uid, nome:eu.nome, membros:[eu.uid,chatAlvo.id].sort(), texto, em:serverTimestamp() });
-    }
-  } catch(e) { $('chatTexto').value = texto; }
+    await addDoc(collection(db,'grupos',grupoAtivo,'salas',canalTexto,'mensagens'),
+      { de:eu.uid, nome:eu.nome, texto, em:serverTimestamp() });
+  } catch (e) { $('chatTexto').value = texto; }
+}
+
+// ————— conversa direta —————
+function abrirDm(uid) {
+  dmCom = uid;
+  inscricoesDm.splice(0).forEach(f => f());
+  const caixa = $('dmMsgs');
+  caixa.innerHTML = '';
+  const reg = amigos.get(uid);
+  $('rotDm').textContent = reg ? reg.perfil.nome : 'Bate-papo';
+  $('dmTexto').disabled = false;
+  $('btnDmEnviar').disabled = false;
+  pintarGradeAmigos();
+
+  const q = query(collection(db,'dm',parDe(eu.uid,uid),'mensagens'), orderBy('em','desc'), limit(60));
+  inscricoesDm.push(onSnapshot(q, snap => desenharMsgs(caixa, snap.docs.map(d => d.data()).reverse())));
+}
+
+async function enviarDm() {
+  const texto = $('dmTexto').value.trim();
+  if (!texto || !dmCom) return;
+  $('dmTexto').value = '';
+  try {
+    await addDoc(collection(db,'dm',parDe(eu.uid,dmCom),'mensagens'),
+      { de:eu.uid, nome:eu.nome, membros:[eu.uid,dmCom].sort(), texto, em:serverTimestamp() });
+  } catch (e) { $('dmTexto').value = texto; }
 }
 
 // ————— cargos —————
 function pintarCargos() {
   const alvo = $('listaCargos');
-  if (!alvo) return;
+  if (!alvo || !grupoAtivo) return;
   alvo.innerHTML = '';
-  if (!grupoAtivo) return;
-  const ord = [...cargos.entries()].sort((a,b) => (b[1].nivel||0)-(a[1].nivel||0));
+  const ord = [...cargos.entries()].sort((a,b) => (b[1].nivel||0) - (a[1].nivel||0));
   for (const [cid,c] of ord) {
     const editavel = pode('gerenciarCargos') && (c.nivel||0) < meuNivel();
     const bloco = document.createElement('div');
-    bloco.className = 'cargo';
-    bloco.innerHTML = '<div class="cab-c"><span class="tag"></span><span class="cn"></span><span class="cnv"></span><span class="acoes"></span></div><div class="perms"></div>';
+    bloco.className = 'cargo-bloco';
+    bloco.innerHTML = '<div class="cargo-cab"><span class="tag"></span><span class="cn"></span><span class="cnv"></span><span class="acoes"></span></div><div class="perms"></div>';
     const tag = bloco.querySelector('.tag');
     tag.textContent = cid;
     tag.style.background = corDe(cid);
     bloco.querySelector('.cn').textContent = c.nome;
-    bloco.querySelector('.cnv').textContent = 'nv '+(c.nivel||0);
+    bloco.querySelector('.cnv').textContent = 'nv ' + (c.nivel||0);
     const perms = bloco.querySelector('.perms');
     PERMISSOES.forEach(([chave,rotulo]) => {
       const lab = document.createElement('label');
@@ -777,7 +869,7 @@ function pintarCargos() {
       cb.disabled = !editavel;
       cb.addEventListener('change', async () => {
         try { await updateDoc(doc(db,'grupos',grupoAtivo,'cargos',cid), { ['permissoes.'+chave]: cb.checked }); aviso('statusCargo',''); }
-        catch(e) { cb.checked = !cb.checked; aviso('statusCargo','O banco recusou.','erro'); }
+        catch (e) { cb.checked = !cb.checked; aviso('statusCargo','O banco recusou.','erro'); }
       });
       lab.appendChild(cb);
       lab.appendChild(document.createTextNode(rotulo));
@@ -787,7 +879,7 @@ function pintarCargos() {
       const x = document.createElement('button');
       x.className = 'btn btn-mini btn-perigo';
       x.textContent = '✕';
-      x.addEventListener('click', () => apagarCargo(cid,c));
+      x.addEventListener('click', () => apagarCargo(cid, c));
       bloco.querySelector('.acoes').appendChild(x);
     }
     alvo.appendChild(bloco);
@@ -796,9 +888,9 @@ function pintarCargos() {
 
 async function criarCargo() {
   const nome = $('nomeCargo').value.trim();
-  const nivel = parseInt($('nivelCargo').value,10);
+  const nivel = parseInt($('nivelCargo').value, 10);
   if (!nome) return aviso('statusCargo','Dê um nome ao cargo.','erro');
-  if (!(nivel>0 && nivel<meuNivel())) return aviso('statusCargo','Nível entre 1 e '+(meuNivel()-1)+'.','erro');
+  if (!(nivel > 0 && nivel < meuNivel())) return aviso('statusCargo','Nível entre 1 e '+(meuNivel()-1)+'.','erro');
   const cid = apelidar(nome) || ('cargo'+Date.now());
   if (cargos.has(cid)) return aviso('statusCargo','Já existe um cargo com esse nome.','erro');
   try {
@@ -807,42 +899,41 @@ async function criarCargo() {
     await setDoc(doc(db,'grupos',grupoAtivo,'cargos',cid), { nome, nivel, permissoes });
     $('nomeCargo').value = '';
     aviso('statusCargo','Cargo criado. Marque as permissões acima.','ok');
-  } catch(e) { aviso('statusCargo','O banco recusou.','erro'); }
+  } catch (e) { aviso('statusCargo','O banco recusou.','erro'); }
 }
 
-async function apagarCargo(cid,c) {
-  const usando = [...membrosGrupo.entries()].filter(([,m]) => m.cargo===cid);
+async function apagarCargo(cid, c) {
+  const usando = [...membrosGrupo.entries()].filter(([,m]) => m.cargo === cid);
   if (!confirm(usando.length ? 'Apagar '+c.nome+'? '+usando.length+' pessoa(s) voltam a ser Membro.' : 'Apagar o cargo '+c.nome+'?')) return;
   try {
     for (const [uid] of usando) await updateDoc(doc(db,'grupos',grupoAtivo,'membros',uid), { cargo:'membro' });
     await deleteDoc(doc(db,'grupos',grupoAtivo,'cargos',cid));
-  } catch(e) { aviso('statusCargo','Sem permissão.','erro'); }
+  } catch (e) { aviso('statusCargo','Sem permissão.','erro'); }
 }
 
 // ————— membros —————
 function pintarMembros() {
   const lista = $('listaMembros');
-  if (!lista) return;
+  if (!lista || !grupoAtivo) return;
   lista.innerHTML = '';
-  if (!grupoAtivo) return;
   const ord = [...membrosGrupo.entries()].sort((a,b) => {
     const ca = cargos.get(a[1].cargo), cb = cargos.get(b[1].cargo);
     return ((cb&&cb.nivel)||0) - ((ca&&ca.nivel)||0);
   });
   for (const [uid,m] of ord) {
     const c = cargos.get(m.cargo) || { nome:'—', nivel:0 };
-    const pres = uid===eu.uid ? { online:true, sala:salaNaCall } : presencas.get(uid);
+    const pres = uid === eu.uid ? { online:true, sala:salaNaCall } : presencas.get(uid);
     const li = document.createElement('li');
     li.innerHTML = '<span class="pt"></span><div class="av av-26"></div><div class="txt"><div class="t1"><span class="n"></span><span class="tag"></span></div><div class="t2"></div></div><div class="acoes"></div>';
     const av = li.querySelector('.av');
     av.textContent = iniciais(m.nome);
     av.style.background = corDe(uid);
-    li.querySelector('.n').textContent = m.nome + (uid===eu.uid ? ' (você)' : '');
+    li.querySelector('.n').textContent = m.nome + (uid === eu.uid ? ' (você)' : '');
     const tag = li.querySelector('.tag');
     tag.textContent = c.nome;
     tag.style.background = corDe(m.cargo);
-    li.querySelector('.pt').className = 'pt' + (pres&&pres.sala ? ' call' : pres&&pres.online ? ' on' : '');
-    li.querySelector('.t2').textContent = pres&&pres.sala ? 'em call' : pres&&pres.online ? 'online' : 'offline';
+    li.querySelector('.pt').className = 'pt' + (pres && pres.sala ? ' call' : pres && pres.online ? ' on' : '');
+    li.querySelector('.t2').textContent = pres && pres.sala ? 'em call' : pres && pres.online ? 'online' : 'offline';
     const acoes = li.querySelector('.acoes');
     const abaixo = (c.nivel||0) < meuNivel() && uid !== eu.uid;
     if (pode('atribuirCargos') && abaixo) {
@@ -851,12 +942,12 @@ function pintarMembros() {
         .sort((a,b) => (b[1].nivel||0)-(a[1].nivel||0))
         .forEach(([cid,cc]) => {
           const o = document.createElement('option');
-          o.value = cid; o.textContent = cc.nome; o.selected = cid===m.cargo;
+          o.value = cid; o.textContent = cc.nome; o.selected = cid === m.cargo;
           sel.appendChild(o);
         });
       sel.addEventListener('change', async () => {
-        try { await updateDoc(doc(db,'grupos',grupoAtivo,'membros',uid), { cargo:sel.value }); }
-        catch(e) { aviso('statusCargo','O banco recusou a troca.','erro'); }
+        try { await updateDoc(doc(db,'grupos',grupoAtivo,'membros',uid), { cargo: sel.value }); }
+        catch (e) { aviso('statusCargo','O banco recusou a troca.','erro'); }
       });
       acoes.appendChild(sel);
     }
@@ -867,7 +958,7 @@ function pintarMembros() {
       b.addEventListener('click', async () => {
         if (!confirm('Remover '+m.nome+' do grupo?')) return;
         try { await deleteDoc(doc(db,'grupos',grupoAtivo,'membros',uid)); }
-        catch(e) { aviso('statusCargo','Sem permissão.','erro'); }
+        catch (e) { aviso('statusCargo','Sem permissão.','erro'); }
       });
       acoes.appendChild(b);
     }
@@ -875,7 +966,7 @@ function pintarMembros() {
   }
 }
 
-// ————— criar / entrar / sair de grupo —————
+// ————— criar / entrar em grupo —————
 async function criarGrupo() {
   const nome = $('nomeGrupo').value.trim();
   if (!nome) return aviso('statusGrupo','Dê um nome ao grupo.','erro');
@@ -887,9 +978,9 @@ async function criarGrupo() {
     for (const [cid,c] of Object.entries(CARGOS_BASE)) await setDoc(doc(db,'grupos',gid,'cargos',cid), c);
     const base = apelidar(nome) || 'grupo';
     let handle = null;
-    for (let i=0;i<10 && !handle;i++) {
+    for (let i = 0; i < 10 && !handle; i++) {
       const t = base + '#' + sorteioLetras(4);
-      try { await setDoc(doc(db,'handlesGrupo',t), { grupo:gid }); handle = t; } catch(e) {}
+      try { await setDoc(doc(db,'handlesGrupo',t), { grupo:gid }); handle = t; } catch (e) {}
     }
     if (!handle) throw new Error('Não consegui gerar um código.');
     await updateDoc(doc(db,'grupos',gid), { handle });
@@ -899,8 +990,7 @@ async function criarGrupo() {
     await setDoc(doc(db,'usuarios',eu.uid,'grupos',gid), { nome, handle });
     $('nomeGrupo').value = '';
     aviso('statusGrupo','Código: '+handle,'ok');
-    selecionarGrupo(gid);
-  } catch(e) { aviso('statusGrupo', e.message, 'erro'); }
+  } catch (e) { aviso('statusGrupo', e.message, 'erro'); }
   finally { $('btnCriarGrupo').disabled = false; }
 }
 
@@ -920,8 +1010,7 @@ async function entrarGrupo() {
     await setDoc(doc(db,'usuarios',eu.uid,'grupos',gid), { nome:g.data().nome, handle:chave });
     $('codigoGrupo').value = '';
     aviso('statusGrupo','Bem-vindo ao '+g.data().nome+'.','ok');
-    selecionarGrupo(gid);
-  } catch(e) { aviso('statusGrupo', e.message, 'erro'); }
+  } catch (e) { aviso('statusGrupo', e.message, 'erro'); }
   finally { $('btnEntrarGrupo').disabled = false; }
 }
 
@@ -933,13 +1022,13 @@ async function criarSala() {
     await setDoc(doc(db,'grupos',grupoAtivo,'salas',sid), { nome, tipo:$('tipoSala').value, criadoEm:serverTimestamp() });
     $('nomeSala').value = '';
     aviso('statusSala','');
-  } catch(e) { aviso('statusSala','Sem permissão para criar salas.','erro'); }
+  } catch (e) { aviso('statusSala','Sem permissão para criar salas.','erro'); }
 }
 
 async function sairDoGrupo() {
   if (!grupoAtivo) return;
   const gid = grupoAtivo, g = meusGrupos.get(gid) || {};
-  const outros = [...membrosGrupo.entries()].filter(([u]) => u!==eu.uid)
+  const outros = [...membrosGrupo.entries()].filter(([u]) => u !== eu.uid)
     .sort((a,b) => quando(a[1].entrouEm) - quando(b[1].entrouEm));
   const sucessor = outros.length ? outros[0] : null;
   const pergunta = !sucessor
@@ -962,7 +1051,8 @@ async function sairDoGrupo() {
     await deleteDoc(doc(db,'usuarios',eu.uid,'grupos',gid));
     if (grupoNaCall === gid) await sairSala();
     selecionarGrupo(null);
-  } catch(e) { aviso('statusSala','Não consegui sair: '+e.message,'erro'); }
+    irPara('inicio');
+  } catch (e) { aviso('statusSala','Não consegui sair: '+e.message,'erro'); }
 }
 
 // ————— amigos —————
@@ -972,7 +1062,7 @@ function ligarAmizades() {
     const vistos = new Set();
     for (const d of snap.docs) {
       const dados = d.data();
-      const outro = dados.membros.find(u => u!==eu.uid);
+      const outro = dados.membros.find(u => u !== eu.uid);
       vistos.add(outro);
       let reg = amigos.get(outro);
       if (!reg) {
@@ -980,32 +1070,66 @@ function ligarAmizades() {
         reg = { perfil: p.exists() ? p.data() : { nome:'Usuário', handle:'—' } };
         amigos.set(outro, reg);
       }
-      reg.parId = d.id; reg.status = dados.status; reg.euPedi = dados.de===eu.uid;
-      if (dados.status==='aceita') observarPresencaDe(outro);
+      reg.parId = d.id; reg.status = dados.status; reg.euPedi = dados.de === eu.uid;
+      if (dados.status === 'aceita') observarPresencaDe(outro);
     }
     for (const uid of [...amigos.keys()]) if (!vistos.has(uid)) amigos.delete(uid);
-    pintarAmigos();
+    pintarGradeAmigos(); pintarConvidar();
   }));
 }
 
-function pintarAmigos() {
-  const listaA = $('listaAmigos'), listaP = $('listaPedidos');
-  listaA.innerHTML = ''; listaP.innerHTML = '';
-  let pedidos = 0, aceitos = 0;
+function cartaoAmigo(uid, reg) {
+  const pres = presencas.get(uid);
+  const b = document.createElement('button');
+  b.className = 'cartao-item' + (dmCom === uid ? ' ativo' : '');
+  if (dmCom === uid) b.style.borderColor = 'var(--acento)';
+  b.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd"></div>' +
+                '<div class="rodape"><span class="pt"></span><span class="hd est"></span></div>' +
+                '<button class="btn btn-mini btn-perigo x">✕</button>';
+  const av = b.querySelector('.av');
+  av.textContent = iniciais(reg.perfil.nome);
+  av.style.background = corDe(uid);
+  b.querySelector('.nm').textContent = reg.perfil.nome;
+  b.querySelector('.hd').textContent = reg.perfil.handle;
+  const estado = pres && pres.sala ? 'call' : pres && pres.online ? 'on' : '';
+  b.querySelector('.pt').className = 'pt' + (estado ? ' ' + estado : '');
+  b.querySelector('.est').textContent = pres && pres.sala ? 'em call' : pres && pres.online ? 'online' : 'offline';
+  b.addEventListener('click', () => abrirDm(uid));
+  b.querySelector('.x').addEventListener('click', async e => {
+    e.stopPropagation();
+    if (!confirm('Remover ' + reg.perfil.nome + '?')) return;
+    await deleteDoc(doc(db,'amizades',reg.parId));
+    await deleteDoc(doc(db,'convites', uid+'_'+eu.uid)).catch(() => {});
+    await deleteDoc(doc(db,'convites', eu.uid+'_'+uid)).catch(() => {});
+    if (dmCom === uid) { dmCom = null; ligarDmVazio(); }
+  });
+  return b;
+}
+
+function ligarDmVazio() {
+  inscricoesDm.splice(0).forEach(f => f());
+  $('dmMsgs').innerHTML = '<p class="vazio">Escolha um amigo para conversar.</p>';
+  $('rotDm').textContent = 'Bate-papo';
+  $('dmTexto').disabled = true;
+  $('btnDmEnviar').disabled = true;
+}
+
+function pintarGradeAmigos() {
+  const grade = $('gradeAmigos'), ped = $('gradePedidos');
+  grade.innerHTML = ''; ped.innerHTML = '';
+  let pedidos = 0;
 
   for (const [uid, reg] of amigos) {
-    const p = reg.perfil;
-    const li = document.createElement('li');
-    li.innerHTML = '<span class="pt"></span><div class="av av-26"></div><div class="txt"><div class="t1"></div><div class="t2"></div></div><div class="acoes"></div>';
-    const av = li.querySelector('.av');
-    av.textContent = iniciais(p.nome);
-    av.style.background = corDe(uid);
-    li.querySelector('.t1').textContent = p.nome;
-    const acoes = li.querySelector('.acoes');
-
-    if (reg.status==='pendente' && !reg.euPedi) {
+    if (reg.status === 'pendente' && !reg.euPedi) {
       pedidos++;
-      li.querySelector('.t2').textContent = p.handle;
+      const c = document.createElement('div');
+      c.className = 'cartao-item';
+      c.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd"></div><div class="rodape"></div>';
+      const av = c.querySelector('.av');
+      av.textContent = iniciais(reg.perfil.nome);
+      av.style.background = corDe(uid);
+      c.querySelector('.nm').textContent = reg.perfil.nome;
+      c.querySelector('.hd').textContent = reg.perfil.handle;
       const ok = document.createElement('button');
       ok.className = 'btn btn-mini btn-acento';
       ok.textContent = 'aceitar';
@@ -1014,62 +1138,32 @@ function pintarAmigos() {
       no.className = 'btn btn-mini';
       no.textContent = '✕';
       no.addEventListener('click', () => deleteDoc(doc(db,'amizades',reg.parId)));
-      acoes.append(ok, no);
-      listaP.appendChild(li);
+      c.querySelector('.rodape').append(ok, no);
+      ped.appendChild(c);
       continue;
     }
-
-    aceitos++;
-    if (reg.status==='pendente') {
-      li.querySelector('.t2').textContent = 'convite enviado';
-      const no = document.createElement('button');
-      no.className = 'btn btn-mini';
-      no.textContent = '✕';
-      no.addEventListener('click', () => deleteDoc(doc(db,'amizades',reg.parId)));
-      acoes.appendChild(no);
-      listaA.appendChild(li);
+    if (reg.status === 'pendente') {
+      const c = document.createElement('div');
+      c.className = 'cartao-item';
+      c.innerHTML = '<div class="av av-30"></div><div class="nm"></div><div class="hd">convite enviado</div>';
+      const av = c.querySelector('.av');
+      av.textContent = iniciais(reg.perfil.nome);
+      av.style.background = corDe(uid);
+      c.querySelector('.nm').textContent = reg.perfil.nome;
+      grade.appendChild(c);
       continue;
     }
-
-    const pres = presencas.get(uid);
-    li.querySelector('.t2').textContent = pres&&pres.sala ? 'em call' : pres&&pres.online ? 'online' : 'offline';
-    li.querySelector('.pt').className = 'pt' + (pres&&pres.sala ? ' call' : pres&&pres.online ? ' on' : '');
-    if (chatAlvo && chatAlvo.tipo==='dm' && chatAlvo.id===uid) li.className = 'sel';
-    li.style.cursor = 'pointer';
-    li.addEventListener('click', () => abrirChat({ tipo:'dm', id:uid, nome:p.nome }));
-
-    if (pres && pres.sala && meusGrupos.has(pres.grupo)) {
-      const b = document.createElement('button');
-      b.className = 'btn btn-mini btn-acento';
-      b.textContent = 'entrar';
-      b.addEventListener('click', e => { e.stopPropagation(); entrarSala(pres.grupo, pres.sala); });
-      acoes.appendChild(b);
-    }
-    if (emCall() && membrosGrupo.has(uid) && !(pres && pres.grupo===grupoNaCall && pres.sala===salaNaCall) && pres && pres.online) {
-      const b = document.createElement('button');
-      b.className = 'btn btn-mini';
-      b.textContent = jaChamados.has(uid) ? 'chamado' : 'chamar';
-      b.disabled = jaChamados.has(uid);
-      b.addEventListener('click', e => { e.stopPropagation(); chamarParaCall(uid); });
-      acoes.appendChild(b);
-    }
-    const x = document.createElement('button');
-    x.className = 'btn btn-mini btn-perigo';
-    x.textContent = '✕';
-    x.addEventListener('click', async e => {
-      e.stopPropagation();
-      if (!confirm('Remover '+p.nome+'?')) return;
-      await deleteDoc(doc(db,'amizades',reg.parId));
-      await deleteDoc(doc(db,'convites', uid+'_'+eu.uid)).catch(() => {});
-      await deleteDoc(doc(db,'convites', eu.uid+'_'+uid)).catch(() => {});
-      if (chatAlvo && chatAlvo.tipo==='dm' && chatAlvo.id===uid) abrirChat(null);
-    });
-    acoes.appendChild(x);
-    listaA.appendChild(li);
+    grade.appendChild(cartaoAmigo(uid, reg));
   }
 
-  $('blocoPedidos').classList.toggle('oculto', pedidos===0);
-  $('vazioAmigos').classList.toggle('oculto', aceitos>0);
+  const novo = document.createElement('button');
+  novo.className = 'cartao-item cartao-novo';
+  novo.textContent = '+';
+  novo.title = 'Adicionar amigo';
+  novo.addEventListener('click', () => $('buscaAmigo').focus());
+  grade.appendChild(novo);
+
+  $('secaoPedidos').classList.toggle('oculto', pedidos === 0);
 }
 
 async function adicionarAmigo() {
@@ -1084,7 +1178,7 @@ async function adicionarAmigo() {
     const outro = h.data().uid;
     const existente = amigos.get(outro);
     if (existente) throw new Error(
-      existente.status==='aceita' ? 'Vocês já são amigos.'
+      existente.status === 'aceita' ? 'Vocês já são amigos.'
       : existente.euPedi ? 'Convite já enviado.'
       : 'Essa pessoa já te convidou — aceite acima.');
     await setDoc(doc(db,'amizades',parDe(eu.uid,outro)), {
@@ -1092,7 +1186,7 @@ async function adicionarAmigo() {
     });
     $('buscaAmigo').value = '';
     aviso('statusAmigo','Convite enviado.','ok');
-  } catch(e) { aviso('statusAmigo', e.code==='permission-denied' ? 'O banco recusou.' : e.message, 'erro'); }
+  } catch (e) { aviso('statusAmigo', e.code === 'permission-denied' ? 'O banco recusou.' : e.message, 'erro'); }
   finally { $('btnAdicionar').disabled = false; }
 }
 
@@ -1106,7 +1200,7 @@ async function chamarParaCall(uid) {
     criadoEm:serverTimestamp()
   });
   jaChamados.add(uid);
-  pintarAmigos();
+  pintarConvidar();
 }
 
 function ligarConvites() {
@@ -1115,9 +1209,9 @@ function ligarConvites() {
     let melhor = null;
     snap.forEach(d => {
       const c = d.data();
-      const idade = c.criadoEm ? (Date.now()-c.criadoEm.toMillis())/1000 : 0;
+      const idade = c.criadoEm ? (Date.now() - c.criadoEm.toMillis())/1000 : 0;
       if (idade > VALIDADE_CONVITE) return deleteDoc(d.ref).catch(() => {});
-      if (c.grupo===grupoNaCall && c.sala===salaNaCall) return deleteDoc(d.ref).catch(() => {});
+      if (c.grupo === grupoNaCall && c.sala === salaNaCall) return deleteDoc(d.ref).catch(() => {});
       if (!melhor) melhor = { id:d.id, ...c };
     });
     mostrarConvite(melhor);
@@ -1138,7 +1232,41 @@ async function responderConvite(entrar) {
   mostrarConvite(null);
   if (!c) return;
   await deleteDoc(doc(db,'convites',c.id)).catch(() => {});
-  if (entrar) { selecionarGrupo(c.grupo); entrarSala(c.grupo, c.sala, c.nomeSala); }
+  if (entrar) {
+    selecionarGrupo(c.grupo);
+    irPara('grupo');
+    entrarSala(c.grupo, c.sala, c.nomeSala);
+  }
+}
+
+function pintarConvidar() {
+  const lista = $('listaConvidar');
+  if (!lista) return;
+  lista.innerHTML = '';
+  let n = 0;
+  for (const [uid, reg] of amigos) {
+    if (reg.status !== 'aceita' || !membrosGrupo.has(uid)) continue;
+    n++;
+    const pres = presencas.get(uid);
+    const naSala = pres && pres.grupo === grupoNaCall && pres.sala === salaNaCall;
+    const online = pres && pres.online;
+    const li = document.createElement('li');
+    li.innerHTML = '<span class="pt"></span><div class="av av-26"></div><div class="txt"><div class="t1"></div><div class="t2"></div></div><div class="acoes"></div>';
+    const av = li.querySelector('.av');
+    av.textContent = iniciais(reg.perfil.nome);
+    av.style.background = corDe(uid);
+    li.querySelector('.t1').textContent = reg.perfil.nome;
+    li.querySelector('.t2').textContent = naSala ? 'já está aqui' : online ? 'online' : 'offline';
+    li.querySelector('.pt').className = 'pt' + (naSala ? ' call' : online ? ' on' : '');
+    const b = document.createElement('button');
+    b.className = 'btn btn-mini' + (!naSala && online && !jaChamados.has(uid) ? ' btn-acento' : '');
+    b.textContent = naSala ? 'aqui' : !online ? 'offline' : jaChamados.has(uid) ? 'chamado' : 'chamar';
+    b.disabled = naSala || !online || jaChamados.has(uid);
+    b.addEventListener('click', () => chamarParaCall(uid));
+    li.querySelector('.acoes').appendChild(b);
+    lista.appendChild(li);
+  }
+  $('vazioConvidar').classList.toggle('oculto', n > 0);
 }
 
 // ————— sessão —————
@@ -1147,19 +1275,22 @@ onAuthStateChanged(auth, async user => {
     inscricoes.splice(0).forEach(f => f());
     inscricoesGrupo.splice(0).forEach(f => f());
     inscricoesChat.splice(0).forEach(f => f());
+    inscricoesDm.splice(0).forEach(f => f());
     presencaInscrita.forEach(f => f());
     presencaInscrita.clear(); presencas.clear();
     amigos.clear(); meusGrupos.clear(); salas.clear(); cargos.clear(); membrosGrupo.clear();
     jaChamados.clear();
-    grupoAtivo = null; souDono = false; meuCargo = null; chatAlvo = null;
+    grupoAtivo = null; souDono = false; meuCargo = null; canalTexto = null; dmCom = null;
     if (eu) rtRemove(ref(rtdb,'presenca/'+eu.uid));
     eu = null;
     $('telaConta').classList.remove('oculto');
-    $('app').classList.add('oculto');
+    $('topbar').classList.add('oculto');
+    $('telaInicio').classList.add('oculto');
+    $('telaApp').classList.add('oculto');
     return;
   }
   try { eu = await garantirPerfil(user); }
-  catch(e) { return aviso('statusConta', e.message, 'erro'); }
+  catch (e) { return aviso('statusConta', e.message, 'erro'); }
 
   $('euNome').textContent = eu.nome;
   $('euTag').textContent = eu.handle;
@@ -1167,7 +1298,8 @@ onAuthStateChanged(auth, async user => {
   $('euAvatar').style.background = eu.cor || corDe(eu.uid);
   $('senha').value = '';
   $('telaConta').classList.add('oculto');
-  $('app').classList.remove('oculto');
+  $('topbar').classList.remove('oculto');
+  irPara('inicio');
 
   ligarPresenca(); ligarGrupos(); ligarAmizades(); ligarConvites();
 });
@@ -1198,21 +1330,22 @@ function pintarPalco() {
       pub.track.attach(v);
     } else {
       const av = document.createElement('div');
-      av.className = 'av av-56';
+      av.className = 'av av-64';
       av.textContent = iniciais(nome);
       av.style.background = corDe(p.identity);
       tile.appendChild(av);
     }
-    const rod = document.createElement('div');
-    rod.className = 'rodape';
-    rod.innerHTML = '<i>' + (silenciado ? '✕' : '♪') + '</i><span></span>';
-    rod.querySelector('span').textContent = nome + (souEu ? ' (você)' : '');
-    tile.appendChild(rod);
+    const marca = document.createElement('div');
+    marca.className = 'marca-nome';
+    marca.innerHTML = '<i>' + (silenciado ? '✕' : '♪') + '</i><span></span>';
+    marca.querySelector('span').textContent = nome + (souEu ? ' (você)' : '');
+    tile.appendChild(marca);
     palco.appendChild(tile);
   });
-  $('rotPalco').textContent =
+  $('rotCentro').textContent =
+    ((meusGrupos.get(grupoNaCall)||{}).nome || 'Grupo') + ' · ' +
     ((salas.get(salaNaCall)||{}).nome || salaNaCall) + ' · ' + todos.length + ' na chamada';
-  pintarAmigos();
+  pintarConvidar();
 }
 
 function iniciarRelogio() {
@@ -1232,21 +1365,21 @@ async function entrarSala(gid, sid, nomeSala) {
   try {
     const idToken = await auth.currentUser.getIdToken();
     const resp = await fetch(TOKEN_ENDPOINT+'?grupo='+encodeURIComponent(gid)+'&sala='+encodeURIComponent(sid),
-      { headers:{ Authorization:'Bearer '+idToken } });
+      { headers: { Authorization: 'Bearer ' + idToken } });
     if (!resp.ok) {
       const corpo = await resp.json().catch(() => ({}));
-      throw new Error(corpo.erro || ('erro '+resp.status));
+      throw new Error(corpo.erro || ('erro ' + resp.status));
     }
     dados = await resp.json();
-  } catch(e) { return aviso('statusSala', e.message, 'erro'); }
+  } catch (e) { return aviso('statusSala', e.message, 'erro'); }
   aviso('statusSala','');
 
   room = new LK.Room({
     adaptiveStream:true, dynacast:true,
     audioCaptureDefaults:{ echoCancellation:true, noiseSuppression:true, autoGainControl:true }
   });
-  atualizarPalco();
-  $('rotPalco').textContent = 'Conectando…';
+  atualizarCentro();
+  $('rotCentro').textContent = 'Conectando…';
 
   room
     .on(LK.RoomEvent.ParticipantConnected, pintarPalco)
@@ -1268,7 +1401,7 @@ async function entrarSala(gid, sid, nomeSala) {
       track.detach().forEach(el => { if (el.dataset.lk) el.remove(); });
       pintarPalco();
     })
-    .on(LK.RoomEvent.Disconnected, () => clearInterval(relogio));
+    .on(LK.RoomEvent.Disconnected, () => { clearInterval(relogio); });
 
   try {
     await room.connect(dados.url, dados.token);
@@ -1277,7 +1410,7 @@ async function entrarSala(gid, sid, nomeSala) {
     mudo = false; camLigada = false;
     atualizarBotoes(); atualizarPresenca(); iniciarRelogio();
     pintarPalco(); pintarSalas();
-  } catch(e) { $('rotPalco').textContent = 'Falha ao conectar: ' + e.message; }
+  } catch (e) { $('rotCentro').textContent = 'Falha ao conectar: ' + e.message; }
 }
 
 async function sairSala() {
@@ -1289,12 +1422,14 @@ async function sairSala() {
   jaChamados.clear();
   atualizarPresenca(); atualizarBotoes();
   $('palco').innerHTML = '';
-  atualizarPalco(); pintarSalas(); pintarAmigos();
+  atualizarCentro(); pintarSalas();
 }
 
 function atualizarBotoes() {
   $('btnMudo').classList.toggle('off', mudo);
+  $('btnMicRail').classList.toggle('off', mudo);
   $('btnCam').classList.toggle('off', !camLigada);
+  $('btnCamRail').classList.toggle('off', !camLigada);
 }
 
 async function alternarMic() {
@@ -1308,17 +1443,8 @@ async function alternarCam() {
   if (!room) return;
   camLigada = !camLigada;
   try { await room.localParticipant.setCameraEnabled(camLigada); }
-  catch(e) { camLigada = false; }
+  catch (e) { camLigada = false; }
   atualizarBotoes(); pintarPalco();
-}
-
-// ————— abas laterais —————
-function trocarAba(qual) {
-  abaLateral = qual;
-  ['amigos','membros','cargos'].forEach(a => {
-    $('tab' + a[0].toUpperCase() + a.slice(1)).setAttribute('aria-selected', a === qual);
-    $('painel' + a[0].toUpperCase() + a.slice(1)).classList.toggle('oculto', a !== qual);
-  });
 }
 
 // ————— eventos —————
@@ -1326,53 +1452,57 @@ $('abaEntrar').addEventListener('click', () => trocarModo('entrar'));
 $('abaCriar').addEventListener('click', () => trocarModo('criar'));
 $('btnConta').addEventListener('click', enviarConta);
 $('btnEsqueci').addEventListener('click', recuperarSenha);
-$('senha').addEventListener('keydown', e => { if (e.key==='Enter') enviarConta(); });
+$('senha').addEventListener('keydown', e => { if (e.key === 'Enter') enviarConta(); });
 
-$('tabAmigos').addEventListener('click', () => trocarAba('amigos'));
-$('tabMembros').addEventListener('click', () => trocarAba('membros'));
-$('tabCargos').addEventListener('click', () => trocarAba('cargos'));
+$('btnInicio').addEventListener('click', () => irPara('inicio'));
 
-$('btnNovoGrupo').addEventListener('click', abrirFormGrupo);
 function trocarModoGrupo(novo) {
-  $('abaCriarG').setAttribute('aria-selected', novo==='criar');
-  $('abaEntrarG').setAttribute('aria-selected', novo==='entrar');
-  $('formCriarG').classList.toggle('oculto', novo!=='criar');
-  $('formEntrarG').classList.toggle('oculto', novo!=='entrar');
+  $('abaCriarG').setAttribute('aria-selected', novo === 'criar');
+  $('abaEntrarG').setAttribute('aria-selected', novo === 'entrar');
+  $('formCriarG').classList.toggle('oculto', novo !== 'criar');
+  $('formEntrarG').classList.toggle('oculto', novo !== 'entrar');
   aviso('statusGrupo','');
 }
 $('abaCriarG').addEventListener('click', () => trocarModoGrupo('criar'));
 $('abaEntrarG').addEventListener('click', () => trocarModoGrupo('entrar'));
 $('btnCriarGrupo').addEventListener('click', criarGrupo);
 $('btnEntrarGrupo').addEventListener('click', entrarGrupo);
-$('nomeGrupo').addEventListener('keydown', e => { if (e.key==='Enter') criarGrupo(); });
-$('codigoGrupo').addEventListener('keydown', e => { if (e.key==='Enter') entrarGrupo(); });
+$('nomeGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') criarGrupo(); });
+$('codigoGrupo').addEventListener('keydown', e => { if (e.key === 'Enter') entrarGrupo(); });
 $('btnCriarSala').addEventListener('click', criarSala);
-$('nomeSala').addEventListener('keydown', e => { if (e.key==='Enter') criarSala(); });
+$('nomeSala').addEventListener('keydown', e => { if (e.key === 'Enter') criarSala(); });
 $('btnCriarCargo').addEventListener('click', criarCargo);
-$('nomeCargo').addEventListener('keydown', e => { if (e.key==='Enter') criarCargo(); });
+$('nomeCargo').addEventListener('keydown', e => { if (e.key === 'Enter') criarCargo(); });
 $('btnSairGrupo').addEventListener('click', sairDoGrupo);
-$('btnCodigo').addEventListener('click', () => {
+$('btnCopiarCodigo').addEventListener('click', () => {
   const h = (meusGrupos.get(grupoAtivo)||{}).handle;
   if (h) navigator.clipboard.writeText(h).then(() => {
-    $('btnCodigo').textContent = 'copiado';
-    setTimeout(() => { $('btnCodigo').textContent = 'código'; }, 1500);
+    $('btnCopiarCodigo').textContent = 'copiado';
+    setTimeout(() => { $('btnCopiarCodigo').textContent = 'código'; }, 1500);
   });
 });
 
 $('btnAdicionar').addEventListener('click', adicionarAmigo);
-$('buscaAmigo').addEventListener('keydown', e => { if (e.key==='Enter') adicionarAmigo(); });
+$('buscaAmigo').addEventListener('keydown', e => { if (e.key === 'Enter') adicionarAmigo(); });
 $('btnSairConta').addEventListener('click', () => signOut(auth));
 
-$('btnEnviar').addEventListener('click', enviarChat);
-$('chatTexto').addEventListener('keydown', e => { if (e.key==='Enter') enviarChat(); });
+$('btnEnviar').addEventListener('click', enviarMensagem);
+$('chatTexto').addEventListener('keydown', e => { if (e.key === 'Enter') enviarMensagem(); });
+$('btnDmEnviar').addEventListener('click', enviarDm);
+$('dmTexto').addEventListener('keydown', e => { if (e.key === 'Enter') enviarDm(); });
 
 $('btnAceitarConvite').addEventListener('click', () => responderConvite(true));
 $('btnDispensarConvite').addEventListener('click', () => responderConvite(false));
 
-$('btnConvidar').addEventListener('click', () => trocarAba('amigos'));
+$('btnConvidar').addEventListener('click', () => {
+  const aberta = !$('gavetaConvidar').classList.toggle('oculto');
+  if (aberta) pintarConvidar();
+});
 $('btnSairCall').addEventListener('click', sairSala);
 $('btnMudo').addEventListener('click', alternarMic);
+$('btnMicRail').addEventListener('click', alternarMic);
 $('btnCam').addEventListener('click', alternarCam);
+$('btnCamRail').addEventListener('click', alternarCam);
 </script>
 </body>
 </html>
