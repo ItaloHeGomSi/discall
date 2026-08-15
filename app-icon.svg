@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="100" fill="#0C0D10" stroke="#228844" stroke-width="24"/>
+  <rect x="96" y="96" width="320" height="320" rx="30" fill="#14161C" stroke="#55FF55" stroke-width="16"/>
+  <!-- D voxel letter in emerald -->
+  <path d="M 180 160 L 280 160 C 340 160 370 195 370 256 C 370 317 340 352 280 352 L 180 352 Z" fill="#228844" stroke="#55FF55" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M 230 210 L 270 210 C 295 210 315 225 315 256 C 315 287 295 302 270 302 L 230 302 Z" fill="#0C0D10" stroke="#55FF55" stroke-width="12" stroke-linejoin="round"/>
+</svg>
