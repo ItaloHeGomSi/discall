@@ -1,0 +1,6 @@
+[build]
+# Limita o número de threads simultâneas para evitar que o antivírus do Windows trave arquivos temporários (.rmeta / os error 32)
+jobs = 4
+
+[target.x86_64-pc-windows-msvc]
+rustflags = ["-C", "target-feature=+crt-static"]

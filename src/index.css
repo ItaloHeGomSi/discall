@@ -1,0 +1,89 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --bg-base: #0B0D12;
+    --surface-1: #12151C;
+    --surface-2: #181C25;
+    --surface-3: #1F242F;
+    --surface-hover: #262C3A;
+
+    --border-subtle: #22262F;
+    --border-strong: #333A48;
+
+    --accent: #5B7CFA;
+    --accent-hover: #7089FB;
+    --accent-soft: rgba(91, 124, 250, 0.16);
+    --success: #22C55E;
+    --success-soft: rgba(34, 197, 94, 0.16);
+    --danger: #EF4444;
+    --danger-soft: rgba(239, 68, 68, 0.16);
+    --warning: #F59E0B;
+
+    --text-primary: #F1F3F8;
+    --text-secondary: #9AA3B2;
+    --text-muted: #626B7A;
+  }
+
+  body {
+    background-color: var(--bg-base);
+    color: var(--text-primary);
+    font-family: 'Geist', -apple-system, BlinkMacSystemFont, sans-serif;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+
+  code, kbd, samp, pre, .font-mono {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+  }
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--surface-3);
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-strong);
+}
+
+/* Float Up and Fade Animation para reações */
+@keyframes floatUpAndFade {
+  0% {
+    opacity: 1;
+    transform: translateY(0px) scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: translateY(-30px) scale(1.2);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-60px) scale(1);
+  }
+}
+
+.animate-float-reaction {
+  animation: floatUpAndFade 1.8s ease-out forwards;
+}
+
+/* Pulse Glow ao falar na chamada */
+@keyframes pulseSpeaking {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(91, 124, 250, 0.5);
+  }
+  50% {
+    box-shadow: 0 0 14px 2px rgba(91, 124, 250, 0.8);
+  }
+}
+
+.speaking-pulse {
+  animation: pulseSpeaking 1.2s infinite;
+}
