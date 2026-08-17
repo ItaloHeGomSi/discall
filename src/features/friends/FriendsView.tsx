@@ -93,7 +93,7 @@ export const FriendsView: React.FC = () => {
       {activeDmFriendId ? (
         <DirectChatPanel friendId={activeDmFriendId} />
       ) : (
-        <div className="flex-1 flex flex-col h-full bg-[#0B0D12] overflow-hidden">
+        <div className="flex-1 flex flex-col h-full bg-transparent overflow-hidden">
           {/* Header com Sub-abas */}
           <div className="h-14 border-b border-[#22262F] px-4 flex items-center justify-between bg-[#12151C] shrink-0">
             <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
