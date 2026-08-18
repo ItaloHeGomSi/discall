@@ -53,13 +53,13 @@ export const ServerView: React.FC = () => {
       <ChannelList server={server} />
 
       {/* 2. Área Central: Chamada de Voz Ativa OU Chat da Sala de Texto */}
-      <div className="flex-1 flex flex-col h-full overflow-hidden bg-[#0B0D12]">
+      <div className="flex-1 flex flex-col h-full overflow-hidden bg-transparent">
         {isInCall && callType === 'server' ? (
           <CallGrid />
         ) : activeChannel && activeChannel.type === 'text' ? (
           <ServerChatPanel server={server} channel={activeChannel} />
         ) : (
-          <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-[#626B7A]">
+          <div className="flex-1 flex flex-col items-center justify-center text-center p-6 text-[#626B7A] bg-[#0B0D12]/40 backdrop-blur-[2px]">
             <Users className="w-10 h-10 mb-2 text-[#5B7CFA]/60" />
             <h3 className="text-base font-semibold text-[#F1F3F8]">
               Sala de Voz: {activeChannel?.name || 'Selecione uma sala'}

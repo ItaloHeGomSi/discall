@@ -13,6 +13,7 @@ import { DeviceSettingsModal } from './features/settings/DeviceSettingsModal';
 import { CreateServerModal } from './features/servers/CreateServerModal';
 import { UserContextMenu } from './components/context-menu/UserContextMenu';
 import { CallGrid } from './features/call/CallGrid';
+import { ConnectionBackground } from './components/background/ConnectionBackground';
 
 import { useWebRTC } from './hooks/useWebRTC';
 
@@ -46,6 +47,9 @@ export function App() {
 
   return (
     <div className="relative flex flex-col h-screen w-screen bg-[#0B0D12] text-[#E2E4EB] overflow-hidden select-none">
+      {/* Background Interativo com Física e Nós (Canvas 2D) */}
+      <ConnectionBackground />
+
       <div className="relative z-10 flex flex-col h-full w-full">
         <TopBar />
 

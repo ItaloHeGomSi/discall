@@ -11,7 +11,7 @@ export const CallGrid: React.FC = () => {
   const participantList = Object.values(participants);
 
   return (
-    <div className="flex-1 flex flex-col h-full bg-[#0B0D12] overflow-hidden">
+    <div className="flex-1 flex flex-col h-full bg-[#0B0D12]/60 backdrop-blur-[2px] overflow-hidden">
       {/* Área Central: Grid de Vídeos e Chat Lateral */}
       <div className="flex-1 flex overflow-hidden">
         <div className="flex-1 p-4 flex flex-col items-center justify-center overflow-y-auto">

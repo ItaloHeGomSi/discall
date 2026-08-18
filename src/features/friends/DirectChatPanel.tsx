@@ -39,7 +39,7 @@ export const DirectChatPanel: React.FC<DirectChatPanelProps> = ({ friendId }) =>
   };
 
   return (
-    <div className="flex-1 flex flex-col bg-[#0E1015] h-full">
+    <div className="flex-1 flex flex-col bg-[#0E1015]/65 backdrop-blur-[2px] h-full">
       {/* Header do Chat Direto */}
       <div className="h-14 border-b border-[#22262F] px-4 flex items-center justify-between bg-[#12151C]">
         <div className="flex items-center gap-3">
